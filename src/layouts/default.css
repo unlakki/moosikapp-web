@@ -5,6 +5,7 @@
   --purple: #673AB7;
   --pink: #FF4081;
   --red: #F6685E;
+  --red-dark: #E5625D;
   --orange: #FF9800;
   --yellow: #FFEB3B;
   --green: #4CAF50;
@@ -12,7 +13,7 @@
   --cyan: #0097A7;
   --white: #FFFFFF;
   --gray: #9E9E9E;
-  --gray-light: #CACACA;
+  --gray-light: #BDBDBD;
   --gray-dark: #616161;
   --light: #F5F5F5;
   --dark: #212121;
@@ -20,9 +21,6 @@
   --info: #0097A7;
   --warning: #FFEB3B;
   --danger: #F44336;
-  --background: #2266A7;
-  --primary: #F5F5F5;
-  --secondary: #2266A7;
 }
 
 body {
