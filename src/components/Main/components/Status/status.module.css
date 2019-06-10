@@ -10,6 +10,7 @@
   font-size: 2rem;
   line-height: 1.2;
   color: var(--light);
+  text-shadow: 0 0 4px var(--dark);
 }
 
 .body {
@@ -30,4 +31,5 @@
   font-size: 1.2rem;
   line-height: 1.2;
   color: var(--red);
+  text-shadow: 0 0 4px var(--dark);
 }

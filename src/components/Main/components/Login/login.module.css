@@ -10,6 +10,7 @@
   font-size: 2rem;
   line-height: 1.2;
   color: var(--light);
+  text-shadow: 0 0 4px var(--dark);
 }
 
 .body {
@@ -35,7 +36,7 @@
   font-size: 1rem;
   line-height: 1.7rem;
   color: var(--dark);
-  border: 2px solid var(--gray);
+  border: 1px solid var(--gray);
   outline: 0;
 }
 
