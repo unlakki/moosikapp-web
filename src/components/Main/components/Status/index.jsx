@@ -16,9 +16,7 @@ class Status extends React.Component {
 
   componentDidMount() {
     this.updateStatus();
-    this.interval = setInterval(() => {
-      this.updateStatus();
-    }, 300000);
+    this.interval = setInterval(() => this.updateStatus(), 300000);
   }
 
   componentWillUnmount() {
@@ -33,13 +31,11 @@ class Status extends React.Component {
         'content-type': 'application/json',
       },
     })
-      .then(r => r.json())
+      .then(res => res.json())
       .then((data) => {
         this.setState({ data });
       })
-      .catch((e) => {
-        this.setState({ error: e.toString() });
-      });
+      .catch(error => this.setState({ error: error.toString() }));
   }
 
   render() {
