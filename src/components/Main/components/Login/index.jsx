@@ -1,7 +1,9 @@
 import React, { createRef } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import action from './actions/login';
+import { withRouter } from 'react-router-dom';
+import uuid from 'uuid/v4';
+import action from '../../../../actions/login';
 
 import styles from './login.module.css';
 
@@ -17,10 +19,28 @@ class Login extends React.Component {
 
     this.username = createRef();
     this.password = createRef();
+
+    this.uuids = {
+      username: uuid(),
+      password: uuid(),
+    };
   }
 
-  login() {
-    const { setToken } = this.props;
+  componentDidMount() {
+    const { token, history } = this.props;
+
+    if (token) {
+      history.push('/');
+      return false;
+    }
+
+    return true;
+  }
+
+  login(e) {
+    e.preventDefault();
+
+    const { setToken, history } = this.props;
 
     const username = this.username.current.value;
     const password = this.password.current.value;
@@ -33,7 +53,7 @@ class Login extends React.Component {
       },
       body: JSON.stringify({ username, password }),
     })
-      .then(r => r.json())
+      .then(res => res.json())
       .then((res) => {
         const { token, message } = res;
 
@@ -42,31 +62,49 @@ class Login extends React.Component {
           return;
         }
 
-        setToken(res.token);
+        setToken(token);
+        window.localStorage.setItem('token', token);
+        history.push('/');
       })
-      .catch((e) => {
-        this.setState({ error: e.toString() });
-      });
+      .catch(error => this.setState({ error: error.toString() }));
   }
 
   render() {
-    const { token } = this.props;
     const { error } = this.state;
 
-    if (token) {
-      return (
-        <h1>Already logged in.</h1>
-      );
-    }
+    const { uuids } = this;
 
     return (
-      <section className={styles.status}>
+      <section className={styles.login}>
         <h1 className={styles.head}>Login</h1>
-        <div className={styles.body}>
-          <input ref={this.username} type="text" />
-          <input ref={this.password} type="password" />
-          <input type="submit" onClick={this.login.bind(this)} />
-        </div>
+        <form className={styles.body}>
+          <label htmlFor={uuids.username} className={styles.field}>
+            <input
+              ref={this.username}
+              id={uuids.username}
+              className={styles.textInput}
+              type="text"
+              placeholder="Username / Email"
+            />
+          </label>
+          <label htmlFor={uuids.password} className={styles.field}>
+            <input
+              ref={this.password}
+              id={uuids.password}
+              className={styles.textInput}
+              type="password"
+              placeholder="Password"
+            />
+          </label>
+          <div className={styles.field}>
+            <input
+              className={styles.submitButton}
+              type="submit"
+              value="Login"
+              onClick={this.login.bind(this)}
+            />
+          </div>
+        </form>
         {error && <p className={styles.error}>{error}</p>}
       </section>
     );
@@ -76,6 +114,9 @@ class Login extends React.Component {
 Login.propTypes = {
   token: PropTypes.string.isRequired,
   setToken: PropTypes.func.isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func,
+  }).isRequired,
 };
 
 const mapStateToProps = store => ({
@@ -86,4 +127,4 @@ const mapDispatchToProps = dispatch => ({
   setToken: token => dispatch(action(token)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Login));
