@@ -17,7 +17,7 @@ class Header extends React.Component {
 
       setToken('');
       window.localStorage.removeItem('token');
-      history.push('/');
+      history.push('/login');
     };
   }
 
