@@ -5,7 +5,7 @@ const initialState = {
 export default function (state = initialState, action) {
   switch (action.type) {
     case 'SET_TOKEN':
-      return { ...state, param: action.payload };
+      return { ...state, token: action.payload };
     default:
       return state;
   }
