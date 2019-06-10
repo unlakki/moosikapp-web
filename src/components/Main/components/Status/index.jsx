@@ -10,7 +10,7 @@ class Status extends React.Component {
     super(props);
 
     this.state = {
-      data: null, error: '',
+      data: null, error: null,
     };
   }
 
@@ -37,8 +37,8 @@ class Status extends React.Component {
       .then((data) => {
         this.setState({ data });
       })
-      .catch((error) => {
-        this.setState({ error });
+      .catch((e) => {
+        this.setState({ error: e.toString() });
       });
   }
 
