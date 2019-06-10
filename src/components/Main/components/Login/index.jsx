@@ -69,6 +69,10 @@ class Login extends React.Component {
       .catch(error => this.setState({ error: error.toString() }));
   }
 
+  reset() {
+    this.setState({ error: null });
+  }
+
   render() {
     const { error } = this.state;
 
@@ -85,6 +89,7 @@ class Login extends React.Component {
               className={styles.textInput}
               type="text"
               placeholder="Username / Email"
+              onClick={this.reset.bind(this)}
             />
           </label>
           <label htmlFor={uuids.password} className={styles.field}>
@@ -94,6 +99,7 @@ class Login extends React.Component {
               className={styles.textInput}
               type="password"
               placeholder="Password"
+              onClick={this.reset.bind(this)}
             />
           </label>
           <div className={styles.field}>
