@@ -1,0 +1,33 @@
+.status {
+  display: flex;
+  flex-direction: column;
+  width: 80%;
+  margin: 0 auto;
+}
+
+.head {
+  margin: 0;
+  font-size: 2rem;
+  line-height: 1.2;
+  color: var(--light);
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+  margin: .5rem 0;
+}
+
+.prop {
+  margin: 0;
+  font-size: 1.2rem;
+  line-height: 1.2;
+  color: var(--light);
+}
+
+.error {
+  margin: 0;
+  font-size: 1.2rem;
+  line-height: 1.2;
+  color: var(--red);
+}
