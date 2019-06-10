@@ -1,9 +1,10 @@
 import React from 'react';
+import Status from './components/Status';
 
 const routes = [
   {
     path: '/',
-    component: () => <div>root</div>,
+    component: () => <Status />,
     exact: true,
   },
   {
