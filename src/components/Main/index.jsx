@@ -5,7 +5,7 @@ import routes from './routes';
 import styles from './main.module.css';
 
 const Main = () => (
-  <main className={styles.main}>
+  <div className={styles.main}>
     {routes.map(route => (
       <Route
         key={route.path.slice(1)}
@@ -14,7 +14,7 @@ const Main = () => (
         exact={route.exact}
       />
     ))}
-  </main>
+  </div>
 );
 
 export default Main;
