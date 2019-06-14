@@ -2,6 +2,7 @@ import React from 'react';
 import Status from './components/Status';
 import Login from './components/Login';
 import Register from './components/Register';
+import Forgot from './components/Forgot';
 
 const routes = [
   {
@@ -27,7 +28,7 @@ const routes = [
   },
   {
     path: '/forgot',
-    component: () => <div>forgot</div>,
+    component: () => <Forgot />,
   },
 ];
 
