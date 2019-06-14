@@ -1,14 +1,8 @@
 .login {
   display: flex;
   flex-direction: column;
-  width: 50%;
-  margin: 0 auto;
-}
-
-@media (max-width: 900px) {
-  .login {
-    width: 80%;
-  }
+  width: 90%;
+  max-width: 500px;
 }
 
 .head {
@@ -25,6 +19,10 @@
 }
 
 .field {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
   margin-bottom: .5rem;
 }
 
