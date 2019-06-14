@@ -22,7 +22,7 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: space-between;
   margin-bottom: .5rem;
 }
 
@@ -73,6 +73,19 @@
 
 .textInput:disabled, .submitButton:disabled {
   opacity: .5;
+}
+
+.link {
+  font-size: 1rem;
+  line-height: 1.2;
+  color: var(--light);
+  text-decoration: none;
+  text-shadow: 0 0 4px var(--dark);
+  transition: all .2s ease;
+}
+
+.link:hover {
+  color: var(--red);
 }
 
 .error {

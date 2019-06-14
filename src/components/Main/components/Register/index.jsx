@@ -1,7 +1,7 @@
 import React, { createRef } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
 import uuidv4 from 'uuid/v4';
 
 import styles from './register.module.css';
@@ -142,6 +142,7 @@ class Register extends React.Component {
             />
           </label>
           <div className={styles.field}>
+            <Link className={styles.link} to="/login">Already have account?</Link>
             <input
               className={styles.submitButton}
               type="submit"
