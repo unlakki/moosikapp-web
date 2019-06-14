@@ -11,7 +11,7 @@ class Music extends React.Component {
     super(props);
 
     this.state = {
-      songs: null, error: null, warn: null,
+      songs: null, error: null,
     };
   }
 
@@ -31,7 +31,7 @@ class Music extends React.Component {
         const { message, songs } = res;
 
         if (!songs) {
-          this.setState({ warn: message });
+          this.setState({ error: message });
           return;
         }
 
@@ -41,13 +41,12 @@ class Music extends React.Component {
   }
 
   render() {
-    const { songs, error, warn } = this.state;
+    const { songs, error } = this.state;
 
     return (
       <section className={styles.music}>
         <h1 className={styles.head}>All Music</h1>
         {error && <p className={styles.error}>{error}</p>}
-        {warn && <p className={styles.warn}>{warn}</p>}
       </section>
     );
   }
