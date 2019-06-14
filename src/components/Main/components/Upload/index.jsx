@@ -90,7 +90,13 @@ class Upload extends React.Component {
           <div className={styles.field}>
             {file && <span className={styles.selectedFile}>{file}</span>}
             <label className={styles.fileInput} htmlFor={uuids.file}>
-              <input ref={this.file} id={uuids.file} type="file" onChange={this.choose.bind(this)} />
+              <input
+                ref={this.file}
+                id={uuids.file}
+                type="file"
+                accept="audio/mp3"
+                onChange={this.choose.bind(this)}
+              />
               <span>Choose File</span>
             </label>
           </div>
