@@ -1,0 +1,8 @@
+.player {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  padding: 1rem 0;
+  color: var(--light);
+  background-color: var(--dark);
+}
