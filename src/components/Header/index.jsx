@@ -33,10 +33,12 @@ class Header extends React.Component {
                 <use xmlnsXlink="http://www.w3.org/1999/xlink" xlinkHref={`${logo}#logo`} />
               </svg>
             </Link>
-            <nav className={styles.nav}>
-              <Link className={styles.link} to="/music">Music</Link>
-              <Link className={styles.link} to="/upload">Upload</Link>
-            </nav>
+            {token && (
+              <nav className={styles.nav}>
+                <Link className={styles.link} to="/music">Music</Link>
+                <Link className={styles.link} to="/upload">Upload</Link>
+              </nav>
+            )}
           </div>
           {!token && <Link className={styles.link} to="/login">Login</Link>}
           {token && <Link className={styles.link} to="?logout" onClick={this.logout()}>Logout</Link>}
