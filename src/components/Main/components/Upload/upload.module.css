@@ -11,8 +11,9 @@
 .head {
   margin-bottom: 1rem;
   font-size: 1.5rem;
-  line-height: 1.2;
+  line-height: 1.5;
   color: var(--dark);
+  border-bottom: .1rem solid var(--dark);
 }
 
 .body {
@@ -133,11 +134,10 @@
   margin-left: .5rem;
   font-size: 1rem;
   line-height: 2;
-  color: var(--light);
+  color: var(--dark);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  text-shadow: 0 0 4px var(--dark);
 }
 
 .error {

@@ -23,7 +23,7 @@
 .head {
   margin-bottom: 1rem;
   font-size: 1.5rem;
-  line-height: 1.2;
+  line-height: 1.5;
   color: var(--dark);
   border-bottom: .1rem solid var(--dark);
 }
