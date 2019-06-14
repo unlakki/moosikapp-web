@@ -1,7 +1,7 @@
 import React, { createRef } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
 import uuidv4 from 'uuid/v4';
 import action from '../../../../actions/login';
 
@@ -102,12 +102,16 @@ class Login extends React.Component {
             />
           </label>
           <div className={styles.field}>
-            <input
-              className={styles.submitButton}
-              type="submit"
-              value="Login"
-              onClick={this.login.bind(this)}
-            />
+            <Link className={styles.link} to="/forgot">Forgot your password?</Link>
+            <div className={styles.right}>
+              <Link className={styles.link} to="/register">Need an account?</Link>
+              <input
+                className={styles.submitButton}
+                type="submit"
+                value="Login"
+                onClick={this.login.bind(this)}
+              />
+            </div>
           </div>
         </form>
         {error && <p className={styles.error}>{error}</p>}

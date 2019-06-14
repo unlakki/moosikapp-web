@@ -20,10 +20,15 @@
 
 .field {
   display: flex;
-  flex-direction: row;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: space-between;
   margin-bottom: .5rem;
+}
+
+.right {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .field:last-child {
@@ -52,6 +57,7 @@
 .submitButton {
   box-sizing: border-box;
   height: 2rem;
+  margin-left: .5rem;
   padding: .3rem .8rem;
   font-size: 1rem;
   line-height: 1.4rem;
@@ -75,10 +81,34 @@
   opacity: .5;
 }
 
+.link {
+  font-size: 1rem;
+  line-height: 1.2;
+  color: var(--light);
+  text-decoration: none;
+  text-shadow: 0 0 4px var(--dark);
+  transition: all .2s ease;
+}
+
+.link:hover {
+  color: var(--red);
+}
+
 .error {
   margin-top: .5rem;
   font-size: 1.2rem;
   line-height: 1.2;
   color: var(--red);
   text-shadow: 0 0 4px var(--dark);
+}
+
+@media (max-width: 500px) {
+  .field {
+    flex-direction: column;
+    align-items: unset;
+  }
+
+  .submitButton {
+    margin-left: 0;
+  }
 }
