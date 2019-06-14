@@ -3,6 +3,7 @@ import Status from './components/Status';
 import Login from './components/Login';
 import Register from './components/Register';
 import Forgot from './components/Forgot';
+import Music from './components/Music';
 
 const routes = [
   {
@@ -12,7 +13,7 @@ const routes = [
   },
   {
     path: '/music',
-    component: () => <div>music</div>,
+    component: () => <Music />,
   },
   {
     path: '/upload',
