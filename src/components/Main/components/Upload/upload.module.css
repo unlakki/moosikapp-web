@@ -1,0 +1,147 @@
+.upload {
+  display: flex;
+  flex-direction: column;
+  width: 90%;
+  max-width: 500px;
+  padding: 1rem;
+  background-color: var(--light);
+  box-shadow: 0 0 4px var(--dark);
+}
+
+.head {
+  margin-bottom: 1rem;
+  font-size: 2rem;
+  line-height: 1.2;
+  color: var(--dark);
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+}
+
+.instruction {
+  margin-bottom: .5rem;
+  text-align: center;
+  font-size: 1rem;
+  line-height: 1.2;
+  color: var(--dark);
+}
+
+.field {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin-bottom: .5rem;
+}
+
+.field:last-child {
+  margin-bottom: 0;
+}
+
+.additionalInfo {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: .5rem;
+}
+
+.title {
+  color: var(--dark);
+  margin-bottom: .5rem;
+}
+
+.fileInput {
+  box-sizing: border-box;
+  position: relative;
+  height: 2rem;
+  padding: .3rem .8rem;
+  font-size: 1rem;
+  line-height: 1.4rem;
+  color: var(--light);
+  background-color: var(--red);
+  border: 0;
+  border-radius: 0;
+  outline: 0;
+  transition: all .2s ease;
+}
+
+.fileInput>input {
+  width: 0;
+  height: 0;
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+.fileInput:hover {
+  box-shadow: 0 0 4px var(--red);
+}
+
+.fileInput:active {
+  background-color: var(--red-dark);
+}
+
+.textInput {
+  box-sizing: border-box;
+  width: 100%;
+  height: 2rem;
+  padding: .2rem .3rem;
+  background-color: var(--light);
+  font-size: 1rem;
+  line-height: 1.4rem;
+  color: var(--dark);
+  border: .1rem solid var(--gray);
+  border-radius: 0;
+  outline: 0;
+}
+
+.textInput:focus {
+  border-color: var(--red);
+  box-shadow: 0 0 4px var(--red);
+}
+
+.submitButton {
+  box-sizing: border-box;
+  height: 2rem;
+  padding: .3rem .8rem;
+  font-size: 1rem;
+  line-height: 1.4rem;
+  color: var(--light);
+  background-color: var(--red);
+  border: 0;
+  border-radius: 0;
+  outline: 0;
+  transition: all .2s ease;
+}
+
+.submitButton:hover {
+  box-shadow: 0 0 4px var(--red);
+}
+
+.submitButton:active {
+  background-color: var(--red-dark);
+}
+
+.textInput:disabled, .submitButton:disabled, .fileInput:disabled {
+  opacity: .5;
+}
+
+.selectedFile {
+  width: 60%;
+  margin-left: .5rem;
+  font-size: 1rem;
+  line-height: 2;
+  color: var(--light);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-shadow: 0 0 4px var(--dark);
+}
+
+.error {
+  margin-top: .5rem;
+  font-size: 1.2rem;
+  line-height: 1.2;
+  color: var(--danger);
+  text-shadow: 0 0 4px var(--dark);
+}
