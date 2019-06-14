@@ -10,7 +10,7 @@
 
 .head {
   margin-bottom: 1rem;
-  font-size: 2rem;
+  font-size: 1.5rem;
   line-height: 1.2;
   color: var(--dark);
 }
@@ -46,8 +46,10 @@
 }
 
 .title {
-  color: var(--dark);
   margin-bottom: .5rem;
+  font-size: 1.2rem;
+  line-height: 1.2;
+  color: var(--dark);
 }
 
 .fileInput {
