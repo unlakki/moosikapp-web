@@ -1,6 +1,7 @@
 import React from 'react';
 import Status from './components/Status';
 import Login from './components/Login';
+import Register from './components/Register';
 
 const routes = [
   {
@@ -22,7 +23,7 @@ const routes = [
   },
   {
     path: '/register',
-    component: () => <div>register</div>,
+    component: () => <Register />,
   },
   {
     path: '/forgot',
