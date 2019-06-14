@@ -2,7 +2,7 @@ import React, { createRef } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import uuid from 'uuid/v4';
+import uuidv4 from 'uuid/v4';
 import action from '../../../../actions/login';
 
 import styles from './login.module.css';
@@ -21,8 +21,7 @@ class Login extends React.Component {
     this.password = createRef();
 
     this.uuids = {
-      username: uuid(),
-      password: uuid(),
+      username: uuidv4(), password: uuidv4(),
     };
   }
 
