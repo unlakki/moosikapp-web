@@ -4,6 +4,7 @@ import Login from './components/Login';
 import Register from './components/Register';
 import Forgot from './components/Forgot';
 import Music from './components/Music';
+import Upload from './components/Upload';
 
 const routes = [
   {
@@ -17,7 +18,7 @@ const routes = [
   },
   {
     path: '/upload',
-    component: () => <div>upload</div>,
+    component: () => <Upload />,
   },
   {
     path: '/login',
