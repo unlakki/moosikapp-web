@@ -10,7 +10,7 @@ class Status extends React.Component {
     super(props);
 
     this.state = {
-      data: null, error: null,
+      storage: null, error: null,
     };
   }
 
@@ -32,31 +32,33 @@ class Status extends React.Component {
       },
     })
       .then(res => res.json())
-      .then((data) => {
-        this.setState({ data });
+      .then((res) => {
+        const { storage } = res;
+
+        this.setState({ storage });
       })
       .catch(error => this.setState({ error: error.toString() }));
   }
 
   render() {
-    const { data, error } = this.state;
+    const { storage, error } = this.state;
 
     return (
       <section className={styles.status}>
         <h1 className={styles.head}>Storage Status</h1>
-        {data && (
+        {storage && (
           <div className={styles.body}>
             <p className={styles.prop}>
               Total Space:&ensp;
-              <span>{filesize(data.totalSpace)}</span>
+              <span>{filesize(storage.totalSpace)}</span>
             </p>
             <p className={styles.prop}>
               Used Space:&ensp;
-              <span>{filesize(data.usedSpace)}</span>
+              <span>{filesize(storage.usedSpace)}</span>
             </p>
             <p className={styles.prop}>
               Max File Size:&ensp;
-              <span>{filesize(data.maxFileSize)}</span>
+              <span>{filesize(storage.maxFileSize)}</span>
             </p>
           </div>
         )}
