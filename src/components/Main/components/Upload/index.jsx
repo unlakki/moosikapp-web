@@ -132,13 +132,13 @@ class Upload extends React.Component {
 
 Upload.propTypes = {
   token: PropTypes.string.isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func,
+  }).isRequired,
 };
 
 const mapStateToProps = store => ({
   token: store.login.token,
-  history: PropTypes.shape({
-    push: PropTypes.func,
-  }).isRequired,
 });
 
 export default connect(mapStateToProps)(withRouter(Upload));
