@@ -1,4 +1,4 @@
-import React, { createRef } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
@@ -13,10 +13,8 @@ class Forgot extends React.Component {
     super(props);
 
     this.state = {
-      error: null,
+      email: null, error: null,
     };
-
-    this.email = createRef();
 
     this.uuids = {
       email: uuidv4(),
@@ -37,9 +35,7 @@ class Forgot extends React.Component {
   requestPasswordChange(e) {
     e.preventDefault();
 
-    const { history } = this.props;
-
-    const email = this.email.current.value;
+    const { email } = this.state;
 
     if (!/^\w+[\w-.]*@\w+((-\w+)|(\w*))\.[a-z]{2,3}$/.test(email)) {
       this.setState({ error: 'Invalid email.' });
@@ -56,16 +52,15 @@ class Forgot extends React.Component {
     })
       .then(res => res.json())
       .then((res) => {
-        const { token, message } = res;
-
-        if (!token) {
-          this.setState({ error: message });
-          return;
-        }
-
-        history.push('/');
+        this.setState({ error: res.message });
       })
       .catch(error => this.setState({ error: error.toString() }));
+  }
+
+  input(e) {
+    e.preventDefault();
+
+    this.setState({ email: e.target.value });
   }
 
   reset() {
@@ -92,6 +87,7 @@ class Forgot extends React.Component {
               className={styles.textInput}
               type="email"
               placeholder="Email"
+              onChange={this.input.bind(this)}
               onClick={this.reset.bind(this)}
             />
           </label>

@@ -1,4 +1,4 @@
-import React, { createRef } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter, Link } from 'react-router-dom';
@@ -13,13 +13,8 @@ class Register extends React.Component {
     super(props);
 
     this.state = {
-      error: null,
+      username: null, email: null, password: null, retry: null, error: null,
     };
-
-    this.username = createRef();
-    this.email = createRef();
-    this.password = createRef();
-    this.retry = createRef();
 
     this.uuids = {
       username: uuidv4(), email: uuidv4(), password: uuidv4(), retry: uuidv4(),
@@ -42,10 +37,9 @@ class Register extends React.Component {
 
     const { history } = this.props;
 
-    const username = this.username.current.value;
-    const email = this.username.current.value;
-    const password = this.password.current.value;
-    const retry = this.username.current.value;
+    const {
+      username, email, password, retry,
+    } = this.state;
 
     if (!/[a-zA-Z0-9\-_]/.test(username)) {
       this.setState({
@@ -88,6 +82,31 @@ class Register extends React.Component {
       .catch(error => this.setState({ error: error.toString() }));
   }
 
+  input(e) {
+    e.preventDefault();
+
+    const {
+      username, email, password, retry,
+    } = this.uuids;
+
+    const { id, value } = e.target;
+    switch (id) {
+      case username:
+        this.setState({ username: value });
+        break;
+      case email:
+        this.setState({ email: value });
+        break;
+      case password:
+        this.setState({ password: value });
+        break;
+      case retry:
+        this.setState({ retry: value });
+        break;
+      default:
+    }
+  }
+
   reset() {
     this.setState({ error: null });
   }
@@ -108,6 +127,7 @@ class Register extends React.Component {
               className={styles.textInput}
               type="text"
               placeholder="Username"
+              onChange={this.input.bind(this)}
               onClick={this.reset.bind(this)}
             />
           </label>
@@ -118,6 +138,7 @@ class Register extends React.Component {
               className={styles.textInput}
               type="email"
               placeholder="Email"
+              onChange={this.input.bind(this)}
               onClick={this.reset.bind(this)}
             />
           </label>
@@ -128,6 +149,7 @@ class Register extends React.Component {
               className={styles.textInput}
               type="password"
               placeholder="Password"
+              onChange={this.input.bind(this)}
               onClick={this.reset.bind(this)}
             />
           </label>
@@ -138,6 +160,7 @@ class Register extends React.Component {
               className={styles.textInput}
               type="password"
               placeholder="Re-type Password"
+              onChange={this.input.bind(this)}
               onClick={this.reset.bind(this)}
             />
           </label>

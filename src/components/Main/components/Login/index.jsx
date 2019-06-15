@@ -1,4 +1,4 @@
-import React, { createRef } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter, Link } from 'react-router-dom';
@@ -14,11 +14,8 @@ class Login extends React.Component {
     super(props);
 
     this.state = {
-      error: null,
+      username: null, password: null, error: null,
     };
-
-    this.username = createRef();
-    this.password = createRef();
 
     this.uuids = {
       username: uuidv4(), password: uuidv4(),
@@ -41,8 +38,7 @@ class Login extends React.Component {
 
     const { setToken, history } = this.props;
 
-    const username = this.username.current.value;
-    const password = this.password.current.value;
+    const { username, password } = this.state;
 
     fetch(`${REACT_APP_API_URL}/api/login`, {
       method: 'POST',
@@ -68,6 +64,23 @@ class Login extends React.Component {
       .catch(error => this.setState({ error: error.toString() }));
   }
 
+  input(e) {
+    e.preventDefault();
+
+    const { username, password } = this.uuids;
+
+    const { id, value } = e.target;
+    switch (id) {
+      case username:
+        this.setState({ username: value });
+        break;
+      case password:
+        this.setState({ password: value });
+        break;
+      default:
+    }
+  }
+
   reset() {
     this.setState({ error: null });
   }
@@ -83,21 +96,21 @@ class Login extends React.Component {
         <form className={styles.body}>
           <label htmlFor={uuids.username} className={styles.field}>
             <input
-              ref={this.username}
               id={uuids.username}
               className={styles.textInput}
               type="text"
               placeholder="Username / Email"
+              onChange={this.input.bind(this)}
               onClick={this.reset.bind(this)}
             />
           </label>
           <label htmlFor={uuids.password} className={styles.field}>
             <input
-              ref={this.password}
               id={uuids.password}
               className={styles.textInput}
               type="password"
               placeholder="Password"
+              onChange={this.input.bind(this)}
               onClick={this.reset.bind(this)}
             />
           </label>
