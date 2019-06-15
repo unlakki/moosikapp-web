@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import Song from './components/Song';
 
 import styles from './music.module.css';
 
@@ -11,7 +12,7 @@ class Music extends React.Component {
     super(props);
 
     this.state = {
-      songs: null, error: null,
+      songs: [], error: null,
     };
   }
 
@@ -46,6 +47,11 @@ class Music extends React.Component {
     return (
       <section className={styles.music}>
         <h1 className={styles.head}>All Music</h1>
+        <div>
+          {songs.map(song => (
+            <Song key={song.uuid} author={song.author} title={song.title} />
+          ))}
+        </div>
         {error && <p className={styles.error}>{error}</p>}
       </section>
     );
