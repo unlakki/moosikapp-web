@@ -131,10 +131,11 @@
 
 .selectedFile {
   width: 60%;
-  margin-left: .5rem;
+  margin-right: .5rem;
   font-size: 1rem;
   line-height: 2;
   color: var(--dark);
+  text-align: right;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -145,5 +146,4 @@
   font-size: 1.2rem;
   line-height: 1.2;
   color: var(--danger);
-  text-shadow: 0 0 4px var(--dark);
 }
