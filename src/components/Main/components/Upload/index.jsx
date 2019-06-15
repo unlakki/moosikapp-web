@@ -1,4 +1,4 @@
-import React, { createRef } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
@@ -13,15 +13,11 @@ class Upload extends React.Component {
     super(props);
 
     this.state = {
-      file: null, error: null,
+      file: null, artist: null, title: null, fileName: null, error: null,
     };
 
-    this.file = createRef();
-    this.songArtist = createRef();
-    this.songName = createRef();
-
     this.uuids = {
-      file: uuidv4(), songArtist: uuidv4(), songName: uuidv4(),
+      file: uuidv4(), artist: uuidv4(), title: uuidv4(),
     };
   }
 
@@ -41,17 +37,17 @@ class Upload extends React.Component {
 
     const { token } = this.props;
 
-    const username = this.username.current.value;
-    const password = this.password.current.value;
+    const { file, artist, title } = this.state;
 
     fetch(`${REACT_APP_API_URL}/api/songs`, {
       method: 'PUT',
       headers: {
         accept: 'application/vnd.moosik.v1+json',
-        'content-type': 'application/json',
+        'content-type': 'audio/mpeg',
         authorization: `Bearer ${token}`,
+        'x-uploaded-filename': artist && title ? `${artist} - ${title}` : file.name,
       },
-      body: JSON.stringify({ username, password }),
+      body: file,
     })
       .then(res => res.json())
       .then((res) => {
@@ -67,16 +63,32 @@ class Upload extends React.Component {
       .catch(error => this.setState({ error: error.toString() }));
   }
 
-  choose(e) {
+  input(e) {
     e.preventDefault();
 
-    const file = e.target.files[0].name;
+    const { file, artist, title } = this.uuids;
 
-    this.setState({ file });
+    const { id, value, files } = e.target;
+    switch (id) {
+      case file: {
+        const { name } = files[0];
+        this.setState({ fileName: name });
+
+        this.setState({ file: files[0] });
+        break;
+      }
+      case artist:
+        this.setState({ artist: value });
+        break;
+      case title:
+        this.setState({ title: value });
+        break;
+      default:
+    }
   }
 
   render() {
-    const { file, error } = this.state;
+    const { fileName, error } = this.state;
 
     const { uuids } = this;
 
@@ -88,36 +100,38 @@ class Upload extends React.Component {
         </div>
         <form className={styles.body}>
           <div className={styles.field}>
-            {file && <span className={styles.selectedFile}>{file}</span>}
+            {fileName && <span className={styles.selectedFile}>{fileName}</span>}
             <label className={styles.fileInput} htmlFor={uuids.file}>
               <input
                 ref={this.file}
                 id={uuids.file}
                 type="file"
-                accept="audio/mp3"
-                onChange={this.choose.bind(this)}
+                accept="audio/mpeg"
+                onChange={this.input.bind(this)}
               />
               <span>Choose File</span>
             </label>
           </div>
           <div className={styles.additionalInfo}>
             <h3 className={styles.title}>Additional Information</h3>
-            <label htmlFor={uuids.songArtist} className={styles.field}>
+            <label htmlFor={uuids.artist} className={styles.field}>
               <input
-                ref={this.songArtist}
-                id={uuids.songArtist}
+                ref={this.artist}
+                id={uuids.artist}
                 className={styles.textInput}
                 type="text"
                 placeholder="Artist (Optional)"
+                onChange={this.input.bind(this)}
               />
             </label>
-            <label htmlFor={uuids.songName} className={styles.field}>
+            <label htmlFor={uuids.title} className={styles.field}>
               <input
-                ref={this.songName}
-                id={uuids.songName}
+                ref={this.title}
+                id={uuids.title}
                 className={styles.textInput}
                 type="text"
                 placeholder="Name (Optional)"
+                onChange={this.input.bind(this)}
               />
             </label>
           </div>
