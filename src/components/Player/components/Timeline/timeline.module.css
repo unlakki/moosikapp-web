@@ -1,0 +1,38 @@
+.timeline {
+  display: flex;
+  flex-direction: row;
+  margin: 0 .5rem;
+  flex: 1;
+}
+
+.progressWrapper {
+  display: flex;
+  align-items: center;
+  padding: 0 .5rem;
+  height: 1.2rem;
+  flex: 1;
+}
+
+.progressBackground {
+  width: 100%;
+  height: .2rem;
+  background-color: var(--gray);
+}
+
+.progressBar {
+  height: 100%;
+  background-color: var(--red);
+  transition: all .2s ease;
+}
+
+.timePassed {
+  font-size: .9rem;
+  line-height: 1.2;
+  color: var(--dark);
+}
+
+.duration {
+  font-size: .9rem;
+  line-height: 1.2;
+  color: var(--dark);
+}
