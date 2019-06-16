@@ -1,6 +1,6 @@
-const setToken = token => ({
+const action = token => ({
   type: 'SET_TOKEN',
   payload: token,
 });
 
-export default setToken;
+export default action;
