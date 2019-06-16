@@ -48,7 +48,7 @@ class Music extends React.Component {
 
     return (
       <section className={styles.music}>
-        <h1 className={styles.head}>All Music</h1>
+        <h1 className={styles.head}>Music</h1>
         <div className={styles.songList}>
           {songs.map((song, index) => (
             <Song
