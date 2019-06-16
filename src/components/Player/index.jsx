@@ -113,7 +113,7 @@ class Player extends React.Component {
   onEnded() {
     const { songs, nowPlaying, setNowPlaying } = this.props;
 
-    if (nowPlaying < songs.length) {
+    if (nowPlaying < songs.length - 1) {
       setNowPlaying(nowPlaying + 1);
     }
   }
