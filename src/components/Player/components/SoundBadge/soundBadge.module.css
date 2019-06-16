@@ -8,6 +8,10 @@
 .cover {
   width: 2rem;
   height: 2rem;
+  background-color: var(--gray-light);
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
 }
 
 .titleContextContainer {

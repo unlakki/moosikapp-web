@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 
 import styles from './soundBadge.module.css';
 
-const SoundBadge = ({ author, title, coverUrl }) => (
+const SoundBadge = ({ author, title, cover }) => (
   <div className={styles.soundBadge}>
-    <img className={styles.cover} src={coverUrl} alt="song cover" />
+    <div className={styles.cover} style={{ backgroundImage: `url(${cover})` }} />
     <div className={styles.titleContextContainer}>
       <span className={`${styles.title} ${styles.truncate}`}>{title}</span>
       <span className={`${styles.author} ${styles.truncate}`}>{author}</span>
@@ -13,10 +13,16 @@ const SoundBadge = ({ author, title, coverUrl }) => (
   </div>
 );
 
+SoundBadge.defaultProps = {
+  author: 'No Author',
+  title: 'No Title',
+  cover: '',
+};
+
 SoundBadge.propTypes = {
-  author: PropTypes.string.isRequired,
-  title: PropTypes.string.isRequired,
-  coverUrl: PropTypes.string.isRequired,
+  author: PropTypes.string,
+  title: PropTypes.string,
+  cover: PropTypes.string,
 };
 
 export default SoundBadge;
