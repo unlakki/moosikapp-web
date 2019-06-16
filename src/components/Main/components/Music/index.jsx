@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import action, { actions } from '../../../../actions/player';
 import Song from './components/Song';
 
 import styles from './music.module.css';
@@ -12,12 +13,12 @@ class Music extends React.Component {
     super(props);
 
     this.state = {
-      songs: [], error: null,
+      error: null,
     };
   }
 
   componentDidMount() {
-    const { token } = this.props;
+    const { token, setSongs } = this.props;
 
     fetch(`${REACT_APP_API_URL}/api/songs`, {
       method: 'GET',
@@ -36,20 +37,27 @@ class Music extends React.Component {
           return;
         }
 
-        this.setState({ songs });
+        setSongs(songs);
       })
       .catch(error => this.setState({ error: error.toString() }));
   }
 
   render() {
-    const { songs, error } = this.state;
+    const { songs } = this.props;
+    const { error } = this.state;
 
     return (
       <section className={styles.music}>
         <h1 className={styles.head}>All Music</h1>
-        <div>
-          {songs.map(song => (
-            <Song key={song.uuid} author={song.author} title={song.title} />
+        <div className={styles.songList}>
+          {songs.map((song, index) => (
+            <Song
+              key={song.uuid}
+              author={song.author}
+              title={song.title}
+              cover={song.cover}
+              index={index}
+            />
           ))}
         </div>
         {error && <p className={styles.error}>{error}</p>}
@@ -60,10 +68,21 @@ class Music extends React.Component {
 
 Music.propTypes = {
   token: PropTypes.string.isRequired,
+  songs: PropTypes.arrayOf(PropTypes.shape({
+    uuid: PropTypes.string,
+    author: PropTypes.string,
+    title: PropTypes.string,
+  })).isRequired,
+  setSongs: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = store => ({
   token: store.login.token,
+  songs: store.player.songs,
 });
 
-export default connect(mapStateToProps)(Music);
+const mapDispatchToProps = dispatch => ({
+  setSongs: songs => dispatch(action(actions.SET_SONGS, songs)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Music);
