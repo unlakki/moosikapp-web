@@ -19,5 +19,6 @@ module.exports = {
     'react',
   ],
   rules: {
+    'jsx-a11y/media-has-caption': 'no',
   },
 };
