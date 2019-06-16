@@ -1,0 +1,37 @@
+.soundBadge {
+  display: flex;
+  flex-direction: row;
+  width: 16rem;
+  margin-left: .5rem;
+}
+
+.cover {
+  width: 2rem;
+  height: 2rem;
+}
+
+.titleContextContainer {
+  display: flex;
+  flex-direction: column;
+  width: 13.5rem;
+  margin-left: .5rem;
+}
+
+.title {
+  font-size: .9rem;
+  line-height: 1.2;
+  color: var(--dark);
+}
+
+.author {
+  font-size: .8rem;
+  line-height: 1.2;
+  color: var(--gray-dark);
+}
+
+.truncate {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  word-break: normal;
+}
