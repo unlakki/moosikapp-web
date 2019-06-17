@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter, Link } from 'react-router-dom';
 import uuidv4 from 'uuid/v4';
+import errAction from '../../../../actions/error';
 
 import styles from './register.module.css';
 
@@ -60,33 +61,29 @@ class Register extends React.Component {
   register(e) {
     e.preventDefault();
 
-    const { history } = this.props;
+    const { history, setError } = this.props;
 
     const {
       username, email, password, retry,
     } = this.state;
 
     if (!/[a-zA-Z0-9\-_]/.test(username)) {
-      // Global Error Message
-      // Username must contain only English characters, numbers, dot, dash or underline.
+      setError('Username must contain only English characters, numbers, dot, dash or underline.');
       return;
     }
 
     if (!/^\w+[\w-.]*@\w+((-\w+)|(\w*))\.[a-z]{2,3}$/.test(email)) {
-      // Global Error Message
-      // Invalid email.
+      setError('Invalid email.');
       return;
     }
 
     if (password.length < 8) {
-      // Global Error Message
-      // Password too short. Use 8 or more characters.
+      setError('Password too short. Use 8 or more characters.');
       return;
     }
 
     if (password !== retry) {
-      // Global Error Message
-      // Passwords don\'t match.
+      setError('Passwords don\'t match.');
       return;
     }
 
@@ -103,14 +100,14 @@ class Register extends React.Component {
         const { uuid, message } = res;
 
         if (!uuid) {
-          // Global Error Message
+          setError(message);
           return;
         }
 
         history.push('/login');
       })
       .catch((error) => {
-        // Global Error Message
+        setError(error.toString());
       });
   }
 
@@ -181,10 +178,15 @@ Register.propTypes = {
   history: PropTypes.shape({
     push: PropTypes.func,
   }).isRequired,
+  setError: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = store => ({
   token: store.login.token,
 });
 
-export default connect(mapStateToProps)(withRouter(Register));
+const mapDispatchToProps = dispatch => ({
+  setError: message => dispatch(errAction(message)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Register));

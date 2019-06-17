@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { withRouter, Link } from 'react-router-dom';
 import uuidv4 from 'uuid/v4';
 import action from '../../../../actions/login';
+import errAction from '../../../../actions/error';
 
 import styles from './login.module.css';
 
@@ -53,7 +54,7 @@ class Login extends React.Component {
   login(e) {
     e.preventDefault();
 
-    const { setToken, history } = this.props;
+    const { setToken, history, setError } = this.props;
 
     const { username, password } = this.state;
 
@@ -70,7 +71,7 @@ class Login extends React.Component {
         const { token, message } = res;
 
         if (!token) {
-          // Global Error Message
+          setError(message);
           return;
         }
 
@@ -79,7 +80,7 @@ class Login extends React.Component {
         history.push('/');
       })
       .catch((error) => {
-        // Global Error Message
+        setError(error.toString());
       });
   }
 
@@ -132,6 +133,7 @@ Login.propTypes = {
   history: PropTypes.shape({
     push: PropTypes.func,
   }).isRequired,
+  setError: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = store => ({
@@ -140,6 +142,7 @@ const mapStateToProps = store => ({
 
 const mapDispatchToProps = dispatch => ({
   setToken: token => dispatch(action(token)),
+  setError: message => dispatch(errAction(message)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Login));

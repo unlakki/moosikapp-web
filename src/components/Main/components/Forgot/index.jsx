@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import uuidv4 from 'uuid/v4';
+import errAction from '../../../../actions/error';
 
 import styles from './forgot.module.css';
 
@@ -41,11 +42,12 @@ class Forgot extends React.Component {
   requestPasswordChange(e) {
     e.preventDefault();
 
+    const { setError } = this.props;
+
     const { email } = this.state;
 
     if (!/^\w+[\w-.]*@\w+((-\w+)|(\w*))\.[a-z]{2,3}$/.test(email)) {
-      // Global Error Message
-      // Invalid email.
+      setError('Invalid email.');
       return;
     }
 
@@ -59,10 +61,10 @@ class Forgot extends React.Component {
     })
       .then(res => res.json())
       .then((res) => {
-        // Global Message
+        setError(res.message);
       })
       .catch((error) => {
-        // Global Error Message
+        setError(error.toString());
       });
   }
 
@@ -106,10 +108,15 @@ Forgot.propTypes = {
   history: PropTypes.shape({
     push: PropTypes.func,
   }).isRequired,
+  setError: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = store => ({
   token: store.login.token,
 });
 
-export default connect(mapStateToProps)(withRouter(Forgot));
+const mapDispatchToProps = dispatch => ({
+  setError: message => dispatch(errAction(message)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Forgot));

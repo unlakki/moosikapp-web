@@ -2,6 +2,7 @@ import React, { createRef } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import action, { actions } from '../../actions/player';
+import errAction from '../../actions/error';
 import Timeline from './components/Timeline';
 import SoundBadge from './components/SoundBadge';
 
@@ -29,7 +30,7 @@ class Player extends React.Component {
   }
 
   componentDidMount() {
-    const { token, setSongs } = this.props;
+    const { token, setSongs, setError } = this.props;
 
     fetch(`${REACT_APP_API_URL}/api/songs`, {
       method: 'GET',
@@ -44,20 +45,20 @@ class Player extends React.Component {
         const { message, songs } = res;
 
         if (!songs) {
-          // Global Error Massage
+          setError(message);
           return;
         }
 
         setSongs(songs);
       })
       .catch((error) => {
-        // Global Error Massage
+        setError(error.toString());
       });
   }
 
   componentDidUpdate(prev) {
     const {
-      token, songs, nowPlaying, paused,
+      token, songs, nowPlaying, paused, setError,
     } = this.props;
 
     if (!songs.length) {
@@ -78,14 +79,14 @@ class Player extends React.Component {
           const { message, song } = res;
 
           if (!song) {
-            // Global Error Massage
+            setError(message);
             return;
           }
 
           this.setState({ song });
         })
         .catch((error) => {
-          // Global Error Massage
+          setError(error.toString());
         });
 
       return;
@@ -263,6 +264,7 @@ Player.propTypes = {
   setNowPlaying: PropTypes.func.isRequired,
   paused: PropTypes.bool.isRequired,
   setPause: PropTypes.func.isRequired,
+  setError: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = store => ({
@@ -276,6 +278,7 @@ const mapDispatchToProps = dispatch => ({
   setSongs: songs => dispatch(action(actions.SET_SONGS, songs)),
   setNowPlaying: np => dispatch(action(actions.SET_NOW_PLAYING, np)),
   setPause: paused => dispatch(action(actions.SET_PAUSE, paused)),
+  setError: message => dispatch(errAction(message)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Player);

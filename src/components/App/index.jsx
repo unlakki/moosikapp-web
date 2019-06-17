@@ -5,12 +5,13 @@ import { BrowserRouter } from 'react-router-dom';
 import Header from '../Header';
 import Main from '../Main';
 import Player from '../Player';
+import Modal from '../Modal';
 
 import styles from './app.module.css';
 
 import bg from './bg.jpg';
 
-const App = ({ token }) => (
+const App = ({ token, error }) => (
   <div className={styles.app}>
     <div className={styles.background} style={{ backgroundImage: `url(${bg})` }} />
     <main className={styles.container}>
@@ -20,15 +21,20 @@ const App = ({ token }) => (
       </BrowserRouter>
       {token && <Player />}
     </main>
+    <div className={styles.modalWrapper}>
+      {error && <Modal error={error} />}
+    </div>
   </div>
 );
 
 App.propTypes = {
   token: PropTypes.string.isRequired,
+  error: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = store => ({
   token: store.login.token,
+  error: store.error.message,
 });
 
 export default connect(mapStateToProps)(App);

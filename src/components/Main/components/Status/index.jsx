@@ -1,5 +1,8 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import filesize from 'filesize';
+import errAction from '../../../../actions/error';
 
 import styles from './status.module.css';
 
@@ -24,6 +27,8 @@ class Status extends React.Component {
   }
 
   updateStatus() {
+    const { setError } = this.props;
+
     fetch(`${REACT_APP_API_URL}/api/status`, {
       method: 'GET',
       headers: {
@@ -38,7 +43,7 @@ class Status extends React.Component {
         this.setState({ storage });
       })
       .catch((error) => {
-        // Global Error Message
+        setError(error.toString());
       });
   }
 
@@ -69,4 +74,12 @@ class Status extends React.Component {
   }
 }
 
-export default Status;
+Status.propTypes = {
+  setError: PropTypes.func.isRequired,
+};
+
+const mapDispatchToProps = dispatch => ({
+  setError: message => dispatch(errAction(message)),
+});
+
+export default connect(null, mapDispatchToProps)(Status);

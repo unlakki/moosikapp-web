@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import uuidv4 from 'uuid/v4';
+import errAction from '../../../../actions/error';
 
 import styles from './upload.module.css';
 
@@ -73,19 +74,17 @@ class Upload extends React.Component {
   upload(e) {
     e.preventDefault();
 
-    const { token } = this.props;
+    const { token, setError } = this.props;
 
     const { file, artist, title } = this.state;
 
     if (file.size > 10 * 1024 * 1024) {
-      // Global Error Message
-      // File too large. Your audio file may not exceed 10 MB.
+      setError('File too large. Your audio file may not exceed 10 MB.');
       return;
     }
 
     if (file.type !== 'audio/mp3') {
-      // Global Error Message
-      // Unsupported type. Your audio file has to be in MP3 format.
+      setError('Unsupported type. Your audio file has to be in MP3 format.');
       return;
     }
 
@@ -104,14 +103,15 @@ class Upload extends React.Component {
         const { uuid, message } = res;
 
         if (!uuid) {
-          // Global Error Message
+          setError(message);
           return;
         }
 
-        // Global Message
+        // Temporary error
+        setError(message);
       })
       .catch((error) => {
-        // Global Error Message
+        setError(error.toString());
       });
   }
 
@@ -192,10 +192,15 @@ Upload.propTypes = {
   history: PropTypes.shape({
     push: PropTypes.func,
   }).isRequired,
+  setError: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = store => ({
   token: store.login.token,
 });
 
-export default connect(mapStateToProps)(withRouter(Upload));
+const mapDispatchToProps = dispatch => ({
+  setError: message => dispatch(errAction(message)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Upload));
