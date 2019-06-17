@@ -1,18 +1,18 @@
-.song {
+.track {
   display: flex;
   flex-direction: row;
   align-items: center;
-  margin-top: .5rem;
+  margin-bottom: .4rem;
   padding: .2rem;
   transition: all .2s ease;
 }
 
-.song:first-child {
-  margin-top: 0;
+.track:last-child {
+  margin-bottom: 0;
 }
 
-.song:hover {
-  box-shadow: 0 0 4px var(--dark);
+.track:hover {
+  box-shadow: 0 0 2px var(--dark);
 }
 
 .cover {
@@ -20,72 +20,99 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 3rem;
-  height: 3rem;
+  width: 2.8rem;
+  height: 2.8rem;
   position: relative;
-  background-color: var(--gray-light);
-  background-position: center;
+  background: var(--gray-light) no-repeat center;
+  border-radius: 6px;
   background-size: cover;
-  background-repeat: no-repeat;
 }
 
 .defaultCover {
-  width: 80%;
-  height: 80%;
+  width: 70%;
+  height: 70%;
   position: absolute;
   fill: var(--red);
-  opacity: .8;
+}
+
+.button {
+  padding: 0;
+  border: 0;
+  outline: 0;
+  background-color: transparent;
+  cursor: pointer;
+  transition: all .5s;
 }
 
 .play {
-  width: 90%;
-  height: 90%;
-  position: absolute;
+  width: 80%;
+  height: 80%;
+}
+
+.playIcon {
+  width: 100%;
+  height: 100%;
   fill: var(--light);
-  opacity: .0;
-  filter: drop-shadow(0 0 4px var(--dark));
-  cursor: pointer;
+  opacity: 0;
+  filter: drop-shadow(0 0 2px var(--dark));
   transition: all .2s ease;
 }
 
-.song:hover .play {
+.track:hover .playIcon {
   opacity: 1;
 }
 
-.play:hover {
+.play:hover .playIcon {
   fill: var(--red);
 }
 
-.container {
+.button:disabled .playIcon {
+  opacity: .5 !important;
+  fill: var(--light) !important;
+}
+
+.content {
   display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 .5rem;
+  flex-direction: column;
+  padding: 0 .4rem;
   flex: 1;
 }
 
 .actions {
   display: flex;
   flex-direction: row;
-  align-items: center;
+  padding-right: .4rem;
 }
 
-.button {
-  width: 1.5rem;
-  height: 1.5rem;
-  fill: var(--dark);
-  opacity: .25;
-  cursor: pointer;
-  transition: all .5s;
+.actionIcon {
+  width: 100%;
+  height: 100%;
+  opacity: .5;
+  fill: var(--gray);
+  transition: all .2s ease;
 }
 
-.song:hover .button {
+.track:hover .actionIcon {
   opacity: 1;
 }
 
-.button:hover {
+.button:hover .actionIcon {
   fill: var(--red);
+}
+
+.button:disabled .actionIcon {
+  opacity: .5 !important;
+  fill: var(--gray) !important;
+}
+
+.action {
+  width: 1.1rem;
+  height: 1.1rem;
+  margin-right: .4rem;
+}
+
+.action:last-child {
+  margin-right: 0;
 }
 
 .info {

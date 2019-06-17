@@ -8,64 +8,61 @@ import styles from './song.module.css';
 import icons from './icons.svg';
 
 class Song extends React.Component {
-  click() {
+  onClick() {
     const {
-      index, nowPlaying, setNowPlaying, paused, setPause,
+      i, np, setNP, pause, setPause,
     } = this.props;
 
-    if (index !== nowPlaying) {
-      setNowPlaying(index);
+    if (i === np) {
+      setPause(!pause);
       return;
     }
 
-    setPause(!paused);
+    setNP(i);
   }
 
   render() {
     const {
-      author, title, cover, editable, index, nowPlaying, paused,
+      author, title, cover, edit, i, np, pause,
     } = this.props;
 
-    const playing = (index === nowPlaying) && !paused;
+    const play = `${icons}#${((i === np) && !pause) ? 'pause' : 'play'}`;
 
     return (
-      <div className={styles.song}>
-        <div
-          className={styles.cover}
-          style={{ backgroundImage: `url(${cover})` }}
-          role="presentation"
-          onClick={this.click.bind(this)}
-        >
+      <div className={styles.track}>
+        <div className={styles.cover} style={{ backgroundImage: `url(${cover})` }}>
           {!cover && (
             <svg className={styles.defaultCover}>
-              <use xmlnsXlink="http://www.w3.org/1999/xlink" xlinkHref={`${icons}#defaultCover`} />
+              <use xmlnsXlink="http://www.w3.org/1999/xlink" xlinkHref={`${icons}#cover`} />
             </svg>
           )}
-          <svg className={styles.play}>
-            <use
-              xmlnsXlink="http://www.w3.org/1999/xlink"
-              xlinkHref={`${icons}#${playing ? 'pause' : 'play'}`}
-            />
-          </svg>
-        </div>
-        <div className={styles.container}>
-          <div className={styles.info}>
-            <div className={styles.title}>{title}</div>
-            <div className={styles.author}>{author}</div>
-          </div>
-          <div className={styles.actions}>
-            <svg className={styles.button}>
-              <use
-                xmlnsXlink="http://www.w3.org/1999/xlink"
-                xlinkHref={`${icons}#${true ? 'select' : 'deselect'}`}
-              />
+          <button
+            className={`${styles.button} ${styles.play}`}
+            type="button"
+            onClick={this.onClick.bind(this)}
+          >
+            <svg className={styles.playIcon}>
+              <use xmlnsXlink="http://www.w3.org/1999/xlink" xlinkHref={play} />
             </svg>
-            {editable && (
-              <svg className={styles.button}>
+          </button>
+        </div>
+        <div className={styles.content}>
+          <div className={styles.title}>{title}</div>
+          <div className={styles.author}>{author}</div>
+        </div>
+        <div className={styles.actions}>
+          <button className={`${styles.button} ${styles.action}`} type="button">
+            <svg className={styles.actionIcon}>
+              <use xmlnsXlink="http://www.w3.org/1999/xlink" xlinkHref={`${icons}#like`} />
+            </svg>
+          </button>
+          {edit && (
+            <button className={`${styles.button} ${styles.action}`} type="button">
+              <svg className={styles.actionIcon}>
                 <use xmlnsXlink="http://www.w3.org/1999/xlink" xlinkHref={`${icons}#edit`} />
               </svg>
-            )}
-          </div>
+            </button>
+          )}
         </div>
       </div>
     );
@@ -74,28 +71,28 @@ class Song extends React.Component {
 
 Song.defaultProps = {
   cover: null,
-  editable: false,
+  edit: false,
 };
 
 Song.propTypes = {
   author: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   cover: PropTypes.string,
-  index: PropTypes.number.isRequired,
-  editable: PropTypes.bool,
-  nowPlaying: PropTypes.number.isRequired,
-  setNowPlaying: PropTypes.func.isRequired,
-  paused: PropTypes.bool.isRequired,
+  i: PropTypes.number.isRequired,
+  edit: PropTypes.bool,
+  np: PropTypes.number.isRequired,
+  setNP: PropTypes.func.isRequired,
+  pause: PropTypes.bool.isRequired,
   setPause: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = store => ({
-  nowPlaying: store.player.nowPlaying,
-  paused: store.player.paused,
+  np: store.player.nowPlaying,
+  pause: store.player.paused,
 });
 
 const mapDispatchToProps = dispatch => ({
-  setNowPlaying: nowPlaying => dispatch(action(actions.SET_NOW_PLAYING, nowPlaying)),
+  setNP: np => dispatch(action(actions.SET_NOW_PLAYING, np)),
   setPause: paused => dispatch(action(actions.SET_PAUSE, paused)),
 });
 

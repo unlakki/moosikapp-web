@@ -15,7 +15,7 @@
 
 .progressBackground {
   width: 100%;
-  height: .2rem;
+  height: 2px;
   background-color: var(--gray);
 }
 
@@ -25,14 +25,14 @@
   transition: all .2s ease;
 }
 
-.timePassed {
+.timePassed, .duration {
   font-size: .9rem;
   line-height: 1.2;
   color: var(--dark);
 }
 
-.duration {
-  font-size: .9rem;
-  line-height: 1.2;
-  color: var(--dark);
+@media (max-width: 640px) {
+  .timeline {
+    width: 100%;
+  }
 }

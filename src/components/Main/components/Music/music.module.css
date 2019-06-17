@@ -16,16 +16,15 @@
 
 @media (max-width: 640px) {
   .music {
-    width: 90%;
+    width: 95%;
   }
 }
 
-.head {
+.title {
   margin-bottom: 1rem;
   font-size: 1.5rem;
   line-height: 1.2;
   color: var(--dark);
-  border-bottom: .1rem solid var(--dark);
 }
 
 .songList {
@@ -34,16 +33,4 @@
   padding: .2rem;
   flex: 1;
   overflow: auto;
-}
-
-.error {
-  font-size: 1.2rem;
-  line-height: 1.2;
-  color: var(--danger);
-}
-
-.warn {
-  font-size: 1.2rem;
-  line-height: 1.2;
-  color: var(--warning);
 }

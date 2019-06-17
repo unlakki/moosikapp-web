@@ -11,7 +11,7 @@
   }
 }
 
-.head {
+.title {
   margin-bottom: 1rem;
   font-size: 2rem;
   line-height: 1.2;
@@ -24,17 +24,9 @@
   flex-direction: column;
 }
 
-.prop {
+.item {
   margin: 0;
   font-size: 1.2rem;
   line-height: 1.2;
   color: var(--light);
-}
-
-.error {
-  margin-top: .5rem;
-  font-size: 1.2rem;
-  line-height: 1.2;
-  color: var(--danger);
-  text-shadow: 0 0 4px var(--dark);
 }

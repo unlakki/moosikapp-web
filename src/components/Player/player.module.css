@@ -1,6 +1,6 @@
-.playControls {
+.player {
   background-color: var(--light);
-  box-shadow: 0 0 4px var(--dark);
+  box-shadow: 0 0 2px var(--dark);
 }
 
 .wrapper {
@@ -11,26 +11,14 @@
   margin: 0 auto;
 }
 
-@media (max-width: 1280px) {
-  .wrapper {
-    width: 80%;
-  }
-}
-
-@media (max-width: 640px) {
-  .wrapper {
-    width: 95%;
-  }
-}
-
 .controls {
   display: flex;
   flex-direction: row;
 }
 
 .control {
-  margin-left: .5rem;
-  padding: .5rem 0;
+  margin-left: .6rem;
+  padding: .4rem 0;
   background-color: transparent;
   border: 0;
   outline: 0;
@@ -41,8 +29,8 @@
 }
 
 .controlIcon {
-  width: 1.5rem;
-  height: 1.5rem;
+  width: 1.4rem;
+  height: 1.4rem;
   fill: var(--dark);
   transition: all .2s ease;
 }
@@ -55,35 +43,65 @@
   position: relative;
 }
 
-.volume:hover .volumeWrapper {
-  display: flex;
-}
-
 .volumeWrapper {
-  box-sizing: border-box;
   display: none;
   position: absolute;
-  bottom: 2.5rem;
-  right: 0;
-  flex-direction: row;
-  justify-content: center;
-  width: 1.5rem;
-  height: 6rem;
+  bottom: 2.4rem;
   padding: .2rem;
   background-color: var(--light);
-  box-shadow: 0 0 4px var(--dark);
+  box-shadow: 0 0 2px var(--dark);
   cursor: pointer;
-  z-index: 2;
+  z-index: 1;
+}
+
+.volume:hover .volumeWrapper {
+  display: block;
+}
+
+.volumeSlider {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 1.2rem;
+  height: 100px;
+  position: relative;
+  padding: 2px;
 }
 
 .volumeBackground {
-  width: 3px;
-  background-color: var(--dark);
+  width: 2px;
   height: 100%;
+  position: absolute;
+  bottom: 0;
+  background-color: var(--dark);
 }
 
 .volumeBar {
-  width: 100%;
-  background-color: var(--red-dark);
+  width: 2px;
+  position: absolute;
+  bottom: 0;
+  background-color: var(--red);
   transition: all .25s;
+}
+
+@media (max-width: 1280px) {
+  .wrapper {
+    width: 80%;
+  }
+}
+
+@media (max-width: 640px) {
+  .wrapper {
+    flex-direction: column;
+    width: 95%;
+  }
+
+  .controls {
+    width: 100%;
+    justify-content: space-around;
+  }
+
+  .volume {
+    display: none;
+  }
 }

@@ -39,3 +39,9 @@
   text-overflow: ellipsis;
   word-break: normal;
 }
+
+@media (max-width: 640px) {
+  .soundBadge {
+    display: none;
+  }
+}
