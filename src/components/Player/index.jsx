@@ -16,7 +16,13 @@ class Player extends React.Component {
     super(props);
 
     this.state = {
-      song: {}, currentTime: 0, duration: 0, volume: 1, muted: false, loop: false,
+      song: {},
+      currentTime: 0,
+      duration: 0,
+      loop: false,
+      shuffle: false,
+      muted: false,
+      volume: 1,
     };
 
     this.audio = createRef();
@@ -38,13 +44,15 @@ class Player extends React.Component {
         const { message, songs } = res;
 
         if (!songs) {
-          console.error(message);
+          // Global Error Massage
           return;
         }
 
         setSongs(songs);
       })
-      .catch(console.error);
+      .catch((error) => {
+        // Global Error Massage
+      });
   }
 
   componentDidUpdate(prev) {
@@ -70,13 +78,15 @@ class Player extends React.Component {
           const { message, song } = res;
 
           if (!song) {
-            console.error(message);
+            // Global Error Massage
             return;
           }
 
           this.setState({ song });
         })
-        .catch(console.error);
+        .catch((error) => {
+          // Global Error Massage
+        });
 
       return;
     }
@@ -92,29 +102,10 @@ class Player extends React.Component {
     }
   }
 
-  onCanPlay(e) {
-    const { setPause } = this.props;
-
-    setPause(e.target.paused);
-  }
-
-  onTimeUpdate(e) {
-    const { currentTime, duration } = e.target;
-
-    this.setState({ currentTime, duration });
-  }
-
-  onVolumeChange(e) {
-    const { volume } = e.target;
-
-    this.setState({ volume });
-  }
-
-  onEnded() {
-    const { songs, nowPlaying, setNowPlaying } = this.props;
-
-    if (nowPlaying < songs.length - 1) {
-      setNowPlaying(nowPlaying + 1);
+  prev() {
+    const { nowPlaying, setNowPlaying } = this.props;
+    if (nowPlaying > 0) {
+      setNowPlaying(nowPlaying - 1);
     }
   }
 
@@ -131,6 +122,21 @@ class Player extends React.Component {
     setPause(!paused);
   }
 
+  next() {
+    const { songs, nowPlaying, setNowPlaying } = this.props;
+    if (nowPlaying < songs.length - 1) {
+      setNowPlaying(nowPlaying + 1);
+    }
+  }
+
+  repeat() {
+    this.setState(prev => ({ loop: !prev.loop }));
+  }
+
+  shuffle() {
+    this.setState(prev => ({ shuffle: !prev.shuffle }));
+  }
+
   mute() {
     this.setState(prev => ({ muted: !prev.muted }));
   }
@@ -142,27 +148,35 @@ class Player extends React.Component {
     }
 
     const r = target.getBoundingClientRect();
-    const v = (e.clientY - r.top) / r.height;
+    const v = 1 - (e.clientY - r.top) / r.height;
 
-    if ((v < 0) || (v > 1)) return;
-
-    const audio = this.audio.current;
-    audio.volume = v;
-  }
-
-  repeat() {
-    this.setState(prev => ({ loop: !prev.loop }));
-  }
-
-  prev() {
-    const { nowPlaying, setNowPlaying } = this.props;
-    if (nowPlaying > 0) {
-      setNowPlaying(nowPlaying - 1);
+    if ((v < 0) || (v > 1)) {
+      return;
     }
+
+    this.audio.current.volume = v;
   }
 
-  next() {
+  update(e) {
+    const { setPause } = this.props;
+
+    const {
+      paused, currentTime, duration, volume,
+    } = e.target;
+
+    this.setState({ currentTime, duration, volume });
+    setPause(paused);
+  }
+
+  ended() {
     const { songs, nowPlaying, setNowPlaying } = this.props;
+    const { shuffle } = this.state;
+
+    if (shuffle) {
+      setNowPlaying(Math.round(Math.random() * (songs.length - 1)));
+      return;
+    }
+
     if (nowPlaying < songs.length - 1) {
       setNowPlaying(nowPlaying + 1);
     }
@@ -171,11 +185,11 @@ class Player extends React.Component {
   render() {
     const { paused } = this.props;
     const {
-      song, currentTime, duration, muted, loop, volume,
+      song, currentTime, duration, muted, loop, volume, shuffle,
     } = this.state;
 
     return (
-      <div className={styles.playControls}>
+      <div className={styles.player}>
         <section className={styles.wrapper}>
           <div className={styles.controls}>
             <button type="button" className={styles.control} onClick={this.prev.bind(this)}>
@@ -198,16 +212,22 @@ class Player extends React.Component {
                 <use xmlnsXlink="http://www.w3.org/1999/xlink" xlinkHref={`${icons}#repeat`} style={{ fill: loop ? 'var(--red-dark)' : '' }} />
               </svg>
             </button>
+            <button type="button" className={styles.control} onClick={this.shuffle.bind(this)}>
+              <svg className={styles.controlIcon}>
+                <use xmlnsXlink="http://www.w3.org/1999/xlink" xlinkHref={`${icons}#shuffle`} style={{ fill: shuffle ? 'var(--red-dark)' : '' }} />
+              </svg>
+            </button>
           </div>
-          <Timeline timePassed={currentTime} duration={duration} />
+          <Timeline timePassed={currentTime} duration={duration || 0} />
           <div className={`${styles.controls} ${styles.volume}`}>
             <button type="button" className={styles.control} onClick={this.mute.bind(this)}>
               <svg className={styles.controlIcon}>
                 <use xmlnsXlink="http://www.w3.org/1999/xlink" xlinkHref={`${icons}#${muted ? 'mute' : 'volume'}`} />
               </svg>
             </button>
-            <div className={styles.volumeWrapper} role="presentation" onClick={this.changeVolume.bind(this)}>
-              <div className={styles.volumeBackground}>
+            <div className={styles.volumeWrapper}>
+              <div className={styles.volumeSlider} role="presentation" onClick={this.changeVolume.bind(this)}>
+                <div className={styles.volumeBackground} />
                 <div className={styles.volumeBar} style={{ height: `${100 * volume}%` }} />
               </div>
             </div>
@@ -219,10 +239,10 @@ class Player extends React.Component {
             src={song.url}
             muted={muted}
             loop={loop}
-            onCanPlay={this.onCanPlay.bind(this)}
-            onTimeUpdate={this.onTimeUpdate.bind(this)}
-            onVolumeChange={this.onVolumeChange.bind(this)}
-            onEnded={this.onEnded.bind(this)}
+            onCanPlay={this.update.bind(this)}
+            onEnded={this.ended.bind(this)}
+            onTimeUpdate={this.update.bind(this)}
+            onVolumeChange={this.update.bind(this)}
           />
         </section>
       </div>
@@ -236,6 +256,7 @@ Player.propTypes = {
     uuid: PropTypes.string,
     author: PropTypes.string,
     title: PropTypes.string,
+    cover: PropTypes.string,
   })).isRequired,
   setSongs: PropTypes.func.isRequired,
   nowPlaying: PropTypes.number.isRequired,
@@ -253,7 +274,7 @@ const mapStateToProps = store => ({
 
 const mapDispatchToProps = dispatch => ({
   setSongs: songs => dispatch(action(actions.SET_SONGS, songs)),
-  setNowPlaying: nowPlaying => dispatch(action(actions.SET_NOW_PLAYING, nowPlaying)),
+  setNowPlaying: np => dispatch(action(actions.SET_NOW_PLAYING, np)),
   setPause: paused => dispatch(action(actions.SET_PAUSE, paused)),
 });
 
