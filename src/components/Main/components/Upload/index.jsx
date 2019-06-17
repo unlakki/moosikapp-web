@@ -80,18 +80,20 @@ class Upload extends React.Component {
     if (file.size > 10 * 1024 * 1024) {
       // Global Error Message
       // File too large. Your audio file may not exceed 10 MB.
+      return;
     }
 
     if (file.type !== 'audio/mp3') {
       // Global Error Message
       // Unsupported type. Your audio file has to be in MP3 format.
+      return;
     }
 
     fetch(`${REACT_APP_API_URL}/api/songs`, {
       method: 'PUT',
       headers: {
         accept: 'application/vnd.moosik.v1+json',
-        'content-type': file.type,
+        'content-type': 'audio/mpeg',
         authorization: `Bearer ${token}`,
         'x-uploaded-filename': artist && title ? `${artist} - ${title}` : file.name,
       },
