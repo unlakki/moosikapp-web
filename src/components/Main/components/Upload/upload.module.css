@@ -1,114 +1,61 @@
 .upload {
   display: flex;
   flex-direction: column;
-  width: 90%;
-  max-width: 500px;
-  padding: 1rem;
+  align-items: center;
+  width: 95%;
+  max-width: 640px;
+  padding: 1.4rem .6rem;
   background-color: var(--light);
   box-shadow: 0 0 4px var(--dark);
 }
 
-.head {
-  margin-bottom: 1rem;
-  font-size: 1.5rem;
-  line-height: 1.5;
+.title {
+  margin-bottom: .9rem;
+  font-size: 1.6rem;
+  line-height: 1.3;
   color: var(--dark);
-  border-bottom: .1rem solid var(--dark);
 }
 
-.body {
+.main {
   display: flex;
   flex-direction: column;
+  align-items: center;
 }
 
-.instruction {
-  margin-bottom: .5rem;
-  text-align: center;
-  font-size: 1rem;
-  line-height: 1.2;
-  color: var(--dark);
-}
-
-.field {
+.inputWrapper {
   display: flex;
   align-items: center;
-  justify-content: flex-end;
-  margin-bottom: .5rem;
+  justify-content: space-between;
+  margin-bottom: .6rem;
 }
 
-.field:last-child {
+.inputWrapper:last-child {
   margin-bottom: 0;
 }
 
-.additionalInfo {
-  display: flex;
-  flex-direction: column;
-  margin-bottom: .5rem;
-}
-
-.title {
-  margin-bottom: .5rem;
-  font-size: 1.2rem;
-  line-height: 1.2;
-  color: var(--dark);
-}
-
-.fileInput {
-  box-sizing: border-box;
-  position: relative;
-  height: 2rem;
-  padding: .3rem .8rem;
-  font-size: 1rem;
-  line-height: 1.4rem;
-  color: var(--light);
-  background-color: var(--red);
-  border: 0;
-  border-radius: 0;
-  outline: 0;
-  transition: all .2s ease;
-}
-
-.fileInput>input {
-  width: 0;
-  height: 0;
-  position: absolute;
-  left: 0;
-  top: 0;
-}
-
-.fileInput:hover {
-  box-shadow: 0 0 4px var(--red);
-}
-
-.fileInput:active {
-  background-color: var(--red-dark);
-}
-
-.textInput {
-  box-sizing: border-box;
+.input {
   width: 100%;
-  height: 2rem;
-  padding: .2rem .3rem;
-  background-color: var(--light);
-  font-size: 1rem;
-  line-height: 1.4rem;
+  height: 30px;
+  padding: 5px 3px;
   color: var(--dark);
-  border: .1rem solid var(--gray);
-  border-radius: 0;
+  font-size: 14px;
+  line-height: 18px;
+  background-color: var(--light);
+  border: 1px solid var(--gray);
+  border-radius: 3px;
   outline: 0;
 }
 
-.textInput:focus {
+.input:focus {
   border-color: var(--red);
-  box-shadow: 0 0 4px var(--red);
+  box-shadow: inset 0 0 3px var(--red);
 }
 
-.submitButton {
-  box-sizing: border-box;
-  height: 2rem;
-  padding: .3rem .8rem;
-  font-size: 1rem;
-  line-height: 1.4rem;
+.submit, .file {
+  height: 30px;
+  padding: 6px 12px;
+  font-size: 14px;
+  line-height: 18px;
   color: var(--light);
   background-color: var(--red);
   border: 0;
@@ -117,33 +64,42 @@
   transition: all .2s ease;
 }
 
-.submitButton:hover {
-  box-shadow: 0 0 4px var(--red);
-}
-
-.submitButton:active {
+.submit:hover, .file:hover {
   background-color: var(--red-dark);
 }
 
-.textInput:disabled, .submitButton:disabled, .fileInput:disabled {
+.submit:active, .file:active {
+  box-shadow: 0 0 4px var(--red-dark);
+}
+
+.input:disabled, .submit:disabled, .file:disabled {
   opacity: .5;
 }
 
-.selectedFile {
-  width: 60%;
-  margin-right: .5rem;
-  font-size: 1rem;
-  line-height: 2;
-  color: var(--dark);
-  text-align: right;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+.fileInput {
+  width: 0;
+  height: 0;
+  position: absolute;
 }
 
-.error {
-  margin-top: .5rem;
-  font-size: 1.2rem;
+.note {
+  margin: .9rem 0;
+  font-size: 1rem;
   line-height: 1.2;
-  color: var(--danger);
+  text-align: center;
+  color: var(--gray-dark);
+}
+
+.filename {
+  font-size: .9rem;
+  line-height: 1.3;
+  text-align: center;
+  color: var(--dark);
+}
+
+.songEdit {
+  display: flex;
+  flex-direction: column;
+  width: 70%;
+  margin-bottom: .9rem;
 }

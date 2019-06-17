@@ -28,7 +28,12 @@
   -webkit-appearance: none;
 }
 
+html {
+  height: 100%;
+}
+
 body {
+  height: 100%;
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -39,9 +44,16 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
 }
 
-h1,h2,h3,h4,h5,h6,p {
+p {
   margin: 0;
+  font-weight: 400;
 }
-h1,h2,h3,h4,h5,h6 {
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 0;
   font-weight: 600;
+}
+
+#root {
+  height: 100%;
 }

@@ -23,23 +23,25 @@ class Header extends React.Component {
     const { token } = this.props;
 
     return (
-      <header className={styles.box}>
-        <div className={styles.container}>
+      <header className={styles.header}>
+        <div className={styles.inner}>
           <div className={styles.left}>
-            <Link className={styles.logo} to="/">
-              <svg viewBox="0 0 48 48">
-                <path d="M24 2C14.06 2 6 10.06 6 20v14c0 3.31 2.69 6 6 6h6V24h-8v-4c0-7.73 6.27-14 14-14s14 6.27 14 14v4h-8v16h8v2H24v4h12c3.31 0 6-2.69 6-6V20c0-9.94-8.06-18-18-18z" />
+            <Link className={styles.logoLink} to="/">
+              <svg className={styles.logo} viewBox="0 0 24 24">
+                <path d="M12,1C7,1 3,5 3,10V17A3,3 0 0,0 6,20H9V12H5V10A7,7 0 0,1 12,3A7,7 0 0,1 19,10V12H15V20H18A3,3 0 0,0 21,17V10C21,5 16.97,1 12,1Z" />
               </svg>
             </Link>
             {token && (
-              <nav className={styles.nav}>
+              <nav className={styles.navWrapper}>
                 <Link className={styles.link} to="/music">Music</Link>
                 <Link className={styles.link} to="/upload">Upload</Link>
               </nav>
             )}
           </div>
-          {!token && <Link className={styles.link} to="/login">Login</Link>}
-          {token && <Link className={styles.link} to="?logout" onClick={this.logout()}>Logout</Link>}
+          <div className={styles.right}>
+            {!token && <Link className={styles.link} to="/login">Login</Link>}
+            {token && <Link className={styles.link} to="?logout" onClick={this.logout()}>Logout</Link>}
+          </div>
         </div>
       </header>
     );

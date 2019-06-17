@@ -14,7 +14,7 @@ class Login extends React.Component {
     super(props);
 
     this.state = {
-      username: null, password: null, error: null,
+      username: '', password: '',
     };
 
     this.uuids = {
@@ -31,6 +31,23 @@ class Login extends React.Component {
     }
 
     return true;
+  }
+
+  onInput(e) {
+    e.preventDefault();
+
+    const { username, password } = this.uuids;
+
+    const { id, value } = e.target;
+    switch (id) {
+      case username:
+        this.setState({ username: value });
+        break;
+      case password:
+        this.setState({ password: value });
+        break;
+      default:
+    }
   }
 
   login(e) {
@@ -53,7 +70,7 @@ class Login extends React.Component {
         const { token, message } = res;
 
         if (!token) {
-          this.setState({ error: message });
+          // Global Error Message
           return;
         }
 
@@ -61,65 +78,42 @@ class Login extends React.Component {
         window.localStorage.setItem('token', token);
         history.push('/');
       })
-      .catch(error => this.setState({ error: error.toString() }));
-  }
-
-  input(e) {
-    e.preventDefault();
-
-    const { username, password } = this.uuids;
-
-    const { id, value } = e.target;
-    switch (id) {
-      case username:
-        this.setState({ username: value });
-        break;
-      case password:
-        this.setState({ password: value });
-        break;
-      default:
-    }
-  }
-
-  reset() {
-    this.setState({ error: null });
+      .catch((error) => {
+        // Global Error Message
+      });
   }
 
   render() {
-    const { error } = this.state;
-
     const { uuids } = this;
 
     return (
       <section className={styles.login}>
-        <h1 className={styles.head}>Login</h1>
-        <form className={styles.body}>
-          <label htmlFor={uuids.username} className={styles.field}>
+        <h1 className={styles.title}>Login</h1>
+        <form className={styles.main}>
+          <label htmlFor={uuids.username} className={styles.inputWrapper}>
             <input
               id={uuids.username}
-              className={styles.textInput}
+              className={styles.input}
               type="text"
               placeholder="Username / Email"
-              onChange={this.input.bind(this)}
-              onClick={this.reset.bind(this)}
+              onChange={this.onInput.bind(this)}
             />
           </label>
-          <label htmlFor={uuids.password} className={styles.field}>
+          <label htmlFor={uuids.password} className={styles.inputWrapper}>
             <input
               id={uuids.password}
-              className={styles.textInput}
+              className={styles.input}
               type="password"
               placeholder="Password"
-              onChange={this.input.bind(this)}
-              onClick={this.reset.bind(this)}
+              onChange={this.onInput.bind(this)}
             />
           </label>
-          <div className={styles.field}>
+          <div className={styles.inputWrapper}>
             <Link className={styles.link} to="/forgot">Forgot your password?</Link>
             <div className={styles.right}>
               <Link className={styles.link} to="/register">Need an account?</Link>
               <input
-                className={styles.submitButton}
+                className={styles.submit}
                 type="submit"
                 value="Login"
                 onClick={this.login.bind(this)}
@@ -127,7 +121,6 @@ class Login extends React.Component {
             </div>
           </div>
         </form>
-        {error && <p className={styles.error}>{error}</p>}
       </section>
     );
   }

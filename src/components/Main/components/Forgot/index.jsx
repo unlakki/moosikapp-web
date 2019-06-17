@@ -13,7 +13,7 @@ class Forgot extends React.Component {
     super(props);
 
     this.state = {
-      email: null, error: null,
+      email: '',
     };
 
     this.uuids = {
@@ -32,13 +32,20 @@ class Forgot extends React.Component {
     return true;
   }
 
+  onInput(e) {
+    e.preventDefault();
+
+    this.setState({ email: e.target.value });
+  }
+
   requestPasswordChange(e) {
     e.preventDefault();
 
     const { email } = this.state;
 
     if (!/^\w+[\w-.]*@\w+((-\w+)|(\w*))\.[a-z]{2,3}$/.test(email)) {
-      this.setState({ error: 'Invalid email.' });
+      // Global Error Message
+      // Invalid email.
       return;
     }
 
@@ -52,55 +59,43 @@ class Forgot extends React.Component {
     })
       .then(res => res.json())
       .then((res) => {
-        this.setState({ error: res.message });
+        // Global Message
       })
-      .catch(error => this.setState({ error: error.toString() }));
-  }
-
-  input(e) {
-    e.preventDefault();
-
-    this.setState({ email: e.target.value });
-  }
-
-  reset() {
-    this.setState({ error: null });
+      .catch((error) => {
+        // Global Error Message
+      });
   }
 
   render() {
-    const { error } = this.state;
-
     const { uuids } = this;
 
     return (
       <section className={styles.forgot}>
-        <h1 className={styles.head}>Forgot</h1>
-        <form className={styles.body}>
-          <div className={styles.instruction}>
+        <h1 className={styles.title}>Forgot</h1>
+        <form className={styles.main}>
+          <div className={styles.note}>
             <p>To request a new password please enter your account email in the box below.</p>
             <p>We will send you an email with further instructions.</p>
           </div>
-          <label htmlFor={uuids.email} className={styles.field}>
+          <label htmlFor={uuids.email} className={styles.inputWrapper}>
             <input
               ref={this.email}
               id={uuids.email}
-              className={styles.textInput}
+              className={styles.input}
               type="email"
               placeholder="Email"
-              onChange={this.input.bind(this)}
-              onClick={this.reset.bind(this)}
+              onChange={this.onInput.bind(this)}
             />
           </label>
-          <div className={styles.field}>
+          <div className={styles.inputWrapper}>
             <input
-              className={styles.submitButton}
+              className={styles.submit}
               type="submit"
               value="Request Password Change"
               onClick={this.requestPasswordChange.bind(this)}
             />
           </div>
         </form>
-        {error && <p className={styles.error}>{error}</p>}
       </section>
     );
   }

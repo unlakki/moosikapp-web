@@ -13,7 +13,7 @@ class Register extends React.Component {
     super(props);
 
     this.state = {
-      username: null, email: null, password: null, retry: null, error: null,
+      username: '', email: '', password: '', retry: '',
     };
 
     this.uuids = {
@@ -32,57 +32,7 @@ class Register extends React.Component {
     return true;
   }
 
-  register(e) {
-    e.preventDefault();
-
-    const { history } = this.props;
-
-    const {
-      username, email, password, retry,
-    } = this.state;
-
-    if (!/[a-zA-Z0-9\-_]/.test(username)) {
-      this.setState({
-        error: 'Username must contain only English characters, numbers, dot, dash or underline.',
-      });
-      return;
-    }
-
-    if (password.length < 8) {
-      this.setState({
-        error: 'Password too short. Use 8 or more characters.',
-      });
-      return;
-    }
-
-    if (password !== retry) {
-      this.setState({ error: 'Passwords don\'t match.' });
-      return;
-    }
-
-    fetch(`${REACT_APP_API_URL}/api/register`, {
-      method: 'POST',
-      headers: {
-        accept: 'application/vnd.moosik.v1+json',
-        'content-type': 'application/json',
-      },
-      body: JSON.stringify({ username, email, password }),
-    })
-      .then(res => res.json())
-      .then((res) => {
-        const { uuid, message } = res;
-
-        if (!uuid) {
-          this.setState({ error: message });
-          return;
-        }
-
-        history.push('/login');
-      })
-      .catch(error => this.setState({ error: error.toString() }));
-  }
-
-  input(e) {
+  onInput(e) {
     e.preventDefault();
 
     const {
@@ -107,74 +57,120 @@ class Register extends React.Component {
     }
   }
 
-  reset() {
-    this.setState({ error: null });
+  register(e) {
+    e.preventDefault();
+
+    const { history } = this.props;
+
+    const {
+      username, email, password, retry,
+    } = this.state;
+
+    if (!/[a-zA-Z0-9\-_]/.test(username)) {
+      // Global Error Message
+      // Username must contain only English characters, numbers, dot, dash or underline.
+      return;
+    }
+
+    if (!/^\w+[\w-.]*@\w+((-\w+)|(\w*))\.[a-z]{2,3}$/.test(email)) {
+      // Global Error Message
+      // Invalid email.
+      return;
+    }
+
+    if (password.length < 8) {
+      // Global Error Message
+      // Password too short. Use 8 or more characters.
+      return;
+    }
+
+    if (password !== retry) {
+      // Global Error Message
+      // Passwords don\'t match.
+      return;
+    }
+
+    fetch(`${REACT_APP_API_URL}/api/register`, {
+      method: 'POST',
+      headers: {
+        accept: 'application/vnd.moosik.v1+json',
+        'content-type': 'application/json',
+      },
+      body: JSON.stringify({ username, email, password }),
+    })
+      .then(res => res.json())
+      .then((res) => {
+        const { uuid, message } = res;
+
+        if (!uuid) {
+          // Global Error Message
+          return;
+        }
+
+        history.push('/login');
+      })
+      .catch((error) => {
+        // Global Error Message
+      });
   }
 
   render() {
-    const { error } = this.state;
-
     const { uuids } = this;
 
     return (
       <section className={styles.register}>
-        <h1 className={styles.head}>Register</h1>
+        <h1 className={styles.title}>Register</h1>
         <form className={styles.body}>
-          <label htmlFor={uuids.username} className={styles.field}>
+          <label htmlFor={uuids.username} className={styles.inputWrapper}>
             <input
               ref={this.username}
               id={uuids.username}
-              className={styles.textInput}
+              className={styles.input}
               type="text"
               placeholder="Username"
-              onChange={this.input.bind(this)}
-              onClick={this.reset.bind(this)}
+              onChange={this.onInput.bind(this)}
             />
           </label>
-          <label htmlFor={uuids.email} className={styles.field}>
+          <label htmlFor={uuids.email} className={styles.inputWrapper}>
             <input
               ref={this.email}
               id={uuids.email}
-              className={styles.textInput}
+              className={styles.input}
               type="email"
               placeholder="Email"
-              onChange={this.input.bind(this)}
-              onClick={this.reset.bind(this)}
+              onChange={this.onInput.bind(this)}
             />
           </label>
-          <label htmlFor={uuids.password} className={styles.field}>
+          <label htmlFor={uuids.password} className={styles.inputWrapper}>
             <input
               ref={this.password}
               id={uuids.password}
-              className={styles.textInput}
+              className={styles.input}
               type="password"
               placeholder="Password"
-              onChange={this.input.bind(this)}
-              onClick={this.reset.bind(this)}
+              onChange={this.onInput.bind(this)}
             />
           </label>
-          <label htmlFor={uuids.retry} className={styles.field}>
+          <label htmlFor={uuids.retry} className={styles.inputWrapper}>
             <input
               ref={this.retry}
               id={uuids.retry}
-              className={styles.textInput}
+              className={styles.input}
               type="password"
               placeholder="Re-type Password"
-              onChange={this.input.bind(this)}
-              onClick={this.reset.bind(this)}
+              onChange={this.onInput.bind(this)}
             />
           </label>
-          <div className={styles.field}>
+          <div className={styles.inputWrapper}>
             <Link className={styles.link} to="/login">Already have account?</Link>
             <input
-              className={styles.submitButton}
+              className={styles.submit}
               type="submit"
               value="Register"
               onClick={this.register.bind(this)}
             />
           </div>
         </form>
-        {error && <p className={styles.error}>{error}</p>}
       </section>
     );
   }
