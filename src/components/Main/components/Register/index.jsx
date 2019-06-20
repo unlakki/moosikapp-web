@@ -58,7 +58,7 @@ class Register extends React.Component {
     }
   }
 
-  register(e) {
+  async register(e) {
     e.preventDefault();
 
     const { history, setError } = this.props;
@@ -67,18 +67,8 @@ class Register extends React.Component {
       username, email, password, retry,
     } = this.state;
 
-    if (!/[a-zA-Z0-9\-_]/.test(username)) {
-      setError('Username must contain only English characters, numbers, dot, dash or underline.');
-      return;
-    }
-
     if (!/^\w+[\w-.]*@\w+((-\w+)|(\w*))\.[a-z]{2,3}$/.test(email)) {
       setError('Invalid email.');
-      return;
-    }
-
-    if (password.length < 8) {
-      setError('Password too short. Use 8 or more characters.');
       return;
     }
 
@@ -87,28 +77,28 @@ class Register extends React.Component {
       return;
     }
 
-    fetch(`${REACT_APP_API_URL}/api/register`, {
-      method: 'POST',
-      headers: {
-        accept: 'application/vnd.moosik.v1+json',
-        'content-type': 'application/json',
-      },
-      body: JSON.stringify({ username, email, password }),
-    })
-      .then(res => res.json())
-      .then((res) => {
-        const { uuid, message } = res;
+    const uri = `${REACT_APP_API_URL}/api/register`;
 
-        if (!uuid) {
-          setError(message);
-          return;
-        }
+    const headers = {
+      accept: 'application/vnd.moosik.v1+json',
+      'content-type': 'application/json',
+    };
 
-        history.push('/login');
-      })
-      .catch((error) => {
-        setError(error.toString());
-      });
+    try {
+      const { message, uuid } = await fetch(uri, {
+        method: 'POST',
+        headers,
+        body: JSON.stringify({ username, email, password }),
+      }).then(r => r.json());
+
+      if (!uuid) {
+        throw new Error(message);
+      }
+
+      history.push('/login');
+    } catch (error) {
+      setError(error.message);
+    }
   }
 
   render() {
