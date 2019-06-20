@@ -59,6 +59,8 @@ class Player extends React.Component {
   async componentDidUpdate(prev) {
     const { songs, np, pause } = this.props;
 
+    const { song } = this.state;
+
     if (!songs.length) {
       return;
     }
@@ -73,10 +75,12 @@ class Player extends React.Component {
 
       if (pause) {
         audio.pause();
+        document.title = 'Moosik';
         return;
       }
 
       audio.play();
+      document.title = `${song.author} - ${song.title}`;
     }
   }
 
@@ -87,9 +91,12 @@ class Player extends React.Component {
   onCanPlay(e) {
     const { setPause } = this.props;
 
+    const { song } = this.state;
+
     e.target.play();
 
     setPause(false);
+    document.title = `${song.author} - ${song.title}`;
   }
 
   onTimeUpdate(e) {
