@@ -23,7 +23,7 @@
   font-size: 1rem;
   line-height: 1.2;
   text-align: center;
-  color: var(--gray-dark);
+  color: var(--gray-light);
   text-shadow: 0 0 4px var(--dark);
 }
 
