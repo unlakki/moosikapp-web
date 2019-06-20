@@ -71,10 +71,6 @@
   background-color: var(--red-dark);
 }
 
-.submit:active {
-  box-shadow: 0 0 4px var(--red-dark);
-}
-
 .input:disabled, .submit:disabled {
   opacity: .5;
 }
@@ -90,15 +86,4 @@
 
 .link:hover {
   color: var(--red);
-}
-
-@media (max-width: 640px) {
-  .inputWrapper {
-    flex-direction: column;
-    align-items: unset;
-  }
-
-  .submit {
-    margin-left: 0;
-  }
 }

@@ -71,10 +71,6 @@
   background-color: var(--red-dark);
 }
 
-.submit:active {
-  box-shadow: 0 0 4px var(--red-dark);
-}
-
 .input:disabled, .submit:disabled {
   opacity: .5;
 }

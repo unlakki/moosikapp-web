@@ -76,11 +76,7 @@
 }
 
 .submit:hover {
-  background-color: var(--red-dark);
-}
-
-.submit:active {
-  box-shadow: 0 0 4px var(--red-dark);
+  background-color: var(--red);
 }
 
 .input:disabled, .submit:disabled {
