@@ -2,8 +2,8 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  margin-bottom: .4rem;
-  padding: .2rem;
+  margin-bottom: 6px;
+  padding: 2px;
   transition: all .2s ease;
 }
 
@@ -11,21 +11,17 @@
   margin-bottom: 0;
 }
 
-.track:hover {
-  box-shadow: 0 0 2px var(--dark);
-}
-
 .cover {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 2.8rem;
-  height: 2.8rem;
+  width: 42px;
+  height: 42px;
   position: relative;
-  background: var(--gray-light) no-repeat center;
-  border-radius: 6px;
+  background: var(--gray-light) center no-repeat;
   background-size: cover;
+  border-radius: 4px;
 }
 
 .defaultCover {
@@ -41,32 +37,25 @@
   outline: 0;
   background-color: transparent;
   cursor: pointer;
-  transition: all .5s;
+  transition: all .2s ease;
 }
 
 .play {
   width: 80%;
   height: 80%;
+  opacity: 0;
+  fill: var(--light);
+  filter: drop-shadow(0 0 2px var(--dark));
+  z-index: 10;
 }
 
-.playIcon {
+.icon {
   width: 100%;
   height: 100%;
-  fill: var(--light);
-  opacity: 0;
-  filter: drop-shadow(0 0 2px var(--dark));
   transition: all .2s ease;
 }
 
-.track:hover .playIcon {
-  opacity: 1;
-}
-
-.play:hover .playIcon {
-  fill: var(--red);
-}
-
-.button:disabled .playIcon {
+.button:disabled .play {
   opacity: .5 !important;
   fill: var(--light) !important;
 }
@@ -74,41 +63,27 @@
 .content {
   display: flex;
   flex-direction: column;
-  padding: 0 .4rem;
+  padding: 0 6px;
   flex: 1;
 }
 
 .actions {
   display: flex;
   flex-direction: row;
-  padding-right: .4rem;
-}
-
-.actionIcon {
-  width: 100%;
-  height: 100%;
-  opacity: .5;
-  fill: var(--gray);
-  transition: all .2s ease;
-}
-
-.track:hover .actionIcon {
-  opacity: 1;
-}
-
-.button:hover .actionIcon {
-  fill: var(--red);
-}
-
-.button:disabled .actionIcon {
-  opacity: .5 !important;
-  fill: var(--gray) !important;
+  padding-right: 10px;
 }
 
 .action {
-  width: 1.1rem;
-  height: 1.1rem;
-  margin-right: .4rem;
+  width: 16px;
+  height: 16px;
+  margin-right: 10px;
+  opacity: .5;
+  fill: var(--gray);
+}
+
+.button:disabled .action {
+  opacity: .5 !important;
+  fill: var(--gray) !important;
 }
 
 .action:last-child {
@@ -122,13 +97,41 @@
 }
 
 .title {
-  font-size: 1rem;
+  font-size: 16px;
   font-weight: 600;
   color: var(--dark);
 }
 
 .author {
-  font-size: .8rem;
+  font-size: 14px;
   font-weight: 400;
   color: var(--gray-dark);
+}
+
+@media (max-width: 1280px) {
+  .play {
+    opacity: .7;
+  }
+}
+
+@media (min-width: 1281px) {
+  .track:hover {
+    box-shadow: 0 0 2px var(--dark);
+  }
+
+  .track:hover .play {
+    opacity: 1;
+  }
+  
+  .play:hover {
+    fill: var(--red);
+  }
+
+  .track:hover .action {
+    opacity: 1;
+  }
+  
+  .action:hover {
+    fill: var(--red);
+  }
 }

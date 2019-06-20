@@ -30,7 +30,7 @@ class Song extends React.Component {
 
     return (
       <div className={styles.track}>
-        <div className={styles.cover} style={{ backgroundImage: `url(${cover})` }}>
+        <div className={styles.cover} style={{ backgroundImage: cover ? `url(${cover})` : '' }}>
           {!cover && (
             <svg className={styles.defaultCover}>
               <use xmlnsXlink="http://www.w3.org/1999/xlink" xlinkHref={`${icons}#cover`} />
@@ -41,7 +41,7 @@ class Song extends React.Component {
             type="button"
             onClick={this.onClick.bind(this)}
           >
-            <svg className={styles.playIcon}>
+            <svg className={styles.icon}>
               <use xmlnsXlink="http://www.w3.org/1999/xlink" xlinkHref={play} />
             </svg>
           </button>
@@ -52,13 +52,13 @@ class Song extends React.Component {
         </div>
         <div className={styles.actions}>
           <button className={`${styles.button} ${styles.action}`} type="button">
-            <svg className={styles.actionIcon}>
+            <svg className={styles.icon}>
               <use xmlnsXlink="http://www.w3.org/1999/xlink" xlinkHref={`${icons}#like`} />
             </svg>
           </button>
           {edit && (
             <button className={`${styles.button} ${styles.action}`} type="button">
-              <svg className={styles.actionIcon}>
+              <svg className={styles.icon}>
                 <use xmlnsXlink="http://www.w3.org/1999/xlink" xlinkHref={`${icons}#edit`} />
               </svg>
             </button>
