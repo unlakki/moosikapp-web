@@ -13,12 +13,12 @@ class Upload extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      file: null, artist: '', title: '', name: '',
+    this.uuids = {
+      file: uuidv4(),
     };
 
-    this.uuids = {
-      file: uuidv4(), artist: uuidv4(), title: uuidv4(), cover: uuidv4(),
+    this.state = {
+      name: '',
     };
   }
 
@@ -33,50 +33,24 @@ class Upload extends React.Component {
     return true;
   }
 
-  onInput(e) {
-    e.preventDefault();
+  onChange(e) {
+    const file = e.target.files[0];
 
-    const { file, artist, title } = this.uuids;
-
-    const { id, value, files } = e.target;
-    switch (id) {
-      case file: {
-        if (files.length === 0) {
-          return;
-        }
-
-        const { name } = files[0];
-        this.setState({ name });
-
-        this.setState({ file: files[0] });
-        break;
-      }
-      case artist:
-        this.setState({ artist: value });
-        break;
-      case title:
-        this.setState({ title: value });
-        break;
-      default:
-    }
+    this.setState({ name: file.name });
+    this.upload(file);
   }
 
   onDrop(e) {
-    e.preventDefault();
-
     if (e.dataTransfer.files) {
       const file = e.dataTransfer.files[0];
 
-      this.setState({ file, name: file.name });
+      this.setState({ name: file.name });
+      this.upload(file);
     }
   }
 
-  upload(e) {
-    e.preventDefault();
-
+  async upload(file) {
     const { token, setError } = this.props;
-
-    const { file, artist, title } = this.state;
 
     if (file.size > 10 * 1024 * 1024) {
       setError('File too large. Your audio file may not exceed 10 MB.');
@@ -88,31 +62,30 @@ class Upload extends React.Component {
       return;
     }
 
-    fetch(`${REACT_APP_API_URL}/api/songs`, {
-      method: 'PUT',
-      headers: {
-        accept: 'application/vnd.moosik.v1+json',
-        'content-type': 'audio/mpeg',
-        authorization: `Bearer ${token}`,
-        'x-uploaded-filename': artist && title ? `${artist} - ${title}` : file.name,
-      },
-      body: file,
-    })
-      .then(res => res.json())
-      .then((res) => {
-        const { uuid, message } = res;
+    const uri = `${REACT_APP_API_URL}/api/songs`;
 
-        if (!uuid) {
-          setError(message);
-          return;
-        }
+    const headers = {
+      accept: 'application/vnd.moosik.v1+json',
+      'content-type': 'audio/mpeg',
+      authorization: `Bearer ${token}`,
+      'x-uploaded-filename': encodeURI(file.name),
+    };
 
-        // Temporary error
-        setError(message);
-      })
-      .catch((error) => {
-        setError(error.toString());
-      });
+    try {
+      const { message, uuid } = await fetch(uri, {
+        method: 'PUT',
+        headers,
+        body: file,
+      }).then(r => r.json());
+
+      if (!uuid) {
+        throw new Error(message);
+      }
+
+      setError(message); // Temporary error
+    } catch (error) {
+      setError(error.message);
+    }
   }
 
   render() {
@@ -135,7 +108,7 @@ class Upload extends React.Component {
                 id={uuids.file}
                 type="file"
                 accept="audio/mpeg"
-                onChange={this.onInput.bind(this)}
+                onChange={this.onChange.bind(this)}
               />
               <span>or choose file to upload</span>
             </label>
@@ -143,43 +116,6 @@ class Upload extends React.Component {
           {name && <p className={styles.filename}>{name}</p>}
           <div className={styles.note}>
             <p>Your audio file may not exceed 10 MB and has to be in MP3 format.</p>
-          </div>
-          <div className={styles.songEdit}>
-            <label htmlFor={uuids.artist} className={styles.inputWrapper}>
-              <input
-                id={uuids.artist}
-                className={styles.input}
-                type="text"
-                placeholder="Artist"
-                onChange={this.onInput.bind(this)}
-              />
-            </label>
-            <label htmlFor={uuids.title} className={styles.inputWrapper}>
-              <input
-                id={uuids.title}
-                className={styles.input}
-                type="text"
-                placeholder="Title"
-                onChange={this.onInput.bind(this)}
-              />
-            </label>
-            <label htmlFor={uuids.cover} className={styles.inputWrapper}>
-              <input
-                id={uuids.cover}
-                className={styles.input}
-                type="text"
-                placeholder="Cover"
-                onChange={this.onInput.bind(this)}
-              />
-            </label>
-          </div>
-          <div className={styles.inputWrapper}>
-            <input
-              className={styles.submit}
-              type="submit"
-              value="Upload"
-              onClick={this.upload.bind(this)}
-            />
           </div>
         </form>
       </section>

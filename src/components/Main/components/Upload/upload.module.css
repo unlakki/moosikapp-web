@@ -26,32 +26,9 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: .6rem;
 }
 
-.inputWrapper:last-child {
-  margin-bottom: 0;
-}
-
-.input {
-  width: 100%;
-  height: 30px;
-  padding: 5px 3px;
-  color: var(--dark);
-  font-size: 14px;
-  line-height: 18px;
-  background-color: var(--light);
-  border: 1px solid var(--gray);
-  border-radius: 3px;
-  outline: 0;
-}
-
-.input:focus {
-  border-color: var(--red);
-  box-shadow: inset 0 0 3px var(--red);
-}
-
-.submit, .file {
+.file {
   height: 30px;
   padding: 6px 12px;
   font-size: 14px;
@@ -64,15 +41,11 @@
   transition: all .2s ease;
 }
 
-.submit:hover, .file:hover {
+.file:hover {
   background-color: var(--red-dark);
 }
 
-.submit:active, .file:active {
-  box-shadow: 0 0 4px var(--red-dark);
-}
-
-.input:disabled, .submit:disabled, .file:disabled {
+.file:disabled {
   opacity: .5;
 }
 
@@ -83,9 +56,9 @@
 }
 
 .note {
-  margin: .9rem 0;
+  margin-top: .9rem;
   font-size: 1rem;
-  line-height: 1.2;
+  line-height: 1.3;
   text-align: center;
   color: var(--gray-dark);
 }
@@ -95,11 +68,4 @@
   line-height: 1.3;
   text-align: center;
   color: var(--dark);
-}
-
-.songEdit {
-  display: flex;
-  flex-direction: column;
-  width: 70%;
-  margin-bottom: .9rem;
 }
