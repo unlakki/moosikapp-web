@@ -17,34 +17,41 @@ class Status extends React.Component {
     };
   }
 
-  componentDidMount() {
-    this.updateStatus();
-    this.interval = setInterval(() => this.updateStatus(), 300000);
+  async componentDidMount() {
+    await this.updateStatus();
+    this.interval = setInterval(async () => {
+      await this.updateStatus();
+    }, 300000);
   }
 
   componentWillUnmount() {
     clearInterval(this.interval);
   }
 
-  updateStatus() {
+  async updateStatus() {
     const { setError } = this.props;
 
-    fetch(`${REACT_APP_API_URL}/api/status`, {
-      method: 'GET',
-      headers: {
-        accept: 'application/vnd.moosik.v1+json',
-        'content-type': 'application/json',
-      },
-    })
-      .then(res => res.json())
-      .then((res) => {
-        const { storage } = res;
+    const uri = `${REACT_APP_API_URL}/api/status`;
 
-        this.setState({ storage });
-      })
-      .catch((error) => {
-        setError(error.toString());
-      });
+    const headers = {
+      accept: 'application/vnd.moosik.v1+json',
+      'content-type': 'application/json',
+    };
+
+    try {
+      const { message, storage } = await fetch(uri, {
+        method: 'GET',
+        headers,
+      }).then(r => r.json());
+
+      if (!storage) {
+        throw new Error(message);
+      }
+
+      this.setState({ storage });
+    } catch (e) {
+      setError(e.message);
+    }
   }
 
   render() {

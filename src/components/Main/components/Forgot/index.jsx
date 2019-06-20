@@ -39,7 +39,7 @@ class Forgot extends React.Component {
     this.setState({ email: e.target.value });
   }
 
-  requestPasswordChange(e) {
+  async requestPasswordChange(e) {
     e.preventDefault();
 
     const { setError } = this.props;
@@ -51,21 +51,24 @@ class Forgot extends React.Component {
       return;
     }
 
-    fetch(`${REACT_APP_API_URL}/api/forgot`, {
-      method: 'POST',
-      headers: {
-        accept: 'application/vnd.moosik.v1+json',
-        'content-type': 'application/json',
-      },
-      body: JSON.stringify({ email }),
-    })
-      .then(res => res.json())
-      .then((res) => {
-        setError(res.message);
-      })
-      .catch((error) => {
-        setError(error.toString());
-      });
+    const uri = `${REACT_APP_API_URL}/api/forgot`;
+
+    const headers = {
+      accept: 'application/vnd.moosik.v1+json',
+      'content-type': 'application/json',
+    };
+
+    try {
+      const { message } = await fetch(uri, {
+        method: 'POST',
+        headers,
+        body: JSON.stringify({ email }),
+      }).then(r => r.json());
+
+      setError(message);
+    } catch (error) {
+      setError(error.message);
+    }
   }
 
   render() {

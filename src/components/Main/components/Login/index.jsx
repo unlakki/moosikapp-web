@@ -51,37 +51,37 @@ class Login extends React.Component {
     }
   }
 
-  login(e) {
+  async login(e) {
     e.preventDefault();
 
     const { setToken, history, setError } = this.props;
 
     const { username, password } = this.state;
 
-    fetch(`${REACT_APP_API_URL}/api/login`, {
-      method: 'POST',
-      headers: {
-        accept: 'application/vnd.moosik.v1+json',
-        'content-type': 'application/json',
-      },
-      body: JSON.stringify({ username, password }),
-    })
-      .then(res => res.json())
-      .then((res) => {
-        const { token, message } = res;
+    const uri = `${REACT_APP_API_URL}/api/login`;
 
-        if (!token) {
-          setError(message);
-          return;
-        }
+    const headers = {
+      accept: 'application/vnd.moosik.v1+json',
+      'content-type': 'application/json',
+    };
 
-        setToken(token);
-        window.localStorage.setItem('token', token);
-        history.push('/');
-      })
-      .catch((error) => {
-        setError(error.toString());
-      });
+    try {
+      const { message, token } = await fetch(uri, {
+        method: 'POST',
+        headers,
+        body: JSON.stringify({ username, password }),
+      }).then(r => r.json());
+
+      if (!token) {
+        throw new Error(message);
+      }
+
+      setToken(token);
+      window.localStorage.setItem('token', token);
+      history.push('/');
+    } catch (error) {
+      setError(error.message);
+    }
   }
 
   render() {
