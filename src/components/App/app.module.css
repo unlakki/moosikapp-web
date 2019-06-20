@@ -3,19 +3,9 @@
   flex-direction: column;
   height: 100%;
   position: relative;
-  overflow: hidden;
-}
-
-.background {
-  width: calc(20px + 100%);
-  height: calc(20px + 100%);
-  position: absolute;
-  left: -10px;
-  top: -10px;
-  background-repeat: no-repeat;
+  background: 0 center no-repeat;
   background-size: cover;
-  filter: brightness(.85) blur(5px);
-  z-index: -1;
+  overflow: hidden;
 }
 
 .container {

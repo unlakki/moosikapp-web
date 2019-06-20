@@ -12,8 +12,7 @@ import styles from './app.module.css';
 import bg from './bg.jpg';
 
 const App = ({ token, error }) => (
-  <div className={styles.app}>
-    <div className={styles.background} style={{ backgroundImage: `url(${bg})` }} />
+  <div className={styles.app} style={{ backgroundImage: `url(${bg})` }}>
     <main className={styles.container}>
       <BrowserRouter>
         <Header />
