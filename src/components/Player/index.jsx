@@ -29,162 +29,170 @@ class Player extends React.Component {
     this.audio = createRef();
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     const { token, setSongs, setError } = this.props;
 
-    fetch(`${REACT_APP_API_URL}/api/songs`, {
-      method: 'GET',
-      headers: {
-        accept: 'application/vnd.moosik.v1+json',
-        'content-type': 'application/json',
-        authorization: `Bearer ${token}`,
-      },
-    })
-      .then(res => res.json())
-      .then((res) => {
-        const { message, songs } = res;
+    const uri = `${REACT_APP_API_URL}/api/songs`;
 
-        if (!songs) {
-          setError(message);
-          return;
-        }
+    const headers = {
+      accept: 'application/vnd.moosik.v1+json',
+      'content-type': 'application/json',
+      authorization: `Bearer ${token}`,
+    };
 
-        setSongs(songs);
-      })
-      .catch((error) => {
-        setError(error.toString());
-      });
+    try {
+      const { message, songs } = await fetch(uri, {
+        method: 'GET',
+        headers,
+      }).then(r => r.json());
+
+      if (!songs) {
+        throw new Error(message);
+      }
+
+      setSongs(songs);
+    } catch (e) {
+      setError(e.message);
+    }
   }
 
-  componentDidUpdate(prev) {
-    const {
-      token, songs, nowPlaying, paused, setError,
-    } = this.props;
+  async componentDidUpdate(prev) {
+    const { songs, np, pause } = this.props;
 
     if (!songs.length) {
       return;
     }
 
-    if (prev.nowPlaying !== nowPlaying) {
-      fetch(`${REACT_APP_API_URL}/api/songs/${songs[nowPlaying].uuid}`, {
-        method: 'GET',
-        headers: {
-          accept: 'application/vnd.moosik.v1+json',
-          'content-type': 'application/json',
-          authorization: `Bearer ${token}`,
-        },
-      })
-        .then(res => res.json())
-        .then((res) => {
-          const { message, song } = res;
-
-          if (!song) {
-            setError(message);
-            return;
-          }
-
-          this.setState({ song });
-        })
-        .catch((error) => {
-          setError(error.toString());
-        });
-
+    if (prev.np !== np) {
+      await this.loadSong(songs[np].uuid);
       return;
     }
 
-    if (prev.paused !== paused) {
+    if (prev.pause !== pause) {
       const audio = this.audio.current;
 
-      if (paused) {
+      if (pause) {
         audio.pause();
-      } else {
-        audio.play();
+        return;
       }
+
+      audio.play();
     }
   }
 
-  prev() {
-    const { nowPlaying, setNowPlaying } = this.props;
-    if (nowPlaying > 0) {
-      setNowPlaying(nowPlaying - 1);
-    }
+  onLoadedMetadata(e) {
+    this.setState({ duration: e.target.duration });
   }
 
-  play() {
-    const {
-      nowPlaying, setNowPlaying, paused, setPause,
-    } = this.props;
-
-    if (nowPlaying === -1) {
-      setNowPlaying(nowPlaying === -1 ? 0 : nowPlaying);
-      return;
-    }
-
-    setPause(!paused);
-  }
-
-  next() {
-    const { songs, nowPlaying, setNowPlaying } = this.props;
-    if (nowPlaying < songs.length - 1) {
-      setNowPlaying(nowPlaying + 1);
-    }
-  }
-
-  repeat() {
-    this.setState(prev => ({ loop: !prev.loop }));
-  }
-
-  shuffle() {
-    this.setState(prev => ({ shuffle: !prev.shuffle }));
-  }
-
-  mute() {
-    this.setState(prev => ({ muted: !prev.muted }));
-  }
-
-  changeVolume(e) {
-    let { target } = e;
-    if (target.classList.contains(styles.volumeBar)) {
-      target = target.parentNode;
-    }
-
-    const r = target.getBoundingClientRect();
-    const v = 1 - (e.clientY - r.top) / r.height;
-
-    if ((v < 0) || (v > 1)) {
-      return;
-    }
-
-    this.audio.current.volume = v;
-  }
-
-  update(e) {
+  onCanPlay(e) {
     const { setPause } = this.props;
 
-    const {
-      paused, currentTime, duration, volume,
-    } = e.target;
+    e.target.play();
 
-    this.setState({ currentTime, duration, volume });
-    setPause(paused);
+    setPause(false);
   }
 
-  ended() {
-    const { songs, nowPlaying, setNowPlaying } = this.props;
+  onTimeUpdate(e) {
+    this.setState({ currentTime: e.target.currentTime });
+  }
+
+  onVolumeChange(e) {
+    this.setState({ volume: e.target.volume });
+  }
+
+  onEnded() {
+    const { songs, np, setNP } = this.props;
     const { shuffle } = this.state;
 
     if (shuffle) {
-      setNowPlaying(Math.round(Math.random() * (songs.length - 1)));
+      setNP(Math.round(Math.random() * (songs.length - 1)));
       return;
     }
 
-    if (nowPlaying < songs.length - 1) {
-      setNowPlaying(nowPlaying + 1);
+    if (np < songs.length - 1) {
+      setNP(np + 1);
+    }
+  }
+
+  onClickControl(e) {
+    const type = e.currentTarget.attributes['data-t'].nodeValue;
+
+    const {
+      songs, np, setNP, pause, setPause,
+    } = this.props;
+
+    switch (type) {
+      case 'prev': {
+        if (np > 0) {
+          setNP(np - 1);
+        }
+        break;
+      }
+      case 'play': {
+        if (np === -1) {
+          setNP(np === -1 ? 0 : np);
+          return;
+        }
+
+        setPause(!pause);
+        break;
+      }
+      case 'next': {
+        if (np < songs.length - 1) {
+          setNP(np + 1);
+        }
+        break;
+      }
+      case 'loop': {
+        this.setState(prev => ({ loop: !prev.loop }));
+        break;
+      }
+      case 'shuf': {
+        this.setState(prev => ({ shuffle: !prev.shuffle }));
+        break;
+      }
+      case 'mute': {
+        this.setState(prev => ({ muted: !prev.muted }));
+        break;
+      }
+      default:
+    }
+  }
+
+  onClickVolumeSlider(e) {
+    const r = e.currentTarget.getBoundingClientRect();
+    this.audio.current.volume = 1 - (e.clientY - r.top) / r.height;
+  }
+
+  async loadSong(uuid) {
+    const { token, setError } = this.props;
+
+    const uri = `${REACT_APP_API_URL}/api/songs/${uuid}`;
+
+    const headers = {
+      accept: 'application/vnd.moosik.v1+json',
+      'content-type': 'application/json',
+      authorization: `Bearer ${token}`,
+    };
+
+    try {
+      const { message, song } = await fetch(uri, {
+        method: 'GET',
+        headers,
+      }).then(r => r.json());
+
+      if (!song) {
+        throw new Error(message);
+      }
+
+      this.setState({ song });
+    } catch (e) {
+      setError(e.message);
     }
   }
 
   render() {
-    const { paused } = this.props;
+    const { pause } = this.props;
     const {
       song, currentTime, duration, muted, loop, volume, shuffle,
     } = this.state;
@@ -193,41 +201,41 @@ class Player extends React.Component {
       <div className={styles.player}>
         <section className={styles.wrapper}>
           <div className={styles.controls}>
-            <button type="button" className={styles.control} onClick={this.prev.bind(this)}>
-              <svg className={styles.controlIcon}>
+            <button type="button" className={styles.control} data-t="prev" onClick={this.onClickControl.bind(this)}>
+              <svg className={styles.icon}>
                 <use xmlnsXlink="http://www.w3.org/1999/xlink" xlinkHref={`${icons}#prev`} />
               </svg>
             </button>
-            <button type="button" className={styles.control} onClick={this.play.bind(this)}>
-              <svg className={styles.controlIcon}>
-                <use xmlnsXlink="http://www.w3.org/1999/xlink" xlinkHref={`${icons}#${paused ? 'play' : 'pause'}`} />
+            <button type="button" className={styles.control} data-t="play" onClick={this.onClickControl.bind(this)}>
+              <svg className={styles.icon}>
+                <use xmlnsXlink="http://www.w3.org/1999/xlink" xlinkHref={`${icons}#${pause ? 'play' : 'pause'}`} />
               </svg>
             </button>
-            <button type="button" className={styles.control} onClick={this.next.bind(this)}>
-              <svg className={styles.controlIcon}>
+            <button type="button" className={styles.control} data-t="next" onClick={this.onClickControl.bind(this)}>
+              <svg className={styles.icon}>
                 <use xmlnsXlink="http://www.w3.org/1999/xlink" xlinkHref={`${icons}#next`} />
               </svg>
             </button>
-            <button type="button" className={styles.control} onClick={this.repeat.bind(this)}>
-              <svg className={styles.controlIcon}>
+            <button type="button" className={styles.control} data-t="loop" onClick={this.onClickControl.bind(this)}>
+              <svg className={styles.icon}>
                 <use xmlnsXlink="http://www.w3.org/1999/xlink" xlinkHref={`${icons}#repeat`} style={{ fill: loop ? 'var(--red-dark)' : '' }} />
               </svg>
             </button>
-            <button type="button" className={styles.control} onClick={this.shuffle.bind(this)}>
-              <svg className={styles.controlIcon}>
+            <button type="button" className={styles.control} data-t="shuf" onClick={this.onClickControl.bind(this)}>
+              <svg className={styles.icon}>
                 <use xmlnsXlink="http://www.w3.org/1999/xlink" xlinkHref={`${icons}#shuffle`} style={{ fill: shuffle ? 'var(--red-dark)' : '' }} />
               </svg>
             </button>
           </div>
           <Timeline timePassed={currentTime} duration={duration || 0} />
           <div className={`${styles.controls} ${styles.volume}`}>
-            <button type="button" className={styles.control} onClick={this.mute.bind(this)}>
-              <svg className={styles.controlIcon}>
+            <button type="button" className={styles.control} data-t="mute" onClick={this.onClickControl.bind(this)}>
+              <svg className={styles.icon}>
                 <use xmlnsXlink="http://www.w3.org/1999/xlink" xlinkHref={`${icons}#${muted ? 'mute' : 'volume'}`} />
               </svg>
             </button>
             <div className={styles.volumeWrapper}>
-              <div className={styles.volumeSlider} role="presentation" onClick={this.changeVolume.bind(this)}>
+              <div className={styles.volumeSlider} role="presentation" onClick={this.onClickVolumeSlider.bind(this)}>
                 <div className={styles.volumeBackground} />
                 <div className={styles.volumeBar} style={{ height: `${100 * volume}%` }} />
               </div>
@@ -236,14 +244,14 @@ class Player extends React.Component {
           <SoundBadge author={song.author} title={song.title} cover={song.cover} />
           <audio
             ref={this.audio}
-            autoPlay
             src={song.url}
             muted={muted}
             loop={loop}
-            onCanPlay={this.update.bind(this)}
-            onEnded={this.ended.bind(this)}
-            onTimeUpdate={this.update.bind(this)}
-            onVolumeChange={this.update.bind(this)}
+            onLoadedMetadata={this.onLoadedMetadata.bind(this)}
+            onCanPlay={this.onCanPlay.bind(this)}
+            onTimeUpdate={this.onTimeUpdate.bind(this)}
+            onVolumeChange={this.onVolumeChange.bind(this)}
+            onEnded={this.onEnded.bind(this)}
           />
         </section>
       </div>
@@ -260,9 +268,9 @@ Player.propTypes = {
     cover: PropTypes.string,
   })).isRequired,
   setSongs: PropTypes.func.isRequired,
-  nowPlaying: PropTypes.number.isRequired,
-  setNowPlaying: PropTypes.func.isRequired,
-  paused: PropTypes.bool.isRequired,
+  np: PropTypes.number.isRequired,
+  setNP: PropTypes.func.isRequired,
+  pause: PropTypes.bool.isRequired,
   setPause: PropTypes.func.isRequired,
   setError: PropTypes.func.isRequired,
 };
@@ -270,14 +278,14 @@ Player.propTypes = {
 const mapStateToProps = store => ({
   token: store.login.token,
   songs: store.player.songs,
-  nowPlaying: store.player.nowPlaying,
-  paused: store.player.paused,
+  np: store.player.nowPlaying,
+  pause: store.player.paused,
 });
 
 const mapDispatchToProps = dispatch => ({
   setSongs: songs => dispatch(action(actions.SET_SONGS, songs)),
-  setNowPlaying: np => dispatch(action(actions.SET_NOW_PLAYING, np)),
-  setPause: paused => dispatch(action(actions.SET_PAUSE, paused)),
+  setNP: np => dispatch(action(actions.SET_NOW_PLAYING, np)),
+  setPause: pause => dispatch(action(actions.SET_PAUSE, pause)),
   setError: message => dispatch(errAction(message)),
 });
 

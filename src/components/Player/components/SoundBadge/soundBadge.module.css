@@ -1,46 +1,44 @@
 .soundBadge {
   display: flex;
   flex-direction: row;
-  width: 16rem;
-  margin-left: .5rem;
+  width: 256px;
+  margin-left: 10px;
 }
 
 .cover {
-  width: 2rem;
-  height: 2rem;
-  background-color: var(--gray-light);
-  background-position: center;
+  width: 32px;
+  height: 32px;
+  background: var(--gray-light) center no-repeat;
   background-size: cover;
-  background-repeat: no-repeat;
 }
 
 .titleContextContainer {
   display: flex;
   flex-direction: column;
-  width: 13.5rem;
-  margin-left: .5rem;
+  width: 214px;
+  margin-left: 10px;
 }
 
 .title {
-  font-size: .9rem;
+  font-size: 14px;
   line-height: 1.2;
   color: var(--dark);
 }
 
 .author {
-  font-size: .8rem;
+  font-size: 12px;
   line-height: 1.2;
   color: var(--gray-dark);
 }
 
 .truncate {
   overflow: hidden;
-  white-space: nowrap;
   text-overflow: ellipsis;
   word-break: normal;
+  white-space: nowrap;
 }
 
-@media (max-width: 640px) {
+@media (max-width: 768px) {
   .soundBadge {
     display: none;
   }
