@@ -13,7 +13,7 @@ class Status extends React.Component {
     super(props);
 
     this.state = {
-      storage: null,
+      disk: null,
     };
   }
 
@@ -39,40 +39,40 @@ class Status extends React.Component {
     };
 
     try {
-      const { message, storage } = await fetch(uri, {
+      const { message, disk } = await fetch(uri, {
         method: 'GET',
         headers,
       }).then(r => r.json());
 
-      if (!storage) {
+      if (!disk) {
         throw new Error(message);
       }
 
-      this.setState({ storage });
+      this.setState({ disk });
     } catch (e) {
       setError(e.message);
     }
   }
 
   render() {
-    const { storage } = this.state;
+    const { disk } = this.state;
 
     return (
       <section className={styles.status}>
         <h1 className={styles.title}>Storage Status</h1>
-        {storage && (
+        {disk && (
           <div className={styles.body}>
             <p className={styles.item}>
               Total Space:&ensp;
-              <span>{filesize(storage.totalSpace)}</span>
+              <span>{filesize(disk.totalSpace)}</span>
             </p>
             <p className={styles.item}>
               Used Space:&ensp;
-              <span>{filesize(storage.usedSpace)}</span>
+              <span>{filesize(disk.usedSpace)}</span>
             </p>
             <p className={styles.item}>
               Max File Size:&ensp;
-              <span>{filesize(storage.maxFileSize)}</span>
+              <span>{filesize(disk.maxFileSize)}</span>
             </p>
           </div>
         )}
