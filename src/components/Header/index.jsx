@@ -23,7 +23,7 @@ class Header extends React.Component {
     const { token } = this.props;
 
     return (
-      <header className={styles.header}>
+      <header className={styles.wrapper}>
         <div className={styles.inner}>
           <div className={styles.left}>
             <Link className={styles.logoLink} to="/">
