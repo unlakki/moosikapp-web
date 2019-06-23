@@ -5,7 +5,7 @@ import routes from './routes';
 import styles from './main.module.css';
 
 const Main = () => (
-  <div className={styles.main}>
+  <div className={styles.container}>
     {routes.map(route => (
       <Route
         key={route.path.slice(1)}
