@@ -1,34 +1,27 @@
-.music {
+.wrapper {
   display: flex;
   flex-direction: column;
-  width: 60%;
+  width: 70%;
   height: 100%;
-  padding: 1rem;
+  padding: 0 .8rem;
   background-color: var(--light);
   box-shadow: 0 0 4px var(--dark);
 }
 
 @media (max-width: 1280px) {
-  .music {
+  .wrapper {
     width: 80%;
   }
 }
 
 @media (max-width: 640px) {
-  .music {
+  .wrapper {
     width: 95%;
   }
 }
 
-.title {
-  margin-bottom: 1rem;
-  font-size: 1.5rem;
-  line-height: 1.2;
-  color: var(--dark);
-}
-
-.songList {
-  padding: .2rem;
+.container {
+  padding: .4rem;
   flex: 1;
   overflow: auto;
 }
