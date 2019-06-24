@@ -19,17 +19,20 @@ class All extends React.Component {
       authorization: `Bearer ${token}`,
     };
 
-    const { message, songs } = await fetch(uri, {
-      method: 'GET',
-      headers,
-    }).then(r => r.json());
+    try {
+      const { message, songs } = await fetch(uri, {
+        method: 'GET',
+        headers,
+      }).then(r => r.json());
 
-    if (!songs) {
-      setError(message);
-      return;
+      if (!songs) {
+        throw new Error(message);
+      }
+
+      setSongs(songs);
+    } catch (e) {
+      setError(e.message);
     }
-
-    setSongs(songs);
   }
 
   render() {
@@ -40,10 +43,12 @@ class All extends React.Component {
         {songs.map((song, i) => (
           <Song
             key={song.uuid}
+            uuid={song.uuid}
             author={song.author}
             title={song.title}
             cover={song.cover}
-            i={i}
+            favorite={song.favorite}
+            index={i}
           />
         ))}
       </>
@@ -58,6 +63,7 @@ All.propTypes = {
     author: PropTypes.string,
     title: PropTypes.string,
     cover: PropTypes.string,
+    favorite: PropTypes.bool,
   })).isRequired,
   setSongs: PropTypes.func.isRequired,
   setError: PropTypes.func.isRequired,
