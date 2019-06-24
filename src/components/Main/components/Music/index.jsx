@@ -12,6 +12,7 @@ const Music = () => (
     <div className={styles.container}>
       {routes.map(route => (
         <Route
+          key={route.path.slice(1)}
           path={route.path}
           component={route.component}
           exact={route.exact}
