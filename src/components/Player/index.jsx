@@ -53,7 +53,7 @@ class Player extends React.Component {
       }
 
       audio.play();
-      document.title = `${song.author} - ${song.title}`;
+      document.title = `${decodeURI(song.author)} - ${decodeURI(song.title)}`;
     }
   }
 
@@ -64,12 +64,9 @@ class Player extends React.Component {
   onCanPlay(e) {
     const { setPause } = this.props;
 
-    const { song } = this.state;
-
     e.target.play();
 
     setPause(false);
-    document.title = `${song.author} - ${song.title}`;
   }
 
   onTimeUpdate(e) {
@@ -221,7 +218,11 @@ class Player extends React.Component {
               </div>
             </div>
           </div>
-          <SoundBadge author={song.author} title={song.title} cover={song.cover} />
+          <SoundBadge
+            author={decodeURI(song.author)}
+            title={decodeURI(song.title)}
+            cover={song.cover}
+          />
           <audio
             ref={this.audio}
             src={song.url}
