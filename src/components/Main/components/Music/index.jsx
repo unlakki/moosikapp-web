@@ -6,9 +6,24 @@ import routes from './routes';
 
 import styles from './music.module.css';
 
+const navItems = [
+  {
+    title: 'All',
+    path: '/music',
+  },
+  {
+    title: 'Search',
+    path: '/music/find',
+  },
+  {
+    title: 'Likes',
+    path: '/music/favorites',
+  },
+];
+
 const Music = () => (
   <section className={styles.wrapper}>
-    <Nav items={[{ title: 'All', path: '/music' }, { title: 'Likes', path: '/music/favorites' }]} />
+    <Nav items={navItems} />
     <div className={styles.container}>
       {routes.map(route => (
         <Route
