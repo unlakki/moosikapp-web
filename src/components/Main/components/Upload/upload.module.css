@@ -1,22 +1,40 @@
-.upload {
+.container {
   display: flex;
   flex-direction: column;
-  align-items: center;
   width: 95%;
   max-width: 640px;
-  padding: 1.4rem .6rem;
   background-color: var(--light);
   box-shadow: 0 0 4px var(--dark);
+  transition: all .2s ease;
+}
+
+.dragOver {
+  outline: 2px dashed var(--gray-light);
+  filter: brightness(.8);
+}
+
+.progressWrapper {
+  width: 100%;
+  height: 4px;
+  background-color: transparent;
+}
+
+.progressBar {
+  height: 100%;
+  background-color: var(--red);
+  transition: all .2s ease;
 }
 
 .title {
-  margin-bottom: .9rem;
-  font-size: 1.6rem;
-  line-height: 1.3;
+  margin: 1.6rem 0;
+  font-size: 1.6em;
+  line-height: 1.6;
+  font-weight: 400;
+  text-align: center;
   color: var(--dark);
 }
 
-.main {
+.uploader {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -24,15 +42,19 @@
 
 .inputWrapper {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
+  justify-content: flex-end;
+  margin-bottom: .6rem;
+}
+
+.inputWrapper:last-child {
+  margin-bottom: 0;
 }
 
 .file {
-  height: 30px;
-  padding: 6px 12px;
-  font-size: 14px;
-  line-height: 18px;
+  height: 42px;
+  padding: 10px 35px;
+  font-size: 16px;
+  line-height: 22px;
   color: var(--light);
   background-color: var(--red);
   border: 0;
@@ -56,16 +78,16 @@
 }
 
 .note {
-  margin-top: .9rem;
-  font-size: 1rem;
-  line-height: 1.3;
+  margin: 1.6rem 0;
+  font-size: .9rem;
+  line-height: 1.6;
   text-align: center;
   color: var(--gray-dark);
 }
 
-.filename {
-  font-size: .9rem;
-  line-height: 1.3;
+.fileName {
+  font-size: .8rem;
+  line-height: 1.6;
   text-align: center;
   color: var(--dark);
 }

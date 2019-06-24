@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import uuidv4 from 'uuid/v4';
 import errAction from '../../../../actions/error';
+import SongEdit from './components/SongEdit';
 
 import styles from './upload.module.css';
 
@@ -18,7 +19,10 @@ class Upload extends React.Component {
     };
 
     this.state = {
-      name: '',
+      fileName: '',
+      progress: 0,
+      dragOver: false,
+      songUuid: '',
     };
   }
 
@@ -36,20 +40,34 @@ class Upload extends React.Component {
   onChange(e) {
     const file = e.target.files[0];
 
-    this.setState({ name: file.name });
+    this.setState({ fileName: file.name });
     this.upload(file);
   }
 
   onDrop(e) {
+    e.preventDefault();
+
     if (e.dataTransfer.files) {
       const file = e.dataTransfer.files[0];
 
-      this.setState({ name: file.name });
+      this.setState({ fileName: file.name, dragOver: false });
       this.upload(file);
     }
   }
 
-  async upload(file) {
+  onDragOver(e) {
+    e.preventDefault();
+
+    this.setState({ dragOver: true });
+  }
+
+  onDragLeave(e) {
+    e.preventDefault();
+
+    this.setState({ dragOver: false });
+  }
+
+  upload(file) {
     const { token, setError } = this.props;
 
     if (file.size > 10 * 1024 * 1024) {
@@ -62,62 +80,75 @@ class Upload extends React.Component {
       return;
     }
 
-    const uri = `${REACT_APP_API_URL}/api/songs`;
+    const xhr = new XMLHttpRequest();
 
-    const headers = {
-      accept: 'application/vnd.moosik.v1+json',
-      'content-type': 'audio/mpeg',
-      authorization: `Bearer ${token}`,
-      'x-uploaded-filename': encodeURI(file.name),
-    };
+    xhr.open('POST', `${REACT_APP_API_URL}/api/songs`);
 
-    try {
-      const { message, uuid } = await fetch(uri, {
-        method: 'PUT',
-        headers,
-        body: file,
-      }).then(r => r.json());
+    xhr.setRequestHeader('accept', 'application/vnd.moosik.v1+json');
+    xhr.setRequestHeader('content-type', 'audio/mpeg');
+    xhr.setRequestHeader('authorization', `Bearer ${token}`);
 
-      if (!uuid) {
-        throw new Error(message);
+    xhr.onload = () => {
+      const { message, uuid } = JSON.parse(xhr.response);
+
+      if (xhr.status === 201) {
+        this.setState({ songUuid: uuid });
+        return;
       }
 
-      setError(message); // Temporary error
-    } catch (error) {
-      setError(error.message);
-    }
+      setError(message);
+    };
+
+    xhr.onerror = () => setError('Error while uploading.');
+
+    xhr.upload.onprogress = (e) => {
+      const { loaded, total, type } = e;
+
+      if (type === 'error') {
+        setError('error');
+        return;
+      }
+
+      this.setState({ progress: loaded / total });
+    };
+    xhr.send(file);
   }
 
   render() {
-    const { name } = this.state;
+    const {
+      fileName, songUuid, dragOver, progress,
+    } = this.state;
 
-    const { uuids } = this;
+    const { file } = this.uuids;
 
     return (
       <section
-        className={styles.upload}
+        className={`${styles.container} ${dragOver ? styles.dragOver : ''}`}
         onDrop={this.onDrop.bind(this)}
-        onDragOver={e => e.preventDefault()}
+        onDragOver={this.onDragOver.bind(this)}
+        onDragLeave={this.onDragLeave.bind(this)}
       >
+        <div className={styles.progressWrapper}>
+          <div className={styles.progressBar} style={{ width: `${progress * 100}%` }} />
+        </div>
         <h1 className={styles.title}>Drag and drop your track here</h1>
-        <form className={styles.main}>
-          <div className={styles.inputWrapper}>
-            <label className={styles.file} htmlFor={uuids.file}>
-              <input
-                className={styles.fileInput}
-                id={uuids.file}
-                type="file"
-                accept="audio/mpeg"
-                onChange={this.onChange.bind(this)}
-              />
-              <span>or choose file to upload</span>
-            </label>
-          </div>
-          {name && <p className={styles.filename}>{name}</p>}
+        <div className={styles.uploader}>
+          <label className={styles.file} htmlFor={file}>
+            <input
+              className={styles.fileInput}
+              id={file}
+              type="file"
+              accept="audio/mpeg"
+              onChange={this.onChange.bind(this)}
+            />
+            <span>or choose file to upload</span>
+          </label>
+          {fileName && <p className={styles.fileName}>{fileName}</p>}
           <div className={styles.note}>
             <p>Your audio file may not exceed 10 MB and has to be in MP3 format.</p>
           </div>
-        </form>
+        </div>
+        {progress === 1 && songUuid && <SongEdit uuid={songUuid} />}
       </section>
     );
   }
