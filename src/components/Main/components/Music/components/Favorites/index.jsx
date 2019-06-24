@@ -40,10 +40,11 @@ class Favorites extends React.Component {
         {songs.map((song, i) => (
           <Song
             key={song.uuid}
+            uuid={song.uuid}
             author={song.author}
             title={song.title}
             cover={song.cover}
-            i={i}
+            index={i}
           />
         ))}
       </>
@@ -58,6 +59,7 @@ Favorites.propTypes = {
     author: PropTypes.string,
     title: PropTypes.string,
     cover: PropTypes.string,
+    favorite: PropTypes.bool,
   })).isRequired,
   setSongs: PropTypes.func.isRequired,
   setError: PropTypes.func.isRequired,
