@@ -1,0 +1,54 @@
+.songEdit {
+  max-width: 560px;
+  width: 95%;
+  margin: 1.6rem auto;
+}
+
+.inputWrapper {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: .6rem;
+}
+
+.inputWrapper:last-child {
+  margin-bottom: 0;
+}
+
+.input {
+  width: 100%;
+  height: 30px;
+  padding: 5px 3px;
+  color: var(--dark);
+  font-size: 14px;
+  line-height: 18px;
+  background-color: var(--light);
+  border: 1px solid var(--gray);
+  border-radius: 3px;
+  outline: 0;
+}
+
+.input:focus {
+  border-color: var(--red);
+  box-shadow: inset 0 0 3px var(--red);
+}
+
+.submit {
+  height: 30px;
+  padding: 6px 12px;
+  font-size: 14px;
+  line-height: 18px;
+  color: var(--light);
+  background-color: var(--red);
+  border: 0;
+  border-radius: 0;
+  outline: 0;
+  transition: all .2s ease;
+}
+
+.submit:hover {
+  background-color: var(--red-dark);
+}
+
+.input:disabled, .submit:disabled {
+  opacity: .5;
+}
