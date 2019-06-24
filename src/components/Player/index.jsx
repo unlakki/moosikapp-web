@@ -29,33 +29,6 @@ class Player extends React.Component {
     this.audio = createRef();
   }
 
-  async componentDidMount() {
-    const { token, setSongs, setError } = this.props;
-
-    const uri = `${REACT_APP_API_URL}/api/songs`;
-
-    const headers = {
-      accept: 'application/vnd.moosik.v1+json',
-      'content-type': 'application/json',
-      authorization: `Bearer ${token}`,
-    };
-
-    try {
-      const { message, songs } = await fetch(uri, {
-        method: 'GET',
-        headers,
-      }).then(r => r.json());
-
-      if (!songs) {
-        throw new Error(message);
-      }
-
-      setSongs(songs);
-    } catch (e) {
-      setError(e.message);
-    }
-  }
-
   async componentDidUpdate(prev) {
     const { songs, np, pause } = this.props;
 
@@ -274,7 +247,6 @@ Player.propTypes = {
     title: PropTypes.string,
     cover: PropTypes.string,
   })).isRequired,
-  setSongs: PropTypes.func.isRequired,
   np: PropTypes.number.isRequired,
   setNP: PropTypes.func.isRequired,
   pause: PropTypes.bool.isRequired,
@@ -290,7 +262,6 @@ const mapStateToProps = store => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  setSongs: songs => dispatch(action(actions.SET_SONGS, songs)),
   setNP: np => dispatch(action(actions.SET_NOW_PLAYING, np)),
   setPause: pause => dispatch(action(actions.SET_PAUSE, pause)),
   setError: message => dispatch(errAction(message)),
