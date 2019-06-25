@@ -163,6 +163,7 @@ class Player extends React.Component {
       }
 
       this.setState({ song });
+      document.title = `${decodeURI(song.author)} - ${decodeURI(song.title)}`;
     } catch (e) {
       setError(e.message);
     }
