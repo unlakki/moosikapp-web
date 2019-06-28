@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import action, { actions } from '../../actions/player';
 import errAction from '../../actions/error';
 import Timeline from './components/Timeline';
+import VolumeSlider from './components/VolumeSlider';
 import SoundBadge from './components/SoundBadge';
 
 import styles from './player.module.css';
@@ -57,24 +58,12 @@ class Player extends React.Component {
     }
   }
 
-  onLoadedMetadata(e) {
-    this.setState({ duration: e.target.duration });
-  }
-
   onCanPlay(e) {
     const { setPause } = this.props;
 
     e.target.play();
 
     setPause(false);
-  }
-
-  onTimeUpdate(e) {
-    this.setState({ currentTime: e.target.currentTime });
-  }
-
-  onVolumeChange(e) {
-    this.setState({ volume: e.target.volume });
   }
 
   onEnded() {
@@ -86,13 +75,11 @@ class Player extends React.Component {
       return;
     }
 
-    if (np < songs.length - 1) {
-      setNP(np + 1);
-    }
+    setNP(np < songs.length - 1 ? np + 1 : -1);
   }
 
   onClickControl(e) {
-    const type = e.currentTarget.attributes['data-t'].nodeValue;
+    const type = e.currentTarget.name;
 
     const {
       songs, np, setNP, pause, setPause,
@@ -100,9 +87,7 @@ class Player extends React.Component {
 
     switch (type) {
       case 'prev': {
-        if (np > 0) {
-          setNP(np - 1);
-        }
+        setNP(np > 0 ? np - 1 : songs.length - 1);
         break;
       }
       case 'play': {
@@ -115,30 +100,11 @@ class Player extends React.Component {
         break;
       }
       case 'next': {
-        if (np < songs.length - 1) {
-          setNP(np + 1);
-        }
-        break;
-      }
-      case 'loop': {
-        this.setState(prev => ({ loop: !prev.loop }));
-        break;
-      }
-      case 'shuf': {
-        this.setState(prev => ({ shuffle: !prev.shuffle }));
-        break;
-      }
-      case 'mute': {
-        this.setState(prev => ({ muted: !prev.muted }));
+        setNP(np < songs.length - 1 ? np + 1 : 0);
         break;
       }
       default:
     }
-  }
-
-  onClickVolumeSlider(e) {
-    const r = e.currentTarget.getBoundingClientRect();
-    this.audio.current.volume = 1 - (e.clientY - r.top) / r.height;
   }
 
   async loadSong(uuid) {
@@ -179,60 +145,91 @@ class Player extends React.Component {
       <div className={styles.player}>
         <section className={styles.wrapper}>
           <div className={styles.controls}>
-            <button type="button" className={styles.control} data-t="prev" onClick={this.onClickControl.bind(this)}>
+            <button
+              type="button"
+              className={styles.control}
+              name="prev"
+              onClick={this.onClickControl.bind(this)}
+            >
               <svg className={styles.icon}>
                 <use xmlnsXlink="http://www.w3.org/1999/xlink" xlinkHref={`${icons}#prev`} />
               </svg>
             </button>
-            <button type="button" className={styles.control} data-t="play" onClick={this.onClickControl.bind(this)}>
+            <button
+              type="button"
+              className={styles.control}
+              name="play"
+              onClick={this.onClickControl.bind(this)}
+            >
               <svg className={styles.icon}>
-                <use xmlnsXlink="http://www.w3.org/1999/xlink" xlinkHref={`${icons}#${pause ? 'play' : 'pause'}`} />
+                <use
+                  xmlnsXlink="http://www.w3.org/1999/xlink"
+                  xlinkHref={`${icons}#${pause ? 'play' : 'pause'}`}
+                />
               </svg>
             </button>
-            <button type="button" className={styles.control} data-t="next" onClick={this.onClickControl.bind(this)}>
+            <button
+              type="button"
+              className={styles.control}
+              name="next"
+              onClick={this.onClickControl.bind(this)}
+            >
               <svg className={styles.icon}>
                 <use xmlnsXlink="http://www.w3.org/1999/xlink" xlinkHref={`${icons}#next`} />
               </svg>
             </button>
-            <button type="button" className={styles.control} data-t="loop" onClick={this.onClickControl.bind(this)}>
-              <svg className={styles.icon}>
-                <use xmlnsXlink="http://www.w3.org/1999/xlink" xlinkHref={`${icons}#repeat`} style={{ fill: loop ? 'var(--red-dark)' : '' }} />
+            <button
+              type="button"
+              className={styles.control}
+              onClick={() => this.setState(prev => ({ loop: !prev.loop }))}
+            >
+              <svg className={`${styles.icon} ${loop ? styles.active : ''}`}>
+                <use xmlnsXlink="http://www.w3.org/1999/xlink" xlinkHref={`${icons}#repeat`} />
               </svg>
             </button>
-            <button type="button" className={styles.control} data-t="shuf" onClick={this.onClickControl.bind(this)}>
-              <svg className={styles.icon}>
-                <use xmlnsXlink="http://www.w3.org/1999/xlink" xlinkHref={`${icons}#shuffle`} style={{ fill: shuffle ? 'var(--red-dark)' : '' }} />
+            <button
+              type="button"
+              className={styles.control}
+              onClick={() => this.setState(prev => ({ shuffle: !prev.shuffle }))}
+            >
+              <svg className={`${styles.icon} ${shuffle ? styles.active : ''}`}>
+                <use xmlnsXlink="http://www.w3.org/1999/xlink" xlinkHref={`${icons}#shuffle`} />
               </svg>
             </button>
           </div>
-          <Timeline timePassed={currentTime} duration={duration || 0} />
-          <div className={`${styles.controls} ${styles.volume}`}>
-            <button type="button" className={styles.control} data-t="mute" onClick={this.onClickControl.bind(this)}>
-              <svg className={styles.icon}>
-                <use xmlnsXlink="http://www.w3.org/1999/xlink" xlinkHref={`${icons}#${muted ? 'mute' : 'volume'}`} />
-              </svg>
-            </button>
-            <div className={styles.volumeWrapper}>
-              <div className={styles.volumeSlider} role="presentation" onClick={this.onClickVolumeSlider.bind(this)}>
-                <div className={styles.volumeBackground} />
-                <div className={styles.volumeBar} style={{ height: `${100 * volume}%` }} />
-              </div>
-            </div>
-          </div>
-          <SoundBadge
-            author={decodeURI(song.author)}
-            title={decodeURI(song.title)}
-            cover={song.cover}
+          <Timeline
+            currentTime={currentTime}
+            duration={duration}
+            onChange={(value) => { this.audio.current.currentTime = value; }}
           />
+          <div className={`${styles.controls} ${styles.volume}`}>
+            <button
+              type="button"
+              className={styles.control}
+              onClick={() => this.setState(prev => ({ muted: !prev.muted }))}
+            >
+              <svg className={styles.icon}>
+                <use
+                  xmlnsXlink="http://www.w3.org/1999/xlink"
+                  xlinkHref={`${icons}#${muted ? 'mute' : 'volume'}`}
+                />
+              </svg>
+            </button>
+            <VolumeSlider
+              value={volume}
+              onChange={(value) => { this.audio.current.volume = value; }}
+            />
+          </div>
+          <SoundBadge author={song.author} title={song.title} cover={song.cover} />
           <audio
             ref={this.audio}
             src={song.url}
             muted={muted}
             loop={loop}
-            onLoadedMetadata={this.onLoadedMetadata.bind(this)}
+            onLoadedMetadata={e => this.setState({ duration: e.target.duration })}
             onCanPlay={this.onCanPlay.bind(this)}
-            onTimeUpdate={this.onTimeUpdate.bind(this)}
-            onVolumeChange={this.onVolumeChange.bind(this)}
+            onTimeUpdate={e => this.setState({ currentTime: e.target.currentTime })}
+            onVolumeChange={e => this.setState({ volume: e.target.volume })}
             onEnded={this.onEnded.bind(this)}
           />
         </section>
