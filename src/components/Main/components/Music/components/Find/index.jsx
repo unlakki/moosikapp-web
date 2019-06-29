@@ -24,10 +24,6 @@ class Find extends React.Component {
     setSongs([]);
   }
 
-  onInput(e) {
-    this.setState({ query: e.target.value });
-  }
-
   async findSongs() {
     const { token, setSongs, setError } = this.props;
 
@@ -68,7 +64,7 @@ class Find extends React.Component {
               className={styles.input}
               type="text"
               placeholder="Search music"
-              onChange={this.onInput.bind(this)}
+              onChange={e => this.setState({ query: e.target.value })}
             />
           </div>
           <button

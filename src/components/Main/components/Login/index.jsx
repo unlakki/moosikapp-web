@@ -34,23 +34,6 @@ class Login extends React.Component {
     return true;
   }
 
-  onInput(e) {
-    e.preventDefault();
-
-    const { username, password } = this.uuids;
-
-    const { id, value } = e.target;
-    switch (id) {
-      case username:
-        this.setState({ username: value });
-        break;
-      case password:
-        this.setState({ password: value });
-        break;
-      default:
-    }
-  }
-
   async login(e) {
     e.preventDefault();
 
@@ -97,7 +80,7 @@ class Login extends React.Component {
               className={styles.input}
               type="text"
               placeholder="Username / Email"
-              onChange={this.onInput.bind(this)}
+              onChange={e => this.setState({ username: e.taget.value })}
             />
           </label>
           <label htmlFor={uuids.password} className={styles.inputWrapper}>
@@ -106,7 +89,7 @@ class Login extends React.Component {
               className={styles.input}
               type="password"
               placeholder="Password"
-              onChange={this.onInput.bind(this)}
+              onChange={e => this.setState({ password: e.taget.value })}
             />
           </label>
           <div className={styles.inputWrapper}>

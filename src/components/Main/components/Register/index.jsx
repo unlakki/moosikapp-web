@@ -33,31 +33,6 @@ class Register extends React.Component {
     return true;
   }
 
-  onInput(e) {
-    e.preventDefault();
-
-    const {
-      username, email, password, retry,
-    } = this.uuids;
-
-    const { id, value } = e.target;
-    switch (id) {
-      case username:
-        this.setState({ username: value });
-        break;
-      case email:
-        this.setState({ email: value });
-        break;
-      case password:
-        this.setState({ password: value });
-        break;
-      case retry:
-        this.setState({ retry: value });
-        break;
-      default:
-    }
-  }
-
   async register(e) {
     e.preventDefault();
 
@@ -115,7 +90,7 @@ class Register extends React.Component {
               className={styles.input}
               type="text"
               placeholder="Username"
-              onChange={this.onInput.bind(this)}
+              onChange={e => this.setState({ username: e.target.value })}
             />
           </label>
           <label htmlFor={uuids.email} className={styles.inputWrapper}>
@@ -125,7 +100,7 @@ class Register extends React.Component {
               className={styles.input}
               type="email"
               placeholder="Email"
-              onChange={this.onInput.bind(this)}
+              onChange={e => this.setState({ email: e.target.value })}
             />
           </label>
           <label htmlFor={uuids.password} className={styles.inputWrapper}>
@@ -135,7 +110,7 @@ class Register extends React.Component {
               className={styles.input}
               type="password"
               placeholder="Password"
-              onChange={this.onInput.bind(this)}
+              onChange={e => this.setState({ password: e.target.value })}
             />
           </label>
           <label htmlFor={uuids.retry} className={styles.inputWrapper}>
@@ -145,7 +120,7 @@ class Register extends React.Component {
               className={styles.input}
               type="password"
               placeholder="Re-type Password"
-              onChange={this.onInput.bind(this)}
+              onChange={e => this.setState({ retry: e.target.value })}
             />
           </label>
           <div className={styles.inputWrapper}>

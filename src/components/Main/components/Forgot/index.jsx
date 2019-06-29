@@ -33,12 +33,6 @@ class Forgot extends React.Component {
     return true;
   }
 
-  onInput(e) {
-    e.preventDefault();
-
-    this.setState({ email: e.target.value });
-  }
-
   async requestPasswordChange(e) {
     e.preventDefault();
 
@@ -89,7 +83,7 @@ class Forgot extends React.Component {
               className={styles.input}
               type="email"
               placeholder="Email"
-              onChange={this.onInput.bind(this)}
+              onChange={e => this.setState({ email: e.target.value })}
             />
           </label>
           <div className={styles.inputWrapper}>
