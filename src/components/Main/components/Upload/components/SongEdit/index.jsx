@@ -24,22 +24,6 @@ class Upload extends React.Component {
     };
   }
 
-  onChange(e) {
-    const { author, title } = this.uuids;
-
-    const { id, value } = e.target;
-
-    switch (id) {
-      case author:
-        this.setState({ author: value });
-        break;
-      case title:
-        this.setState({ title: value });
-        break;
-      default:
-    }
-  }
-
   async update() {
     const { token, uuid, setError } = this.props;
 
@@ -53,21 +37,11 @@ class Upload extends React.Component {
       authorization: `Bearer ${token}`,
     };
 
-    const body = {};
-
-    if (author) {
-      body.author = encodeURI(author);
-    }
-
-    if (title) {
-      body.title = encodeURI(title);
-    }
-
     try {
       const { message, song } = await fetch(uri, {
         method: 'PATCH',
         headers,
-        body: JSON.stringify(body),
+        body: JSON.stringify({ author, title }),
       }).then(r => r.json());
 
       if (!song) {
@@ -92,7 +66,7 @@ class Upload extends React.Component {
             className={styles.input}
             type="text"
             placeholder="Author"
-            onChange={this.onChange.bind(this)}
+            onChange={e => this.setState({ author: e.target.value })}
           />
         </label>
         <label htmlFor={title} className={styles.inputWrapper}>
@@ -101,7 +75,7 @@ class Upload extends React.Component {
             className={styles.input}
             type="text"
             placeholder="Title"
-            onChange={this.onChange.bind(this)}
+            onChange={e => this.setState({ title: e.target.value })}
           />
         </label>
         <div className={styles.inputWrapper}>
