@@ -11,7 +11,7 @@ class Favorites extends React.Component {
   async componentDidMount() {
     const { token, setSongs, setError } = this.props;
 
-    const uri = `${REACT_APP_API_URL}/api/favorites`;
+    const uri = `${REACT_APP_API_URL}/api/favorites?opts=edit`;
 
     const headers = {
       accept: 'application/vnd.moosikapp.v1+json',

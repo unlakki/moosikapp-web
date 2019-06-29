@@ -29,7 +29,7 @@ class Find extends React.Component {
 
     const { query } = this.state;
 
-    const uri = `${REACT_APP_API_URL}/api/songs/find?query=${query}`;
+    const uri = `${REACT_APP_API_URL}/api/songs/find?query=${query}&opts=edit,fav`;
 
     const headers = {
       accept: 'application/vnd.moosikapp.v1+json',
