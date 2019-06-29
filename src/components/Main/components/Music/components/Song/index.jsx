@@ -123,8 +123,8 @@ class Song extends React.Component {
           </button>
         </div>
         <div className={styles.content}>
-          <div className={styles.title}>{decodeURI(title)}</div>
-          <div className={styles.author}>{decodeURI(author)}</div>
+          <div className={styles.title}>{title}</div>
+          <div className={styles.author}>{author}</div>
         </div>
         <div className={styles.actions}>
           <button
