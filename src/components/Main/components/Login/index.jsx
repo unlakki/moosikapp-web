@@ -80,7 +80,7 @@ class Login extends React.Component {
               className={styles.input}
               type="text"
               placeholder="Username / Email"
-              onChange={e => this.setState({ username: e.taget.value })}
+              onChange={e => this.setState({ username: e.target.value })}
             />
           </label>
           <label htmlFor={uuids.password} className={styles.inputWrapper}>
@@ -89,7 +89,7 @@ class Login extends React.Component {
               className={styles.input}
               type="password"
               placeholder="Password"
-              onChange={e => this.setState({ password: e.taget.value })}
+              onChange={e => this.setState({ password: e.target.value })}
             />
           </label>
           <div className={styles.inputWrapper}>
