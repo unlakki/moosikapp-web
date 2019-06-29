@@ -9,7 +9,10 @@ import Modal from '../Modal';
 
 import styles from './app.module.css';
 
-import bg from './background.webp';
+import bg1 from './background.webp';
+import bg2 from './background.jpf';
+
+const bg = window.navigator.userAgent.includes('iPhone') ? bg2 : bg1;
 
 const App = ({ token, error }) => (
   <div className={styles.app}>
