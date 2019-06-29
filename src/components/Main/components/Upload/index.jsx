@@ -84,7 +84,7 @@ class Upload extends React.Component {
 
     xhr.open('POST', `${REACT_APP_API_URL}/api/songs`);
 
-    xhr.setRequestHeader('accept', 'application/vnd.moosik.v1+json');
+    xhr.setRequestHeader('accept', 'application/vnd.moosikapp.v1+json');
     xhr.setRequestHeader('content-type', 'audio/mpeg');
     xhr.setRequestHeader('authorization', `Bearer ${token}`);
 

@@ -14,7 +14,7 @@ class All extends React.Component {
     const uri = `${REACT_APP_API_URL}/api/songs`;
 
     const headers = {
-      accept: 'application/vnd.moosik.v1+json',
+      accept: 'application/vnd.moosikapp.v1+json',
       'content-type': 'application/json',
       authorization: `Bearer ${token}`,
     };
