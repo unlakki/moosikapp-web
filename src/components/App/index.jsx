@@ -9,10 +9,13 @@ import Modal from '../Modal';
 
 import styles from './app.module.css';
 
-import bg from './bg.jpg';
+import bg from './background.webp';
 
 const App = ({ token, error }) => (
-  <div className={styles.app} style={{ backgroundImage: `url(${bg})` }}>
+  <div className={styles.app}>
+    <div className={styles.backgroundWrapper}>
+      <div className={styles.background} style={{ backgroundImage: `url(${bg})` }} />
+    </div>
     <main className={styles.container}>
       <BrowserRouter>
         <Header />
