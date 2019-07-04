@@ -37,14 +37,14 @@ class Favorites extends React.Component {
 
     return (
       <>
-        {songs.map((song, i) => (
+        {songs.map(song => (
           <Song
             key={song.uuid}
             uuid={song.uuid}
             author={song.author}
             title={song.title}
             cover={song.cover}
-            index={i}
+            edit={song.edit}
           />
         ))}
       </>

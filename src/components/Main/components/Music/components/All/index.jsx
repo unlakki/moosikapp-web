@@ -40,7 +40,7 @@ class All extends React.Component {
 
     return (
       <>
-        {songs.map((song, i) => (
+        {songs.map(song => (
           <Song
             key={song.uuid}
             uuid={song.uuid}
@@ -48,7 +48,7 @@ class All extends React.Component {
             title={song.title}
             cover={song.cover}
             favorite={song.favorite}
-            index={i}
+            edit={song.edit}
           />
         ))}
       </>

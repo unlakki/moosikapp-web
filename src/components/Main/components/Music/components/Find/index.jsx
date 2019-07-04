@@ -76,7 +76,7 @@ class Find extends React.Component {
           </button>
         </div>
         <div>
-          {songs.map((song, i) => (
+          {songs.map(song => (
             <Song
               key={song.uuid}
               uuid={song.uuid}
@@ -84,7 +84,7 @@ class Find extends React.Component {
               title={song.title}
               cover={song.cover}
               favorite={song.favorite}
-              index={i}
+              edit={song.edit}
             />
           ))}
         </div>
