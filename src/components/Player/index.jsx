@@ -58,10 +58,8 @@ class Player extends React.Component {
     }
   }
 
-  onCanPlay(e) {
+  onCanPlay() {
     const { setPause } = this.props;
-
-    e.target.play();
 
     setPause(false);
   }
@@ -223,9 +221,11 @@ class Player extends React.Component {
           <SoundBadge author={song.author} title={song.title} cover={song.cover} />
           <audio
             ref={this.audio}
+            crossOrigin="anonymous"
+            preload="auto"
             src={song.url}
-            muted={muted}
             loop={loop}
+            muted={muted}
             onLoadedMetadata={e => this.setState({ duration: e.target.duration })}
             onCanPlay={this.onCanPlay.bind(this)}
             onTimeUpdate={e => this.setState({ currentTime: e.target.currentTime })}
