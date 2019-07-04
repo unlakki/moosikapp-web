@@ -15,7 +15,7 @@
     "uuid": "^3.3.2"
   },
   "scripts": {
-    "start": "set REACT_APP_API_URL=https://moosikapp.tk&&react-scripts start",
+    "start": "set REACT_APP_API_URL=http://10.0.0.246:8080&&react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
