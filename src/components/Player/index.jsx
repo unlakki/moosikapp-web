@@ -67,7 +67,7 @@ class Player extends React.Component {
     const { songIndex, shuffle } = this.state;
 
     if (shuffle) {
-      setNP(songs[Math.round(Math.random() * (songs.length - 1))]);
+      setNP(songs[Math.round(Math.random() * (songs.length - 1))].uuid);
       return;
     }
 
