@@ -11,7 +11,7 @@ class All extends React.Component {
   async componentDidMount() {
     const { token, setSongs, setError } = this.props;
 
-    const uri = `${REACT_APP_API_URL}/api/songs?opts=edit,fav`;
+    const uri = `${REACT_APP_API_URL}/api/songs?scope=3`;
 
     const headers = {
       accept: 'application/vnd.moosikapp.v1+json',
