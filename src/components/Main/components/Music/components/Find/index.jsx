@@ -24,7 +24,9 @@ class Find extends React.Component {
     setSongs([]);
   }
 
-  async findSongs() {
+  async findSongs(e) {
+    e.preventDefault();
+
     const { token, setSongs, setError } = this.props;
 
     const { query } = this.state;
@@ -58,7 +60,7 @@ class Find extends React.Component {
 
     return (
       <>
-        <div className={styles.findBox}>
+        <form className={styles.findBox}>
           <div className={styles.inputWrapper}>
             <input
               className={styles.input}
@@ -69,12 +71,12 @@ class Find extends React.Component {
           </div>
           <button
             className={styles.button}
-            type="button"
+            type="submit"
             onClick={this.findSongs.bind(this)}
           >
             Find
           </button>
-        </div>
+        </form>
         <div>
           {songs.map(song => (
             <Song
