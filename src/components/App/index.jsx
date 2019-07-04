@@ -5,7 +5,7 @@ import { BrowserRouter } from 'react-router-dom';
 import Header from '../Header';
 import Main from '../Main';
 import Player from '../Player';
-import Modal from '../Modal';
+import Error from '../Error';
 
 import styles from './app.module.css';
 
@@ -27,7 +27,7 @@ const App = ({ token, error }) => (
       {token && <Player />}
     </main>
     <div className={styles.modalWrapper}>
-      {error && <Modal error={error} />}
+      {error && <Error error={error} />}
     </div>
   </div>
 );
