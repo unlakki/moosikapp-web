@@ -40,7 +40,7 @@
   height: 30px;
   padding: 5px 3px;
   color: var(--dark);
-  font-size: 14px;
+  font-size: 16px;
   line-height: 18px;
   background-color: var(--light);
   border: 1px solid var(--gray);
@@ -57,7 +57,7 @@
   height: 30px;
   margin-left: .6rem;
   padding: 6px 12px;
-  font-size: 14px;
+  font-size: 16px;
   line-height: 18px;
   color: var(--light);
   background-color: var(--red);
