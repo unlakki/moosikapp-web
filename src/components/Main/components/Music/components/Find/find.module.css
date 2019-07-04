@@ -17,7 +17,6 @@
   line-height: 18px;
   background-color: var(--light);
   border: 1px solid var(--gray);
-  border-radius: 3px 0 0 3px;
   outline: 0;
 }
 
