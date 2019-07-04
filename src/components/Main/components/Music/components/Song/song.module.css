@@ -122,10 +122,6 @@
   .track:hover .play {
     opacity: 1;
   }
-  
-  .play:hover {
-    fill: var(--red);
-  }
 
   .track:hover .action {
     opacity: 1;
