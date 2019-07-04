@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import action, { actions } from '../../../../../../actions/player';
@@ -10,7 +10,7 @@ import icons from './icons.svg';
 
 const { REACT_APP_API_URL = '' } = process.env;
 
-class Song extends React.Component {
+class Song extends Component {
   constructor(props) {
     super(props);
 
