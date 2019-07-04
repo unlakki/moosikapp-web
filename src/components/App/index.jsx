@@ -9,10 +9,10 @@ import Error from '../Error';
 
 import styles from './app.module.css';
 
-import bg1 from './background.webp';
-import bg2 from './background.jpf';
+import webp from './images/bg.webp';
+import jpf from './images/bg.jpf';
 
-const bg = window.navigator.userAgent.includes('iPhone') ? bg2 : bg1;
+const bg = window.navigator.userAgent.includes('iPhone') ? jpf : webp;
 
 const App = ({ token, error }) => (
   <div className={styles.app}>
