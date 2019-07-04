@@ -3,7 +3,6 @@
   flex-direction: column;
   width: 95%;
   max-width: 640px;
-  padding: 0 .6rem;
   background-color: var(--light);
   box-shadow: 0 0 4px var(--dark);
   transition: all .2s ease;
@@ -28,6 +27,7 @@
 
 .title {
   margin: 1.6rem 0;
+  padding: 0 .3rem;
   font-size: 1.6em;
   line-height: 1.6;
   font-weight: 400;
@@ -39,6 +39,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding: 0 .6rem;
 }
 
 .inputWrapper {
