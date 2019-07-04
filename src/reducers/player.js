@@ -1,6 +1,6 @@
 const initialState = {
   songs: [],
-  nowPlaying: -1,
+  nowPlaying: '',
   paused: true,
 };
 

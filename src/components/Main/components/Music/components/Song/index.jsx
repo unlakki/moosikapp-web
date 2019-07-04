@@ -21,29 +21,29 @@ class Song extends Component {
 
   onPlayClick() {
     const {
-      index, np, setNP, pause, setPause,
+      uuid, nowPlaying, setNP, paused, togglePause,
     } = this.props;
 
-    if (index === np) {
-      setPause(!pause);
+    if (uuid === nowPlaying) {
+      togglePause(!paused);
       return;
     }
 
-    setNP(index);
+    setNP(uuid);
   }
 
   async onLikeClick() {
     const { favorite } = this.state;
 
     if (favorite) {
-      await this.deleteFromFavorite();
+      await this.delFromFav();
       return;
     }
 
-    await this.addToFavorite();
+    await this.addToFav();
   }
 
-  async addToFavorite() {
+  async addToFav() {
     const { uuid, token, setError } = this.props;
 
     const uri = `${REACT_APP_API_URL}/api/favorites/${uuid}`;
@@ -67,7 +67,7 @@ class Song extends Component {
     }
   }
 
-  async deleteFromFavorite() {
+  async delFromFav() {
     const { uuid, token, setError } = this.props;
 
     const uri = `${REACT_APP_API_URL}/api/favorites/${uuid}`;
@@ -97,12 +97,12 @@ class Song extends Component {
 
   render() {
     const {
-      author, title, cover, edit, index, np, pause,
+      uuid, author, title, cover, edit, nowPlaying, paused,
     } = this.props;
 
     const { favorite } = this.state;
 
-    const play = `${icons}#${((index === np) && !pause) ? 'pause' : 'play'}`;
+    const play = `${icons}#${((uuid === nowPlaying) && !paused) ? 'pause' : 'play'}`;
 
     return (
       <div className={styles.track}>
@@ -163,24 +163,23 @@ Song.propTypes = {
   title: PropTypes.string.isRequired,
   cover: PropTypes.string,
   favorite: PropTypes.bool,
-  index: PropTypes.number.isRequired,
   edit: PropTypes.bool,
-  np: PropTypes.number.isRequired,
+  nowPlaying: PropTypes.string.isRequired,
   setNP: PropTypes.func.isRequired,
-  pause: PropTypes.bool.isRequired,
-  setPause: PropTypes.func.isRequired,
+  paused: PropTypes.bool.isRequired,
+  togglePause: PropTypes.func.isRequired,
   setError: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = store => ({
   token: store.login.token,
-  np: store.player.nowPlaying,
-  pause: store.player.paused,
+  nowPlaying: store.player.nowPlaying,
+  paused: store.player.paused,
 });
 
 const mapDispatchToProps = dispatch => ({
   setNP: np => dispatch(action(actions.SET_NOW_PLAYING, np)),
-  setPause: paused => dispatch(action(actions.SET_PAUSE, paused)),
+  togglePause: paused => dispatch(action(actions.SET_PAUSE, paused)),
   setError: message => dispatch(errAction(message)),
 });
 
