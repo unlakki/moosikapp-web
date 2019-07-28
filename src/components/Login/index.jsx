@@ -86,7 +86,7 @@ Login.propTypes = {
   token: PropTypes.string.isRequired,
   login: PropTypes.func.isRequired,
   history: PropTypes.shape({
-    push: PropTypes.string,
+    push: PropTypes.func,
   }).isRequired,
 };
 
