@@ -8,7 +8,7 @@ const Upload = () => (
     <div className={`${styles.form} ${styles.drop}`}>
       <h1 className={styles.title}>Drag and drop your tracks here</h1>
       <label htmlFor="file" className={styles.file}>
-        <input id="file" className={styles.input} type="file" accept="audio/mpeg" />
+        <input id="file" className={styles.input} type="file" accept="audio/mpeg" multiple />
         <span>or choose files to upload</span>
       </label>
       <div className={styles.note}>
