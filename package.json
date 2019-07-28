@@ -8,7 +8,7 @@
     "type": "git",
     "url": "https://github.com/ferisef/moosikapp-web"
   },
-  "homepage": "https://github.com/ferisef/moosikapp-web#readme",
+  "homepage": "/",
   "keywords": [],
   "scripts": {
     "start": "set REACT_APP_API_URL=https://moosikapp.tk&&react-scripts start",
