@@ -61,6 +61,7 @@ const Sidebar = ({
               logout();
               window.localStorage.removeItem('token');
               history.push('/');
+              hide();
             }}
           >
             Logout
