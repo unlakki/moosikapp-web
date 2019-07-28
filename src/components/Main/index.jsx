@@ -1,19 +1,15 @@
 import React from 'react';
-import { Route } from 'react-router-dom';
-import routes from './routes';
+import Article from './Article';
 
-import styles from './main.module.css';
+import styles from './layouts/Main.module.css';
 
 const Main = () => (
-  <div className={styles.container}>
-    {routes.map(route => (
-      <Route
-        key={route.path.slice(1)}
-        path={route.path}
-        component={route.component}
-        exact={route.exact}
-      />
-    ))}
+  <div className={styles.articles}>
+    <Article
+      title="Nya?"
+      text="Lorem ipsum dolor sit amet consectetur adipisicing elit. Impedit natus aspernatur, cumque nulla ab voluptate exercitationem repudiandae, illum officiis dicta architecto provident nam eos voluptatibus consequuntur veniam consequatur. Fugit, sunt."
+      image="https://cdn.moosikapp.tk/v1/15ba5da8a27ee9565c2c9636bad4d994/azunyan.jpg"
+    />
   </div>
 );
 

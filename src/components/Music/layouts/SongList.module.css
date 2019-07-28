@@ -1,0 +1,30 @@
+.wrapper {
+  margin-top: 48px;
+}
+
+.findBox {
+  display: flex;
+  max-width: 500px;
+  width: 100%;
+  margin: 0 auto;
+  box-shadow: 0 0 4px var(--dark);
+}
+
+.findInput {
+  flex: 1;
+}
+
+.songList {
+  display: flex;
+  flex-direction: column;
+  margin-top: 24px;
+  padding: 8px;
+  background: var(--light);
+  box-shadow: 0 0 4px var(--dark);
+}
+
+@media (max-height: 700px) {
+  .wrapper {
+    margin-top: 24px;
+  }
+}

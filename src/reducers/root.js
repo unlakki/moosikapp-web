@@ -1,10 +1,10 @@
 import { combineReducers } from 'redux';
+import mobile from './mobile';
 import login from './login';
-import player from './player';
-import error from './error';
 
 const rootReducer = combineReducers({
-  login, player, error,
+  mobile,
+  login,
 });
 
 export default rootReducer;

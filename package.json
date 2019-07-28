@@ -1,8 +1,27 @@
 {
   "name": "moosikapp-web",
   "version": "0.1.0",
+  "description": "MoosikApp website",
+  "author": "Hibikaze",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ferisef/moosikapp-web"
+  },
+  "homepage": "https://github.com/ferisef/moosikapp-web#readme",
+  "keywords": [],
+  "scripts": {
+    "start": "set REACT_APP_API_URL=https://moosikapp.tk&&react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
   "private": true,
+  "bugs": {
+    "url": "https://github.com/ferisef/moosikapp-web/issues"
+  },
   "dependencies": {
+    "axios": "^0.19.0",
     "filesize": "^4.1.2",
     "moment": "^2.24.0",
     "prop-types": "^15.7.2",
@@ -12,13 +31,8 @@
     "react-router-dom": "^5.0.1",
     "react-scripts": "3.0.1",
     "redux": "^4.0.1",
+    "redux-thunk": "^2.3.0",
     "uuid": "^3.3.2"
-  },
-  "scripts": {
-    "start": "set REACT_APP_API_URL=http://10.0.0.246:8080&&react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
   },
   "eslintConfig": {
     "extends": "react-app"

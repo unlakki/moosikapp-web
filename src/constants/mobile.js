@@ -1,0 +1,1 @@
+export const SHOW_MOBILE_NAV = 'SHOW_MOBILE_NAV';

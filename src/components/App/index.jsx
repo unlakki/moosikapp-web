@@ -1,45 +1,44 @@
 import React from 'react';
+import { Route } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { BrowserRouter } from 'react-router-dom';
 import Header from '../Header';
-import Main from '../Main';
 import Player from '../Player';
-import Error from '../Error';
+import routes from './routes';
 
-import styles from './app.module.css';
+import styles from './layouts/App.module.css';
 
 import webp from './images/bg.webp';
-import jpf from './images/bg.jpf';
+import jpg from './images/bg.jpg';
 
-const bg = window.navigator.userAgent.includes('iPhone') ? jpf : webp;
-
-const App = ({ token, error }) => (
+const App = ({ token }) => (
   <div className={styles.app}>
     <div className={styles.backgroundWrapper}>
-      <div className={styles.background} style={{ backgroundImage: `url(${bg})` }} />
+      <picture>
+        <source srcSet={webp} type="image/webp" />
+        <img className={styles.background} alt="background" src={jpg} />
+      </picture>
     </div>
-    <main className={styles.container}>
-      <BrowserRouter>
-        <Header />
-        <Main />
-      </BrowserRouter>
+    <div className={styles.container}>
+      <Header />
+      <section className={styles.content}>
+        {routes.map(({
+          uuid, path, component, exact,
+        }) => (
+          <Route key={uuid} path={path} component={component} exact={exact} />
+        ))}
+      </section>
       {token && <Player />}
-    </main>
-    <div className={styles.modalWrapper}>
-      {error && <Error error={error} />}
     </div>
   </div>
 );
 
 App.propTypes = {
   token: PropTypes.string.isRequired,
-  error: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = store => ({
   token: store.login.token,
-  error: store.error.message,
 });
 
 export default connect(mapStateToProps)(App);

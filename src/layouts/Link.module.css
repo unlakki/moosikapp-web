@@ -1,0 +1,14 @@
+.link {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 20px;
+  color: var(--light);
+  text-decoration: none;
+  cursor: pointer;
+  text-shadow: 0 0 4px var(--dark);
+  transition: color .2s ease;
+}
+
+.link:hover {
+  color: var(--red);
+}

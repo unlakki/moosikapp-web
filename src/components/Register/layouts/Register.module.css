@@ -1,0 +1,46 @@
+.register {
+  display: flex;
+  flex-direction: column;
+  max-width: 600px;
+  width: 90%;
+  margin: 0 auto;
+}
+
+.title {
+  margin-bottom: 12px;
+  font-size: 32px;
+  line-height: 48px;
+  color: var(--light);
+  text-shadow: 0 0 4px var(--dark);
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+}
+
+.inputWrapper {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+}
+
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.marginRight {
+  margin-right: 10px;
+}
+
+@media (max-width: 500px) {
+  .footer {
+    justify-content: space-between;
+  }
+
+  .marginRight {
+    margin-right: 0;
+  }
+}
