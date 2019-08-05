@@ -1,50 +1,59 @@
-import React from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import Song from '../Song';
+import { getSongs as getSongsAction } from '../../../actions/music';
 
 import styles from '../layouts/SongList.module.css';
 
-const songs = [
-  {
-    uuid: '1',
-    author: 'Author',
-    title: 'Title',
-    cover: 'https://cdn.moosikapp.tk/v1/15ba5da8a27ee9565c2c9636bad4d994/azunyan.jpg',
-    edit: true,
-    favorite: true,
-  },
-  {
-    uuid: '2',
-    author: 'Author',
-    title: 'Title',
-    cover: 'https://cdn.moosikapp.tk/v1/15ba5da8a27ee9565c2c9636bad4d994/azunyan.jpg',
-    edit: true,
-    favorite: true,
-  },
-  {
-    uuid: '3',
-    author: 'Author',
-    title: 'Title',
-    cover: 'https://cdn.moosikapp.tk/v1/15ba5da8a27ee9565c2c9636bad4d994/azunyan.jpg',
-    edit: true,
-    favorite: true,
-  },
-];
+class All extends Component {
+  componentDidMount() {
+    const { token, getSongs } = this.props;
 
-const All = () => (
-  <div className={styles.songList}>
-    {songs.map(({
-      uuid, author, title, cover, edit, favorite,
-    }) => (
-      <Song
-        key={uuid}
-        author={author}
-        title={title}
-        cover={cover}
-        edit={edit}
-        favorite={favorite}
-      />
-    ))}
-  </div>
-);
+    getSongs(token, 0, 100);
+  }
 
-export default All;
+  render() {
+    const { songs } = this.props;
+
+    return (
+      <div className={styles.songList}>
+        {songs && songs.map(({
+          uuid, author, title, cover, edit, favorite,
+        }) => (
+          <Song
+            key={uuid}
+            author={author}
+            title={title}
+            cover={cover}
+            edit={edit}
+            favorite={favorite}
+          />
+        ))}
+        {!songs.length && <span className={styles.nothingToShow}>Nothing to show :(</span>}
+      </div>
+    );
+  }
+}
+
+All.propTypes = {
+  songs: PropTypes.arrayOf(PropTypes.shape({
+    uuid: PropTypes.string,
+    author: PropTypes.string,
+    title: PropTypes.string,
+    cover: PropTypes.string,
+  })).isRequired,
+  token: PropTypes.string.isRequired,
+  getSongs: PropTypes.func.isRequired,
+};
+
+const mapStateToProps = store => ({
+  songs: store.music.songs,
+  token: store.login.token,
+});
+
+const mapDispathToProps = dispatch => ({
+  getSongs: (token, skip, limit) => dispatch(getSongsAction(token, skip, limit)),
+});
+
+export default connect(mapStateToProps, mapDispathToProps)(All);
