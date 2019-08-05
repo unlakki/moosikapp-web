@@ -6,7 +6,7 @@ import moment from 'moment';
 import styles from './layouts/Article.module.css';
 
 const Article = ({
-  title, text, attachment, author, date,
+  title, content, author, date,
 }) => (
   <article className={styles.container}>
     <div className={styles.header}>
@@ -20,24 +20,24 @@ const Article = ({
       </div>
     </div>
     <div className={styles.content}>
-      {attachment && <img className={styles.attachment} src={attachment} alt={title} />}
-      {(typeof text === 'string') && <p>{text}</p>}
-      {(typeof text === 'object') && text.map(block => <p key={uuidv4()}>{block}</p>)}
+      {content.map((line) => {
+        if (/^https?:\/\/(\S+\.)+\w{2,4}\/.*/.test(line)) {
+          return (
+            <p style={{ textAlign: 'center' }}>
+              <img className={styles.attachment} src={line} alt={line} />
+            </p>
+          );
+        }
+
+        return <p key={uuidv4()}>{line}</p>;
+      })}
     </div>
   </article>
 );
 
-Article.defaultProps = {
-  attachment: '',
-};
-
 Article.propTypes = {
   title: PropTypes.string.isRequired,
-  text: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.arrayOf(PropTypes.string),
-  ]).isRequired,
-  attachment: PropTypes.string,
+  content: PropTypes.arrayOf(PropTypes.string).isRequired,
   author: PropTypes.shape({
     name: PropTypes.string,
     image: PropTypes.string,
