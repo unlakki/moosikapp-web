@@ -44,14 +44,14 @@
 .authorImage {
   width: 38px;
   height: 38px;
-  border-radius: 8px;
+  object-fit: cover;
+  border-radius: 4px;
   box-shadow: 0 0 4px var(--dark);
 }
 
 .content {
   display: flex;
   flex-direction: column;
-  align-items: center;
   padding: 12px;
   background: var(--light);
   box-shadow: 0 0 4px var(--dark);
