@@ -15,8 +15,8 @@ const Article = ({
         <span className={styles.date}>{moment(date).fromNow()}</span>
       </div>
       <div className={styles.author}>
-        <span className={styles.authorName}>{author.name}</span>
-        <img className={styles.authorImage} src={author.image} alt={author.name} />
+        <span className={styles.authorName}>{author.username}</span>
+        <img className={styles.authorImage} src={author.image} alt={author.username} />
       </div>
     </div>
     <div className={styles.content}>
