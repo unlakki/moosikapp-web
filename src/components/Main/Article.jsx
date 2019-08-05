@@ -15,8 +15,8 @@ const Article = ({
         <span className={styles.date}>{moment(date).fromNow()}</span>
       </div>
       <div className={styles.author}>
-        <span className={styles.authorName}>{author.username}</span>
-        <img className={styles.authorImage} src={author.image} alt={author.username} />
+        <span className={styles.username}>{author.username}</span>
+        <img className={styles.avatar} src={author.image} alt={author.username} />
       </div>
     </div>
     <div className={styles.content}>
@@ -25,7 +25,7 @@ const Article = ({
         if (/^https?:\/\/(\S+\.)+\w{2,4}\/.*/.test(line)) {
           return (
             <p key={uuid} style={{ textAlign: 'center' }}>
-              <img className={styles.attachment} src={line} alt={line} />
+              <img className={styles.image} src={line} alt={line} />
             </p>
           );
         }

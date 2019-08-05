@@ -42,7 +42,7 @@
   align-items: center;
 }
 
-.authorName {
+.username {
   margin-right: 8px;
   font-size: 16px;
   line-height: 20px;
@@ -51,7 +51,7 @@
   text-shadow: 0 0 4px var(--dark);
 }
 
-.authorImage {
+.avatar {
   width: 38px;
   height: 38px;
   object-fit: cover;
@@ -67,27 +67,22 @@
   box-shadow: 0 0 4px var(--dark);
 }
 
-.content>* {
-  margin-bottom: 24px;
-}
-
-.content>*:last-child {
-  margin-bottom: 0;
-}
-
 .content>p {
-  width: 100%;
+  margin-bottom: 24px;
   font-size: 16px;
-  font-weight: 400;
   line-height: 20px;
   text-align: justify;
   color: var(--dark);
 }
 
-.attachment {
+.content>p:last-child {
+  margin-bottom: 0;
+}
+
+.image {
   max-width: 85%;
   max-height: 85%;
   background: var(--gray-light);
-  border-radius: 4px;
-  box-shadow: 0 0 2px var(--dark);
+  border-radius: 2px;
+  box-shadow: 0 0 4px var(--gray-light);
 }
