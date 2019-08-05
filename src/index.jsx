@@ -21,9 +21,4 @@ ReactDOM.render(
   document.getElementById('root'),
 );
 
-// document.body.hidden = true;
-// document.body.onload = () => {
-//   document.body.hidden = false;
-// };
-
 serviceWorker.unregister();
