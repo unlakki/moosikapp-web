@@ -21,15 +21,16 @@ const Article = ({
     </div>
     <div className={styles.content}>
       {content.map((line) => {
+        const uuid = uuidv4();
         if (/^https?:\/\/(\S+\.)+\w{2,4}\/.*/.test(line)) {
           return (
-            <p style={{ textAlign: 'center' }}>
+            <p key={uuid} style={{ textAlign: 'center' }}>
               <img className={styles.attachment} src={line} alt={line} />
             </p>
           );
         }
 
-        return <p key={uuidv4()}>{line}</p>;
+        return <p key={uuid}>{line}</p>;
       })}
     </div>
   </article>
