@@ -4,7 +4,7 @@ import Article from './Article';
 import styles from './layouts/Main.module.css';
 
 const article = {
-  title: 'Lorem ipsum.',
+  title: 'Lorem ipsum dolor sit, amet consectetur adipisicing elit.',
   content: [
     'https://pp.userapi.com/c855736/v855736665/b09b5/EOFLOjVWWig.jpg',
     'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Temporibus hic rem illum.',
@@ -22,7 +22,7 @@ const article = {
 
 const Main = () => (
   <div className={styles.container}>
-    <h1 className={styles.title}>Updates</h1>
+    <h1 className={styles.title}>News</h1>
     <div className={styles.articles}>
       <Article {...article} />
     </div>
