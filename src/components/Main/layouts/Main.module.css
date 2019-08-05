@@ -1,6 +1,15 @@
-.articles {
+.container {
   max-width: 900px;
   width: 90%;
   margin: 0 auto;
   align-self: flex-start;
+}
+
+.title {
+  margin-bottom: 24px;
+  font-size: 32px;
+  line-height: 36px;
+  font-weight: 600;
+  color: var(--light);
+  text-shadow: 0 0 4px var(--dark);
 }
