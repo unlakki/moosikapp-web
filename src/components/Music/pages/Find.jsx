@@ -64,7 +64,9 @@ class Find extends Component {
               favorite={favorite}
             />
           ))}
-          {!songs.length && <span className={styles.nothingToShow}>Nothing to show :(</span>}
+          {!songs.length && (
+            <span className={styles.nothingToShow}>Enter your request in the input field ...</span>
+          )}
         </div>
       </div>
     );
