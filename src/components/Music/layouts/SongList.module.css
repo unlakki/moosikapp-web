@@ -23,6 +23,10 @@
   box-shadow: 0 0 4px var(--dark);
 }
 
+.nothingToShow {
+  color: var(--dark);
+}
+
 @media (max-height: 700px) {
   .wrapper {
     margin-top: 24px;
