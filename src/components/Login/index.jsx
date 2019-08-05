@@ -63,7 +63,7 @@ class Login extends Component {
           </label>
           <div className={styles.footer}>
             <Link className={linkStyles.link} to="/forgot">Forgot your password?</Link>
-            <div>
+            <div className={styles.right}>
               <Link className={`${linkStyles.link} ${styles.marginRight}`} to="/register">Need an account?</Link>
               <input
                 className={inputStyles.button}
