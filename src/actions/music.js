@@ -1,6 +1,11 @@
 import axios from 'axios';
 import {
-  REQUEST_SONGS, REQUEST_FAVORITE_SONGS, FIND_SONGS, RETREIVE_SONGS_SUCCESSED, RETRIEVE_SONGS_ERROR,
+  REQUEST_SONGS,
+  REQUEST_FAVORITE_SONGS,
+  FIND_SONGS,
+  RETREIVE_SONGS_SUCCESSED,
+  RETRIEVE_SONGS_ERROR,
+  CLEAR_SONGS,
 } from '../constants/music';
 
 const { REACT_APP_API_URL = '' } = process.env;
@@ -23,6 +28,10 @@ const retrieveSongsSuccessed = songs => ({
 
 const retrieveSongsError = error => ({
   type: RETRIEVE_SONGS_ERROR, payload: error,
+});
+
+const clear = () => ({
+  type: CLEAR_SONGS,
 });
 
 export const getSongs = (token, skip = 0, limit = 100) => async (dispatch) => {
@@ -77,4 +86,8 @@ export const searchSongs = (token, searchString, skip = 0, limit = 100) => async
   } catch (e) {
     dispatch(retrieveSongsError(e.message));
   }
+};
+
+export const clearSongs = () => (dispatch) => {
+  dispatch(clear());
 };

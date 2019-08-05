@@ -2,7 +2,10 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Song from '../Song';
-import { searchSongs as searchSongsAction } from '../../../actions/music';
+import {
+  searchSongs as searchSongsAction,
+  clearSongs as clearSongsAction,
+} from '../../../actions/music';
 
 import styles from '../layouts/SongList.module.css';
 import inputStyles from '../../../layouts/Input.module.css';
@@ -14,6 +17,12 @@ class Find extends Component {
     this.state = {
       searchString: '',
     };
+  }
+
+  componentDidMount() {
+    const { clearSongs } = this.props;
+
+    clearSongs();
   }
 
   render() {
@@ -71,6 +80,7 @@ Find.propTypes = {
   })).isRequired,
   token: PropTypes.string.isRequired,
   searchSongs: PropTypes.func.isRequired,
+  clearSongs: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = store => ({
@@ -80,6 +90,7 @@ const mapStateToProps = store => ({
 
 const mapDispathToProps = dispatch => ({
   searchSongs: (token, skip, limit) => dispatch(searchSongsAction(token, skip, limit)),
+  clearSongs: () => dispatch(clearSongsAction()),
 });
 
 export default connect(mapStateToProps, mapDispathToProps)(Find);

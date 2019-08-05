@@ -4,6 +4,7 @@ import {
   FIND_SONGS,
   RETREIVE_SONGS_SUCCESSED,
   RETRIEVE_SONGS_ERROR,
+  CLEAR_SONGS,
 } from '../constants/music';
 
 const initialState = {
@@ -22,6 +23,10 @@ export default function (state = initialState, action) {
       return { ...state, loading: false, songs: action.payload };
     case RETRIEVE_SONGS_ERROR:
       return { ...state, loading: false, error: action.payload };
+    case CLEAR_SONGS:
+      return {
+        ...state, loading: false, songs: [], error: false,
+      };
     default:
       return state;
   }
