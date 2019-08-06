@@ -21,10 +21,12 @@ class Likes extends PureComponent {
         {songs && songs.map(song => (
           <Song key={song.uuid} {...song} />
         ))}
-        <span className={styles.text}>
-          {loading && 'Loading ...'}
-          {error && 'Nothing to show :('}
-        </span>
+        {songs.length === 0 && (
+          <span className={styles.text}>
+            {loading && 'Loading ...'}
+            {error && 'Nothing to show :('}
+          </span>
+        )}
       </div>
     );
   }

@@ -55,11 +55,13 @@ class Find extends PureComponent {
           {songs && songs.map(song => (
             <Song key={song.uuid} {...song} />
           ))}
-          <span className={styles.text}>
-            {(!error && !loading) && 'Enter your request in the input field ...'}
-            {loading && 'Searching ...'}
-            {error && 'No songs found.'}
-          </span>
+          {songs.length === 0 && (
+            <span className={styles.text}>
+              {(!error && !loading) && 'Enter your request in the input field ...'}
+              {loading && 'Searching ...'}
+              {error && 'No songs found.'}
+            </span>
+          )}
         </div>
       </div>
     );
