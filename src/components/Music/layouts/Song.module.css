@@ -10,10 +10,21 @@
 }
 
 .cover {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 48px;
   height: 48px;
+  position: relative;
   background: var(--gray-light) center no-repeat;
   background-size: cover;
+}
+
+.cover>svg {
+  width: 32px;
+  height: 32px;
+  fill: var(--gray-dark);
+  z-index: 0;
 }
 
 .play {
@@ -22,14 +33,18 @@
   justify-content: center;
   width: 100%;
   height: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
   fill: var(--light);
   filter: drop-shadow(0 0 2px var(--dark));
+  z-index: 1;
   transition: all .2s ease;
 }
 
 .play>svg {
-  width: 80%;
-  height: 80%;
+  width: 36px;
+  height: 36px;
 }
 
 .titleAndAuthor {
@@ -73,12 +88,17 @@
   width: 20px;
   height: 20px;
   margin-right: 8px;
-  fill: var(--gray-light);
 }
 
-.action>svg {
+.icon {
   width: 100%;
   height: 100%;
+  fill: var(--gray-light);
+  transition: all .2s ease;
+}
+
+.icon.on {
+  fill: var(--red);
 }
 
 @media (min-width: 900px) {
