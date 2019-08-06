@@ -26,7 +26,7 @@ class Find extends PureComponent {
   }
 
   render() {
-    const { songs } = this.props;
+    const { songs, loading, error } = this.props;
 
     return (
       <div className={styles.wrapper}>
@@ -55,9 +55,11 @@ class Find extends PureComponent {
           {songs && songs.map(song => (
             <Song key={song.uuid} {...song} />
           ))}
-          {!songs.length && (
-            <span className={styles.nothingToShow}>Enter your request in the input field ...</span>
-          )}
+          <span className={styles.text}>
+            {(!error && !loading) && 'Enter your request in the input field ...'}
+            {loading && 'Searching ...'}
+            {error && 'No songs found.'}
+          </span>
         </div>
       </div>
     );
@@ -71,6 +73,8 @@ Find.propTypes = {
     title: PropTypes.string,
     cover: PropTypes.string,
   })).isRequired,
+  loading: PropTypes.string.isRequired,
+  error: PropTypes.string.isRequired,
   token: PropTypes.string.isRequired,
   searchSongs: PropTypes.func.isRequired,
   clearSongs: PropTypes.func.isRequired,
@@ -78,6 +82,8 @@ Find.propTypes = {
 
 const mapStateToProps = store => ({
   songs: store.music.songs,
+  loading: store.music.loading,
+  error: store.music.error,
   token: store.login.token,
 });
 
