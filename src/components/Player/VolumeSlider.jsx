@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
 import styles from './layouts/VolumeSlider.module.css';
 
-class VolumeSlider extends Component {
+class VolumeSlider extends PureComponent {
   constructor(props) {
     super(props);
 

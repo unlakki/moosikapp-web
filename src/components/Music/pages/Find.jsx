@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Song from '../Song';
@@ -10,7 +10,7 @@ import {
 import styles from '../layouts/SongList.module.css';
 import inputStyles from '../../../layouts/Input.module.css';
 
-class Find extends Component {
+class Find extends PureComponent {
   constructor(props) {
     super(props);
 

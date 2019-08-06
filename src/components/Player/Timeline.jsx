@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 
 import styles from './layouts/Timeline.module.css';
 
-class Timeline extends Component {
+class Timeline extends PureComponent {
   onClick(e) {
     const { duration, onChange } = this.props;
 

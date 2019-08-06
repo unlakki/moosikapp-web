@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -8,7 +8,7 @@ import styles from './layouts/Login.module.css';
 import inputStyles from '../../layouts/Input.module.css';
 import linkStyles from '../../layouts/Link.module.css';
 
-class Login extends Component {
+class Login extends PureComponent {
   constructor(props) {
     super(props);
 

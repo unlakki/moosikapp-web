@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import axios from 'axios';
@@ -9,7 +9,7 @@ import inputStyles from '../../layouts/Input.module.css';
 
 const { REACT_APP_API_URL = '' } = process.env;
 
-class BasicSongInfo extends Component {
+class BasicSongInfo extends PureComponent {
   constructor(props) {
     super(props);
 

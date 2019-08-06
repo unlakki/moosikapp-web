@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Song from '../Song';
@@ -6,7 +6,7 @@ import { getSongs as getSongsAction } from '../../../actions/music';
 
 import styles from '../layouts/SongList.module.css';
 
-class All extends Component {
+class All extends PureComponent {
   componentDidMount() {
     const { token, getSongs } = this.props;
 

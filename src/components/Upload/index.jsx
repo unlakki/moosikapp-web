@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import uuidv4 from 'uuid/v4';
 import FileUploader from './FileUploader';
 
 import styles from './layouts/Upload.module.css';
 
-class Upload extends Component {
+class Upload extends PureComponent {
   constructor(props) {
     super(props);
 
@@ -73,7 +73,6 @@ class Upload extends Component {
               multiple
               onChange={(e) => {
                 const f = Object.values(e.target.files);
-                console.log(f[0]);
                 this.uploadFiles(f);
               }}
             />
