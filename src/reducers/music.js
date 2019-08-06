@@ -18,15 +18,13 @@ export default function (state = initialState, action) {
     case REQUEST_SONGS:
     case REQUEST_FAVORITE_SONGS:
     case FIND_SONGS:
-      return { ...state, loading: true };
+      return { ...state, loading: true, error: false };
     case RETREIVE_SONGS_SUCCESSED:
-      return { ...state, loading: false, songs: action.payload };
+      return { loading: false, songs: action.payload, error: false };
     case RETRIEVE_SONGS_ERROR:
-      return { ...state, loading: false, error: action.payload };
+      return { loading: false, songs: [], error: action.payload };
     case CLEAR_SONGS:
-      return {
-        ...state, loading: false, songs: [], error: false,
-      };
+      return { loading: false, songs: [], error: false };
     default:
       return state;
   }
