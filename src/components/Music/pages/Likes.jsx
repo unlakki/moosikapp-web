@@ -39,8 +39,8 @@ Likes.propTypes = {
     title: PropTypes.string,
     cover: PropTypes.string,
   })).isRequired,
-  loading: PropTypes.string.isRequired,
-  error: PropTypes.string.isRequired,
+  loading: PropTypes.bool.isRequired,
+  error: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]).isRequired,
   token: PropTypes.string.isRequired,
   getFavoriteSongs: PropTypes.func.isRequired,
 };
