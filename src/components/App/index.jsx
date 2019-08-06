@@ -21,7 +21,7 @@ const App = ({ token }) => (
     </div>
     <div className={styles.container}>
       <Header />
-      <section className={styles.content}>
+      <section className={styles.content} style={{ marginBottom: !token ? '0' : '' }}>
         {routes.map(({
           uuid, path, component, exact,
         }) => (
