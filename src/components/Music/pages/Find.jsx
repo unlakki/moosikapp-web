@@ -52,17 +52,8 @@ class Find extends PureComponent {
           />
         </form>
         <div className={styles.songList}>
-          {songs && songs.map(({
-            uuid, author, title, cover, edit, favorite,
-          }) => (
-            <Song
-              key={uuid}
-              author={author}
-              title={title}
-              cover={cover}
-              edit={edit}
-              favorite={favorite}
-            />
+          {songs && songs.map(song => (
+            <Song key={song.uuid} {...song} />
           ))}
           {!songs.length && (
             <span className={styles.nothingToShow}>Enter your request in the input field ...</span>

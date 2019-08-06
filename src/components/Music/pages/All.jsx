@@ -18,16 +18,10 @@ class All extends PureComponent {
 
     return (
       <div className={styles.songList}>
-        {songs && songs.map(({
-          uuid, author, title, cover, edit, favorite,
-        }) => (
+        {songs && songs.map(song => (
           <Song
-            key={uuid}
-            author={author}
-            title={title}
-            cover={cover}
-            edit={edit}
-            favorite={favorite}
+            key={song.uuid}
+            {...song}
           />
         ))}
         {!songs.length && <span className={styles.nothingToShow}>Nothing to show :(</span>}
