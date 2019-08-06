@@ -20,10 +20,15 @@ class Upload extends Component {
 
   uploadFiles(f) {
     try {
-      f.map(({ type }) => {
+      f.map(({ type, size }) => {
         if (type !== 'audio/mp3') {
           throw new Error('Unsupported file type.');
         }
+
+        if (size > 10 * 1024 * 1024) {
+          throw new Error('File too large.');
+        }
+
         return true;
       });
 
@@ -68,6 +73,7 @@ class Upload extends Component {
               multiple
               onChange={(e) => {
                 const f = Object.values(e.target.files);
+                console.log(f[0]);
                 this.uploadFiles(f);
               }}
             />
