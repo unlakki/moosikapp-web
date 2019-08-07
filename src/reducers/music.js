@@ -24,11 +24,17 @@ export default function (state = initialState, action) {
     case FIND_SONGS:
       return { ...state, loading: true, error: false };
     case RETREIVE_SONGS_SUCCESSED:
-      return { loading: false, songs: action.payload, error: false };
+      return {
+        ...state, loading: false, songs: action.payload, error: false,
+      };
     case RETRIEVE_SONGS_ERROR:
-      return { loading: false, songs: [], error: action.payload };
+      return {
+        ...state, loading: false, songs: [], error: action.payload,
+      };
     case CLEAR_SONGS:
-      return { loading: false, songs: [], error: false };
+      return {
+        ...state, loading: false, songs: [], error: false,
+      };
     case SET_SKIP:
       return { ...state, skip: action.payload };
     case SET_LIMIT:
