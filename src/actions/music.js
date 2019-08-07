@@ -5,6 +5,7 @@ import {
   FIND_SONGS,
   RETREIVE_SONGS_SUCCESSED,
   RETRIEVE_SONGS_ERROR,
+  CLEAR_SONGS,
 } from '../constants/music';
 
 const { REACT_APP_API_URL = '' } = process.env;
@@ -65,10 +66,10 @@ export const fetchFavoriteSongs = (token, skip = 0, limit = 100) => async (dispa
   }
 };
 
-export const searchSongs = (token, searchString, skip = 0, limit = 100) => async (dispatch) => {
+export const searchSongs = (token, query, skip = 0, limit = 100) => async (dispatch) => {
   dispatch(findSongs());
   try {
-    const { songs } = await axios(`${REACT_APP_API_URL}/api/songs/find?query=${searchString}&skip=${skip}&limit=${limit}&scope=3`, {
+    const { songs } = await axios(`${REACT_APP_API_URL}/api/songs/find?query=${query}&skip=${skip}&limit=${limit}&scope=3`, {
       method: 'GET',
       headers: {
         accept: 'application/vnd.moosikapp.v1+json',
@@ -82,3 +83,5 @@ export const searchSongs = (token, searchString, skip = 0, limit = 100) => async
     dispatch(retrieveSongsError(e.message));
   }
 };
+
+export const clearSongs = () => dispatch => dispatch(({ type: CLEAR_SONGS }));
