@@ -8,7 +8,7 @@ import styles from './layouts/Song.module.css';
 const { REACT_APP_API_URL = '' } = process.env;
 
 const Song = ({
-  uuid, author, title, cover, edit, favorite, token,
+  uuid, author, title, cover, playing, edit, favorite, token,
 }) => {
   const [fav, setFav] = useState(favorite);
 
@@ -18,9 +18,9 @@ const Song = ({
         <button className={`${styles.button} ${styles.play}`} type="button">
           <svg viewBox="0 0 24 24">
             <path
-              d={true
-                ? 'M10,16.5V7.5L16,12M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z'
-                : 'M15,16H13V8H15M11,16H9V8H11M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z'}
+              d={playing
+                ? 'M15,16H13V8H15M11,16H9V8H11M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z'
+                : 'M10,16.5V7.5L16,12M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z'}
             />
           </svg>
         </button>
@@ -79,6 +79,7 @@ const Song = ({
 
 Song.defaultProps = {
   cover: '',
+  playing: false,
   edit: false,
   favorite: true,
 };
@@ -88,6 +89,7 @@ Song.propTypes = {
   author: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   cover: PropTypes.string,
+  playing: PropTypes.bool,
   edit: PropTypes.bool,
   favorite: PropTypes.bool,
   token: PropTypes.string.isRequired,
