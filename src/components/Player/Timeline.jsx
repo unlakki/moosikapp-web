@@ -16,8 +16,8 @@ const Timeline = ({ currentTime, duration, onChange }) => (
       tabIndex={-1}
       onKeyDown={null}
       onClick={(e) => {
-        const r = e.currentTarget.getBoundingClientRect();
         if (typeof onChange === 'function') {
+          const r = e.currentTarget.getBoundingClientRect();
           onChange(duration * (e.clientX - r.left) / r.width);
         }
       }}
