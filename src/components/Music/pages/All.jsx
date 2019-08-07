@@ -15,7 +15,7 @@ const All = ({
     }
 
     fetchData();
-  });
+  }, []);
 
   return (
     <div className={styles.songList}>

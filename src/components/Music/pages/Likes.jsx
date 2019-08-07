@@ -15,7 +15,7 @@ const Likes = ({
     }
 
     fetchData();
-  });
+  }, []);
 
   return (
     <div className={styles.songList}>
