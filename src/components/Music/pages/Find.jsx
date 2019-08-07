@@ -2,22 +2,30 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Song from '../Song';
-import { searchSongs as action } from '../../../actions/music';
+import {
+  searchSongs as searchAction,
+  clearSongs as clearAction,
+} from '../../../actions/music';
 
 import styles from '../layouts/SongList.module.css';
 import inputStyles from '../../../layouts/Input.module.css';
 
 const Find = ({
-  token, songs, loading, error, searchSongs,
+  token, songs, loading, error, searchSongs, clearSongs,
 }) => {
-  const [searchString, setSearchString] = useState('');
+  const [query, SetQuery] = useState('');
 
   useEffect(() => {
     async function fetchData() {
-      await searchSongs(token, searchString, 0, 100);
+      await searchSongs(token, query, 0, 100);
     }
-    fetchData();
-  }, [searchString]);
+
+    if (query.length > 2) {
+      fetchData();
+      return;
+    }
+    clearSongs();
+  }, [query]);
 
   return (
     <div className={styles.wrapper}>
@@ -26,7 +34,7 @@ const Find = ({
           className={`${inputStyles.input} ${styles.findInput}`}
           type="text"
           placeholder="Search"
-          onChange={e => setSearchString(e.target.value)}
+          onChange={e => SetQuery(e.target.value)}
         />
         <input
           className={inputStyles.button}
@@ -34,7 +42,7 @@ const Find = ({
           value="Search"
           onClick={async (e) => {
             e.preventDefault();
-            await searchSongs(token, searchString, 0, 100);
+            await searchSongs(token, query, 0, 100);
           }}
         />
       </form>
@@ -44,9 +52,9 @@ const Find = ({
         ))}
         {songs.length === 0 && (
           <span className={styles.text}>
-            {(!searchString) && 'Enter your request in the input field ...'}
-            {(loading && searchString) && 'Searching ...'}
-            {(error && searchString) && 'No songs found.'}
+            {(!loading && !error) && 'Enter your request in the input field ...'}
+            {(loading) && 'Searching ...'}
+            {(error) && 'No songs found.'}
           </span>
         )}
       </div>
@@ -65,6 +73,7 @@ Find.propTypes = {
   error: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]).isRequired,
   token: PropTypes.string.isRequired,
   searchSongs: PropTypes.func.isRequired,
+  clearSongs: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = store => ({
@@ -75,7 +84,8 @@ const mapStateToProps = store => ({
 });
 
 const mapDispathToProps = dispatch => ({
-  searchSongs: (token, skip, limit) => dispatch(action(token, skip, limit)),
+  searchSongs: (token, skip, limit) => dispatch(searchAction(token, skip, limit)),
+  clearSongs: () => dispatch(clearAction()),
 });
 
 export default connect(mapStateToProps, mapDispathToProps)(Find);
