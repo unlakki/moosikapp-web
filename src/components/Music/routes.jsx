@@ -7,17 +7,20 @@ import Find from './pages/Find';
 const routes = [
   {
     uuid: uuidv4(),
+    name: 'All',
     path: '/music',
     component: () => <All />,
     exact: true,
   },
   {
     uuid: uuidv4(),
+    name: 'Likes',
     path: '/music/favorites',
     component: () => <Likes />,
   },
   {
     uuid: uuidv4(),
+    name: 'Find',
     path: '/music/search',
     component: () => <Find />,
   },
