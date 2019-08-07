@@ -22,6 +22,7 @@ const Player = ({
   const [passed, setPassed] = useState(0);
   const [duration, setDuration] = useState(0);
   const [mute, setMute] = useState(false);
+  const [loop, setLoop] = useState(false);
 
   useEffect(() => {
     if (!readyToPlay) {
@@ -34,7 +35,7 @@ const Player = ({
     }
 
     audio.current.pause();
-  });
+  }, [playing, readyToPlay]);
 
   return (
     <div className={styles.wrapper}>
@@ -56,7 +57,7 @@ const Player = ({
               play();
 
               if (!np) {
-                setSong(token, songs[0]);
+                setSong(token, songs[0].uuid);
               }
             }}
           >
@@ -73,8 +74,8 @@ const Player = ({
               <path d="M16,18H18V6H16M6,18L14.5,12L6,6V18Z" />
             </svg>
           </button>
-          <button type="button" className={styles.button} onClick={() => {}}>
-            <svg className={`${styles.icon} ${false ? styles.on : ''}`} viewBox="0 0 24 24">
+          <button type="button" className={styles.button} onClick={() => setLoop(!loop)}>
+            <svg className={`${styles.icon} ${loop ? styles.on : ''}`} viewBox="0 0 24 24">
               <path d="M17,17H7V14L3,18L7,22V19H19V13H17M7,7H17V10L21,6L17,2V5H5V11H7V7Z" />
             </svg>
           </button>
@@ -118,9 +119,9 @@ const Player = ({
         <audio
           ref={audio}
           crossOrigin="anonymous"
-          preload="auto"
           src={(song && song.url) ? song.url : ''}
           muted={mute}
+          loop={loop}
           onLoadStart={() => setReadyToPlay(false)}
           onLoadedMetadata={e => setDuration(e.target.duration)}
           onCanPlay={() => setReadyToPlay(true)}
