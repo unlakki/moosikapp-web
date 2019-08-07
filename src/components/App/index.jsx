@@ -22,11 +22,7 @@ const App = ({ token }) => (
     <div className={styles.container}>
       <Header />
       <section className={styles.content} style={{ marginBottom: !token ? '0' : '' }}>
-        {routes.map(({
-          uuid, path, component, exact,
-        }) => (
-          <Route key={uuid} path={path} component={component} exact={exact} />
-        ))}
+        {routes.map(route => <Route key={route.uuid} {...route} />)}
       </section>
       {token && <Player />}
     </div>
