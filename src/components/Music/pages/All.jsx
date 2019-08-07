@@ -15,7 +15,7 @@ const All = ({
     }
 
     fetchData();
-  }, []);
+  }, [token, skip, limit, fetchSongs]);
 
   return (
     <div className={styles.songList}>

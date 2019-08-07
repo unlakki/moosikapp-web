@@ -25,7 +25,7 @@ const Find = ({
       return;
     }
     clearSongs();
-  }, [query]);
+  }, [token, query, skip, limit, searchSongs, clearSongs]);
 
   return (
     <div className={styles.wrapper}>
