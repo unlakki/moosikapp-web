@@ -5,7 +5,6 @@ import {
   FIND_SONGS,
   RETREIVE_SONGS_SUCCESSED,
   RETRIEVE_SONGS_ERROR,
-  CLEAR_SONGS,
 } from '../constants/music';
 
 const { REACT_APP_API_URL = '' } = process.env;
@@ -30,11 +29,7 @@ const retrieveSongsError = error => ({
   type: RETRIEVE_SONGS_ERROR, payload: error,
 });
 
-const clear = () => ({
-  type: CLEAR_SONGS,
-});
-
-export const getSongs = (token, skip = 0, limit = 100) => async (dispatch) => {
+export const fetchSongs = (token, skip = 0, limit = 100) => async (dispatch) => {
   dispatch(requestSongs());
   try {
     const { songs } = await axios(`${REACT_APP_API_URL}/api/songs?skip=${skip}&limit=${limit}&scope=3`, {
@@ -52,7 +47,7 @@ export const getSongs = (token, skip = 0, limit = 100) => async (dispatch) => {
   }
 };
 
-export const getFavoriteSongs = (token, skip = 0, limit = 100) => async (dispatch) => {
+export const fetchFavoriteSongs = (token, skip = 0, limit = 100) => async (dispatch) => {
   dispatch(requestFavoriteSongs());
   try {
     const { songs } = await axios(`${REACT_APP_API_URL}/api/favorites?skip=${skip}&limit=${limit}&scope=2`, {
@@ -86,8 +81,4 @@ export const searchSongs = (token, searchString, skip = 0, limit = 100) => async
   } catch (e) {
     dispatch(retrieveSongsError(e.message));
   }
-};
-
-export const clearSongs = () => (dispatch) => {
-  dispatch(clear());
 };
