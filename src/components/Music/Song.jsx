@@ -2,23 +2,42 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import axios from 'axios';
+import {
+  setSong as setSongAction,
+  play as playAction,
+  pause as pauseAction,
+} from '../../actions/player';
 
 import styles from './layouts/Song.module.css';
 
 const { REACT_APP_API_URL = '' } = process.env;
 
 const Song = ({
-  uuid, author, title, cover, playing, edit, favorite, token,
+  uuid, author, title, cover, playing, edit, favorite, token, np, setSong, play, pause,
 }) => {
   const [fav, setFav] = useState(favorite);
 
   return (
     <div className={styles.container}>
       <div className={styles.cover} style={{ backgroundImage: cover ? `url(${cover})` : '' }}>
-        <button className={`${styles.button} ${styles.play}`} type="button">
+        <button
+          className={`${styles.button} ${styles.play}`}
+          type="button"
+          onClick={() => {
+            if (playing) {
+              pause();
+              return;
+            }
+            play();
+
+            if (np !== uuid) {
+              setSong(token, uuid);
+            }
+          }}
+        >
           <svg viewBox="0 0 24 24">
             <path
-              d={playing
+              d={(np === uuid && playing)
                 ? 'M15,16H13V8H15M11,16H9V8H11M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z'
                 : 'M10,16.5V7.5L16,12M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z'}
             />
@@ -93,10 +112,22 @@ Song.propTypes = {
   edit: PropTypes.bool,
   favorite: PropTypes.bool,
   token: PropTypes.string.isRequired,
+  setSong: PropTypes.func.isRequired,
+  np: PropTypes.string.isRequired,
+  play: PropTypes.func.isRequired,
+  pause: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = store => ({
   token: store.login.token,
+  np: store.player.nowPlaying,
+  playing: store.player.playing,
 });
 
-export default connect(mapStateToProps)(Song);
+const mapDispatchToProps = dispatch => ({
+  setSong: (token, uuid) => dispatch(setSongAction(token, uuid)),
+  play: () => dispatch(playAction()),
+  pause: () => dispatch(pauseAction()),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Song);
