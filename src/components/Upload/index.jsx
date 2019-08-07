@@ -1,24 +1,18 @@
-import React, { PureComponent } from 'react';
+import React, { useState } from 'react';
 import uuidv4 from 'uuid/v4';
 import FileUploader from './FileUploader';
 
 import styles from './layouts/Upload.module.css';
 
-class Upload extends PureComponent {
-  constructor(props) {
-    super(props);
+const Upload = () => {
+  const [drag, setDrag] = useState(false);
+  const [files, setFiles] = useState([]);
 
-    this.state = {
-      drag: false,
-      files: [],
-    };
+  const uuids = {
+    input: uuidv4(),
+  };
 
-    this.uuids = {
-      input: uuidv4(),
-    };
-  }
-
-  uploadFiles(f) {
+  async function upload(f) {
     try {
       f.map(({ type, size }) => {
         if (type !== 'audio/mp3') {
@@ -32,66 +26,58 @@ class Upload extends PureComponent {
         return true;
       });
 
-      this.setState(({ files }) => ({
-        drag: false,
-        files: files.concat(f),
-      }));
+      setFiles(files.concat(f));
     } catch (e) {
       // error message
+      console.error(e);
     }
   }
 
-  render() {
-    const { drag, files } = this.state;
-    const { input } = this.uuids;
-
-    return (
-      <div className={styles.container}>
-        <div
-          className={`${styles.form}${drag ? ` ${styles.drop}` : ''}`}
-          onDrop={(e) => {
-            e.preventDefault();
-            const f = Object.values(e.dataTransfer.files);
-            this.uploadFiles(f);
-          }}
-          onDragOver={(e) => {
-            e.preventDefault();
-            this.setState({ drag: true });
-          }}
-          onDragLeave={(e) => {
-            e.preventDefault();
-            this.setState({ drag: false });
-          }}
-        >
-          <h1 className={styles.title}>Drag and drop your tracks here</h1>
-          <label htmlFor={input} className={styles.file}>
-            <input
-              id={input}
-              className={styles.input}
-              type="file"
-              accept="audio/mpeg"
-              multiple
-              onChange={(e) => {
-                const f = Object.values(e.target.files);
-                this.uploadFiles(f);
-              }}
-            />
-            <span>or choose files to upload</span>
-          </label>
-          <div className={styles.note}>
-            <p>Your audio file may not exceed 10 MB and has to be in MP3 format.</p>
-          </div>
+  return (
+    <div className={styles.container}>
+      <div
+        className={`${styles.form}${drag ? ` ${styles.drop}` : ''}`}
+        onDrop={(e) => {
+          e.preventDefault();
+          upload(Object.values(e.dataTransfer.files));
+          setDrag(false);
+        }}
+        onDragOver={(e) => {
+          e.preventDefault();
+          setDrag(true);
+        }}
+        onDragLeave={(e) => {
+          e.preventDefault();
+          setDrag(false);
+        }}
+      >
+        <h1 className={styles.title}>Drag and drop your tracks here</h1>
+        <label htmlFor={uuids.input} className={styles.file}>
+          <input
+            id={uuids.input}
+            className={styles.input}
+            type="file"
+            accept="audio/mpeg"
+            multiple
+            onChange={(e) => {
+              upload(Object.values(e.target.files));
+            }}
+          />
+          <span>or choose files to upload</span>
+        </label>
+        <div className={styles.note}>
+          <p>Your audio file may not exceed 10 MB and has to be in MP3 format.</p>
         </div>
-        {(files && files.length > 0) && (
-          <div className={styles.files}>
-            {Object.values(files).map(file => (
-              <FileUploader key={uuidv4()} file={file} />
-            ))}
-          </div>
-        )}
       </div>
-    );
-  }
-}
+      {(files && files.length > 0) && (
+        <div className={styles.files}>
+          {Object.values(files).map(file => (
+            <FileUploader key={uuidv4()} file={file} />
+          ))}
+        </div>
+      )}
+    </div>
+  );
+};
 
 export default Upload;
