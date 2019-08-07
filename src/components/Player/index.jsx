@@ -23,6 +23,8 @@ const Player = ({
   const [duration, setDuration] = useState(0);
   const [mute, setMute] = useState(false);
   const [loop, setLoop] = useState(false);
+  const [index, setIndex] = useState(0);
+  const [shuffle, setShuffle] = useState(false);
 
   useEffect(() => {
     if (!readyToPlay) {
@@ -31,6 +33,8 @@ const Player = ({
 
     if (playing) {
       audio.current.play();
+
+      setIndex(songs.findIndex(v => v.uuid === np));
       return;
     }
 
@@ -41,7 +45,20 @@ const Player = ({
     <div className={styles.wrapper}>
       <section className={styles.inner}>
         <div className={styles.controls}>
-          <button type="button" className={styles.button} onClick={() => {}}>
+          <button
+            type="button"
+            className={styles.button}
+            onClick={() => {
+              if (index <= 0) {
+                return;
+              }
+              const i = index - 1;
+              setSong(token, songs[i].uuid);
+              setIndex(i);
+
+              play();
+            }}
+          >
             <svg className={styles.icon} viewBox="0 0 24 24">
               <path d="M6,18V6H8V18H6M9.5,12L18,6V18L9.5,12Z" />
             </svg>
@@ -69,7 +86,20 @@ const Player = ({
               />
             </svg>
           </button>
-          <button type="button" className={styles.button} onClick={() => {}}>
+          <button
+            type="button"
+            className={styles.button}
+            onClick={() => {
+              if (index >= songs.length - 1) {
+                return;
+              }
+              const i = index + 1;
+              setSong(token, songs[i].uuid);
+              setIndex(i);
+
+              play();
+            }}
+          >
             <svg className={styles.icon} viewBox="0 0 24 24">
               <path d="M16,18H18V6H16M6,18L14.5,12L6,6V18Z" />
             </svg>
@@ -79,8 +109,8 @@ const Player = ({
               <path d="M17,17H7V14L3,18L7,22V19H19V13H17M7,7H17V10L21,6L17,2V5H5V11H7V7Z" />
             </svg>
           </button>
-          <button type="button" className={styles.button} onClick={() => {}}>
-            <svg className={`${styles.icon} ${false ? styles.on : ''}`} viewBox="0 0 24 24">
+          <button type="button" className={styles.button} onClick={() => setShuffle(!shuffle)}>
+            <svg className={`${styles.icon} ${shuffle ? styles.on : ''}`} viewBox="0 0 24 24">
               <path
                 d="M14.83,13.41L13.42,14.82L16.55,17.95L14.5,20H20V14.5L17.96,16.54L14.83,13.41M14.5,4L16.54,6.04L4,18.59L5.41,20L17.96,7.46L20,9.5V4M10.59,9.17L5.41,4L4,5.41L9.17,10.58L10.59,9.17Z"
               />
@@ -126,6 +156,7 @@ const Player = ({
           onLoadedMetadata={e => setDuration(e.target.duration)}
           onCanPlay={() => setReadyToPlay(true)}
           onTimeUpdate={e => setPassed(e.target.currentTime)}
+          onEnded={() => {}}
         />
       </section>
     </div>
