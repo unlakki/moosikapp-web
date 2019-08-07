@@ -5,12 +5,16 @@ import {
   RETREIVE_SONGS_SUCCESSED,
   RETRIEVE_SONGS_ERROR,
   CLEAR_SONGS,
+  SET_SKIP,
+  SET_LIMIT,
 } from '../constants/music';
 
 const initialState = {
   loading: false,
   songs: [],
   error: false,
+  skip: 0,
+  limit: 100,
 };
 
 export default function (state = initialState, action) {
@@ -25,6 +29,10 @@ export default function (state = initialState, action) {
       return { loading: false, songs: [], error: action.payload };
     case CLEAR_SONGS:
       return { loading: false, songs: [], error: false };
+    case SET_SKIP:
+      return { ...state, skip: action.payload };
+    case SET_LIMIT:
+      return { ...state, limit: action.payload };
     default:
       return state;
   }

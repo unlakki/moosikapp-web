@@ -7,11 +7,11 @@ import { fetchSongs as action } from '../../../actions/music';
 import styles from '../layouts/SongList.module.css';
 
 const All = ({
-  token, songs, fetchSongs, loading, error,
+  token, songs, skip, limit, fetchSongs, loading, error,
 }) => {
   useEffect(() => {
     async function fetchData() {
-      await fetchSongs(token, 0, 100);
+      await fetchSongs(token, skip, limit);
     }
 
     fetchData();
@@ -39,6 +39,8 @@ All.propTypes = {
     title: PropTypes.string,
     cover: PropTypes.string,
   })).isRequired,
+  skip: PropTypes.number.isRequired,
+  limit: PropTypes.number.isRequired,
   loading: PropTypes.bool.isRequired,
   error: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]).isRequired,
   token: PropTypes.string.isRequired,
@@ -47,6 +49,8 @@ All.propTypes = {
 
 const mapStateToProps = store => ({
   songs: store.music.songs,
+  skip: store.music.skip,
+  limit: store.music.limit,
   loading: store.music.loading,
   error: store.music.error,
   token: store.login.token,

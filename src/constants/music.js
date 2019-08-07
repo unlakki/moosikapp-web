@@ -4,3 +4,5 @@ export const FIND_SONGS = 'FIND_SONGS';
 export const RETREIVE_SONGS_SUCCESSED = 'RETREIVE_SONGS_SUCCESSED';
 export const RETRIEVE_SONGS_ERROR = 'RETRIEVE_SONGS_ERROR';
 export const CLEAR_SONGS = 'CLEAR_SONGS';
+export const SET_SKIP = 'SET_SKIP';
+export const SET_LIMIT = 'SET_LIMIT';

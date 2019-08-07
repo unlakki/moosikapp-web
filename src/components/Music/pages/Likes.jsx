@@ -7,11 +7,11 @@ import { fetchFavoriteSongs as action } from '../../../actions/music';
 import styles from '../layouts/SongList.module.css';
 
 const Likes = ({
-  token, songs, fetchFavoriteSongs, loading, error,
+  token, songs, skip, limit, fetchFavoriteSongs, loading, error,
 }) => {
   useEffect(() => {
     async function fetchData() {
-      await fetchFavoriteSongs(token, 0, 100);
+      await fetchFavoriteSongs(token, skip, limit);
     }
 
     fetchData();
@@ -39,6 +39,8 @@ Likes.propTypes = {
     title: PropTypes.string,
     cover: PropTypes.string,
   })).isRequired,
+  skip: PropTypes.number.isRequired,
+  limit: PropTypes.number.isRequired,
   loading: PropTypes.bool.isRequired,
   error: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]).isRequired,
   token: PropTypes.string.isRequired,
@@ -47,6 +49,8 @@ Likes.propTypes = {
 
 const mapStateToProps = store => ({
   songs: store.music.songs,
+  skip: store.music.skip,
+  limit: store.music.limit,
   loading: store.music.loading,
   error: store.music.error,
   token: store.login.token,

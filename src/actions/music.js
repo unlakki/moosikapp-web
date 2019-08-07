@@ -6,6 +6,8 @@ import {
   RETREIVE_SONGS_SUCCESSED,
   RETRIEVE_SONGS_ERROR,
   CLEAR_SONGS,
+  SET_SKIP,
+  SET_LIMIT,
 } from '../constants/music';
 
 const { REACT_APP_API_URL = '' } = process.env;
@@ -84,4 +86,14 @@ export const searchSongs = (token, query, skip = 0, limit = 100) => async (dispa
   }
 };
 
-export const clearSongs = () => dispatch => dispatch(({ type: CLEAR_SONGS }));
+export const clearSongs = () => (dispatch) => {
+  dispatch(({ type: CLEAR_SONGS }));
+};
+
+export const setSkip = skip => (dispatch) => {
+  dispatch({ type: SET_SKIP, payload: skip });
+};
+
+export const setLimit = limit => (dispatch) => {
+  dispatch({ type: SET_LIMIT, payload: limit });
+};

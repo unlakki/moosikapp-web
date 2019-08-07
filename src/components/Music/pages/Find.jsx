@@ -11,13 +11,13 @@ import styles from '../layouts/SongList.module.css';
 import inputStyles from '../../../layouts/Input.module.css';
 
 const Find = ({
-  token, songs, loading, error, searchSongs, clearSongs,
+  token, songs, skip, limit, searchSongs, loading, error, clearSongs,
 }) => {
   const [query, SetQuery] = useState('');
 
   useEffect(() => {
     async function fetchData() {
-      await searchSongs(token, query, 0, 100);
+      await searchSongs(token, query, skip, limit);
     }
 
     if (query.length > 2) {
@@ -69,6 +69,8 @@ Find.propTypes = {
     title: PropTypes.string,
     cover: PropTypes.string,
   })).isRequired,
+  skip: PropTypes.number.isRequired,
+  limit: PropTypes.number.isRequired,
   loading: PropTypes.bool.isRequired,
   error: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]).isRequired,
   token: PropTypes.string.isRequired,
@@ -78,6 +80,8 @@ Find.propTypes = {
 
 const mapStateToProps = store => ({
   songs: store.music.songs,
+  skip: store.music.skip,
+  limit: store.music.limit,
   loading: store.music.loading,
   error: store.music.error,
   token: store.login.token,
