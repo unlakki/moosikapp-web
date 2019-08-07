@@ -1,36 +1,36 @@
-import React, { PureComponent } from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Song from '../Song';
-import { getFavoriteSongs as getFavoriteSongsAction } from '../../../actions/music';
+import { fetchFavoriteSongs as action } from '../../../actions/music';
 
 import styles from '../layouts/SongList.module.css';
 
-class Likes extends PureComponent {
-  componentDidMount() {
-    const { token, getFavoriteSongs } = this.props;
+const Likes = ({
+  token, songs, fetchFavoriteSongs, loading, error,
+}) => {
+  useEffect(() => {
+    async function fetchData() {
+      await fetchFavoriteSongs(token, 0, 100);
+    }
 
-    getFavoriteSongs(token, 0, 100);
-  }
+    fetchData();
+  });
 
-  render() {
-    const { songs, loading, error } = this.props;
-
-    return (
-      <div className={styles.songList}>
-        {songs && songs.map(song => (
-          <Song key={song.uuid} {...song} />
-        ))}
-        {songs.length === 0 && (
-          <span className={styles.text}>
-            {loading && 'Loading ...'}
-            {error && 'Nothing to show :('}
-          </span>
-        )}
-      </div>
-    );
-  }
-}
+  return (
+    <div className={styles.songList}>
+      {songs && songs.map(song => (
+        <Song key={song.uuid} {...song} />
+      ))}
+      {songs.length === 0 && (
+        <span className={styles.text}>
+          {loading && 'Loading ...'}
+          {error && 'Nothing to show :('}
+        </span>
+      )}
+    </div>
+  );
+};
 
 Likes.propTypes = {
   songs: PropTypes.arrayOf(PropTypes.shape({
@@ -42,7 +42,7 @@ Likes.propTypes = {
   loading: PropTypes.bool.isRequired,
   error: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]).isRequired,
   token: PropTypes.string.isRequired,
-  getFavoriteSongs: PropTypes.func.isRequired,
+  fetchFavoriteSongs: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = store => ({
@@ -53,7 +53,7 @@ const mapStateToProps = store => ({
 });
 
 const mapDispathToProps = dispatch => ({
-  getFavoriteSongs: (token, skip, limit) => dispatch(getFavoriteSongsAction(token, skip, limit)),
+  fetchFavoriteSongs: (token, skip, limit) => dispatch(action(token, skip, limit)),
 });
 
 export default connect(mapStateToProps, mapDispathToProps)(Likes);

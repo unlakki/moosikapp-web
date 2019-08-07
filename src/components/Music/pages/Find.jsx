@@ -1,72 +1,58 @@
-import React, { PureComponent } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Song from '../Song';
-import {
-  searchSongs as searchSongsAction,
-  clearSongs as clearSongsAction,
-} from '../../../actions/music';
+import { searchSongs as action } from '../../../actions/music';
 
 import styles from '../layouts/SongList.module.css';
 import inputStyles from '../../../layouts/Input.module.css';
 
-class Find extends PureComponent {
-  constructor(props) {
-    super(props);
+const Find = ({
+  token, songs, loading, error, searchSongs,
+}) => {
+  const [searchString, setSearchString] = useState('');
 
-    this.state = {
-      searchString: '',
-    };
-  }
+  useEffect(() => {
+    async function fetchData() {
+      await searchSongs(token, searchString, 0, 100);
+    }
+    fetchData();
+  }, [searchString]);
 
-  componentDidMount() {
-    const { clearSongs } = this.props;
-
-    clearSongs();
-  }
-
-  render() {
-    const { songs, loading, error } = this.props;
-
-    return (
-      <div className={styles.wrapper}>
-        <form className={styles.findBox}>
-          <input
-            className={`${inputStyles.input} ${styles.findInput}`}
-            type="text"
-            placeholder="Search"
-            onChange={e => this.setState({ searchString: e.currentTarget.value })}
-          />
-          <input
-            className={inputStyles.button}
-            type="submit"
-            value="Search"
-            onClick={(e) => {
-              e.preventDefault();
-
-              const { token, searchSongs } = this.props;
-              const { searchString } = this.state;
-
-              searchSongs(token, searchString, 0, 100);
-            }}
-          />
-        </form>
-        <div className={styles.songList}>
-          {songs && songs.map(song => (
-            <Song key={song.uuid} {...song} />
-          ))}
-          {songs.length === 0 && (
-            <span className={styles.text}>
-              {(!error && !loading) && 'Enter your request in the input field ...'}
-              {loading && 'Searching ...'}
-              {error && 'No songs found.'}
-            </span>
-          )}
-        </div>
+  return (
+    <div className={styles.wrapper}>
+      <form className={styles.findBox}>
+        <input
+          className={`${inputStyles.input} ${styles.findInput}`}
+          type="text"
+          placeholder="Search"
+          onChange={e => setSearchString(e.target.value)}
+        />
+        <input
+          className={inputStyles.button}
+          type="submit"
+          value="Search"
+          onClick={async (e) => {
+            e.preventDefault();
+            await searchSongs(token, searchString, 0, 100);
+          }}
+        />
+      </form>
+      <div className={styles.songList}>
+        {songs && songs.map(song => (
+          <Song key={song.uuid} {...song} />
+        ))}
+        {songs.length === 0 && (
+          <span className={styles.text}>
+            {(!searchString) && 'Enter your request in the input field ...'}
+            {(loading && searchString) && 'Searching ...'}
+            {(error && searchString) && 'No songs found.'}
+          </span>
+        )}
       </div>
-    );
-  }
-}
+    </div>
+  );
+};
 
 Find.propTypes = {
   songs: PropTypes.arrayOf(PropTypes.shape({
@@ -79,7 +65,6 @@ Find.propTypes = {
   error: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]).isRequired,
   token: PropTypes.string.isRequired,
   searchSongs: PropTypes.func.isRequired,
-  clearSongs: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = store => ({
@@ -90,8 +75,7 @@ const mapStateToProps = store => ({
 });
 
 const mapDispathToProps = dispatch => ({
-  searchSongs: (token, skip, limit) => dispatch(searchSongsAction(token, skip, limit)),
-  clearSongs: () => dispatch(clearSongsAction()),
+  searchSongs: (token, skip, limit) => dispatch(action(token, skip, limit)),
 });
 
 export default connect(mapStateToProps, mapDispathToProps)(Find);

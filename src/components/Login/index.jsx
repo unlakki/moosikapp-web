@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -8,79 +8,58 @@ import styles from './layouts/Login.module.css';
 import inputStyles from '../../layouts/Input.module.css';
 import linkStyles from '../../layouts/Link.module.css';
 
-class Login extends PureComponent {
-  constructor(props) {
-    super(props);
+const Login = ({ token, login, history }) => {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
 
-    this.state = {
-      username: '',
-      password: '',
-    };
-  }
-
-  componentDidMount() {
-    const { token, history } = this.props;
-
+  useEffect(() => {
     if (token) {
       history.push('/');
     }
-  }
+  });
 
-  componentDidUpdate() {
-    const { token, history } = this.props;
-
-    if (token) {
-      history.push('/');
-    }
-  }
-
-  render() {
-    const { username, password } = this.state;
-    const { login } = this.props;
-
-    return (
-      <div className={styles.login}>
-        <h1 className={styles.title}>Login</h1>
-        <form className={styles.main}>
-          <label htmlFor="username" className={styles.inputWrapper}>
+  return (
+    <div className={styles.login}>
+      <h1 className={styles.title}>Login</h1>
+      <form className={styles.main}>
+        <label htmlFor="username" className={styles.inputWrapper}>
+          <input
+            id="username"
+            className={inputStyles.input}
+            type="text"
+            placeholder="Username / Email"
+            autoComplete="off"
+            onChange={e => setUsername(e.target.value)}
+          />
+        </label>
+        <label htmlFor="password" className={styles.inputWrapper}>
+          <input
+            id="password"
+            className={inputStyles.input}
+            type="password"
+            placeholder="Password"
+            onChange={e => setPassword(e.target.value)}
+          />
+        </label>
+        <div className={styles.footer}>
+          <Link className={linkStyles.link} to="/forgot">Forgot your password?</Link>
+          <div className={styles.right}>
+            <Link className={`${linkStyles.link} ${styles.marginRight}`} to="/register">Need an account?</Link>
             <input
-              id="username"
-              className={inputStyles.input}
-              type="text"
-              placeholder="Username / Email"
-              autoComplete="off"
-              onChange={e => this.setState({ username: e.target.value })}
+              className={inputStyles.button}
+              type="submit"
+              value="Login"
+              onClick={(e) => {
+                e.preventDefault();
+                login(username, password);
+              }}
             />
-          </label>
-          <label htmlFor="password" className={styles.inputWrapper}>
-            <input
-              id="password"
-              className={inputStyles.input}
-              type="password"
-              placeholder="Password"
-              onChange={e => this.setState({ password: e.target.value })}
-            />
-          </label>
-          <div className={styles.footer}>
-            <Link className={linkStyles.link} to="/forgot">Forgot your password?</Link>
-            <div className={styles.right}>
-              <Link className={`${linkStyles.link} ${styles.marginRight}`} to="/register">Need an account?</Link>
-              <input
-                className={inputStyles.button}
-                type="submit"
-                value="Login"
-                onClick={(e) => {
-                  e.preventDefault();
-                  login(username, password);
-                }}
-              />
-            </div>
           </div>
-        </form>
-      </div>
-    );
-  }
-}
+        </div>
+      </form>
+    </div>
+  );
+};
 
 Login.propTypes = {
   token: PropTypes.string.isRequired,

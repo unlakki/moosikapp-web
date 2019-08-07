@@ -1,36 +1,36 @@
-import React, { PureComponent } from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Song from '../Song';
-import { getSongs as getSongsAction } from '../../../actions/music';
+import { fetchSongs as action } from '../../../actions/music';
 
 import styles from '../layouts/SongList.module.css';
 
-class All extends PureComponent {
-  componentDidMount() {
-    const { token, getSongs } = this.props;
+const All = ({
+  token, songs, fetchSongs, loading, error,
+}) => {
+  useEffect(() => {
+    async function fetchData() {
+      await fetchSongs(token, 0, 100);
+    }
 
-    getSongs(token, 0, 100);
-  }
+    fetchData();
+  });
 
-  render() {
-    const { songs, loading, error } = this.props;
-
-    return (
-      <div className={styles.songList}>
-        {songs && songs.map(song => (
-          <Song key={song.uuid} {...song} />
-        ))}
-        {songs.length === 0 && (
-          <span className={styles.text}>
-            {loading && 'Loading ...'}
-            {error && 'Nothing to show :('}
-          </span>
-        )}
-      </div>
-    );
-  }
-}
+  return (
+    <div className={styles.songList}>
+      {songs && songs.map(song => (
+        <Song key={song.uuid} {...song} />
+      ))}
+      {songs.length === 0 && (
+        <span className={styles.text}>
+          {loading && 'Loading ...'}
+          {error && 'Nothing to show :('}
+        </span>
+      )}
+    </div>
+  );
+};
 
 All.propTypes = {
   songs: PropTypes.arrayOf(PropTypes.shape({
@@ -42,7 +42,7 @@ All.propTypes = {
   loading: PropTypes.bool.isRequired,
   error: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]).isRequired,
   token: PropTypes.string.isRequired,
-  getSongs: PropTypes.func.isRequired,
+  fetchSongs: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = store => ({
@@ -53,7 +53,7 @@ const mapStateToProps = store => ({
 });
 
 const mapDispathToProps = dispatch => ({
-  getSongs: (token, skip, limit) => dispatch(getSongsAction(token, skip, limit)),
+  fetchSongs: (token, skip, limit) => dispatch(action(token, skip, limit)),
 });
 
 export default connect(mapStateToProps, mapDispathToProps)(All);
