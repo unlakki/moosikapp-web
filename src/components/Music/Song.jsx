@@ -24,15 +24,14 @@ const Song = ({
           className={`${styles.button} ${styles.play}`}
           type="button"
           onClick={() => {
+            if (np !== uuid) {
+              setSong(token, uuid);
+            }
             if (playing) {
               pause();
               return;
             }
             play();
-
-            if (np !== uuid) {
-              setSong(token, uuid);
-            }
           }}
         >
           <svg viewBox="0 0 24 24">
