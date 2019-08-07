@@ -1,6 +1,6 @@
 import {
   SHOW_MOBILE_NAV,
-  HIDE_MOBILE_NAV
+  HIDE_MOBILE_NAV,
 } from '../constants/mobile';
 
 const initialState = {
