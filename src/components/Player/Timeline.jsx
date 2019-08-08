@@ -23,7 +23,10 @@ const Timeline = ({ currentTime, duration, onChange }) => (
       }}
     >
       <div className={styles.progressBackground}>
-        <div className={styles.progressBar} style={{ width: `${currentTime / duration * 100}%` }} />
+        <div
+          className={styles.progressBar}
+          style={{ width: `${currentTime > duration ? '100%' : `${currentTime / duration * 100}%`}` }}
+        />
       </div>
     </div>
     <div className={styles.duration}>{moment(duration * 1000).format('mm:ss')}</div>
