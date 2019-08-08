@@ -23,10 +23,13 @@ const Song = ({
         <button
           className={`${styles.button} ${styles.play}`}
           type="button"
-          onClick={() => {
+          onClick={async () => {
             if (np !== uuid) {
-              setSong(token, uuid);
+              await setSong(token, uuid);
+              play();
+              return;
             }
+
             if (playing) {
               pause();
               return;

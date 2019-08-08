@@ -39,7 +39,8 @@ const Player = ({
     }
 
     audio.current.pause();
-  }, [playing, readyToPlay]);
+  }, [songs, playing, np, readyToPlay]);
+
 
   return (
     <div className={styles.wrapper}>
@@ -48,15 +49,13 @@ const Player = ({
           <button
             type="button"
             className={styles.button}
-            onClick={() => {
+            onClick={async () => {
               if (index <= 0) {
                 return;
               }
               const i = index - 1;
-              setSong(token, songs[i].uuid);
+              await setSong(token, songs[i].uuid);
               setIndex(i);
-
-              play();
             }}
           >
             <svg className={styles.icon} viewBox="0 0 24 24">
@@ -66,16 +65,17 @@ const Player = ({
           <button
             type="button"
             className={styles.button}
-            onClick={() => {
+            onClick={async () => {
+              if (!np) {
+                await setSong(token, songs[0].uuid);
+                return;
+              }
+
               if (playing) {
                 pause();
                 return;
               }
               play();
-
-              if (!np) {
-                setSong(token, songs[0].uuid);
-              }
             }}
           >
             <svg className={styles.icon} viewBox="0 0 24 24">
@@ -89,15 +89,13 @@ const Player = ({
           <button
             type="button"
             className={styles.button}
-            onClick={() => {
+            onClick={async () => {
               if (index >= songs.length - 1) {
                 return;
               }
               const i = index + 1;
-              setSong(token, songs[i].uuid);
+              await setSong(token, songs[i].uuid);
               setIndex(i);
-
-              play();
             }}
           >
             <svg className={styles.icon} viewBox="0 0 24 24">
@@ -149,6 +147,7 @@ const Player = ({
         <audio
           ref={audio}
           crossOrigin="anonymous"
+          preload="auto"
           src={(song && song.url) ? song.url : ''}
           muted={mute}
           loop={loop}
