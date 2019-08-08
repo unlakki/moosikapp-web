@@ -155,7 +155,23 @@ const Player = ({
           onLoadedMetadata={e => setDuration(e.target.duration)}
           onCanPlay={() => setReadyToPlay(true)}
           onTimeUpdate={e => setPassed(e.target.currentTime)}
-          onEnded={() => {}}
+          onEnded={async () => {
+            pause();
+
+            if (shuffle) {
+              const i = Math.round(Math.random() * (songs.length - 1));
+              await setSong(token, songs[i].uuid);
+              play();
+              return;
+            }
+
+            if (index >= songs.length - 1) {
+              return;
+            }
+            const i = index + 1;
+            await setSong(token, songs[i].uuid);
+            play();
+          }}
         />
       </section>
     </div>
