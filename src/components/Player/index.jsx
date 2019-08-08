@@ -34,11 +34,15 @@ const Player = ({
     if (playing) {
       audio.current.play();
 
+      document.title = `${song.author} - ${song.title} | Moosik`;
+
       setIndex(songs.findIndex(v => v.uuid === np));
       return;
     }
 
     audio.current.pause();
+
+    document.title = 'Moosik';
   }, [songs, playing, np, readyToPlay]);
 
 
