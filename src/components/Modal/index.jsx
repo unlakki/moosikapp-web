@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import styles from './layouts/Modal.module.css';
 
@@ -9,5 +10,9 @@ const Modal = ({ show = false }) => (
     </div>
   </div>
 );
+
+Modal.propTypes = {
+  show: PropTypes.func.isRequired,
+};
 
 export default Modal;
