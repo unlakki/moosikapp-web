@@ -39,9 +39,9 @@ const useTypeScript = fs.existsSync(paths.appTsConfig);
 
 // style files regexes
 const cssRegex = /\.css$/;
-const cssModuleRegex = /\.module\.css$/;
+const cssModuleRegex = /\.m\.css$/;
 const sassRegex = /\.(scss|sass)$/;
-const sassModuleRegex = /\.module\.(scss|sass)$/;
+const sassModuleRegex = /\.m\.(scss|sass)$/;
 
 // This is the production and development configuration.
 // It is focused on developer experience, fast rebuilds, and a minimal bundle.
@@ -448,7 +448,8 @@ module.exports = function(webpackEnv) {
                   importLoaders: 2,
                   sourceMap: isEnvProduction && shouldUseSourceMap,
                   modules: true,
-                  getLocalIdent: getCSSModuleLocalIdent,
+                // getLocalIdent: getCSSModuleLocalIdent,
+                localIdentName: 'css-[hash:base64:5]'
                 },
                 'sass-loader'
               ),
