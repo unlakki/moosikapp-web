@@ -13,14 +13,13 @@ export const setSong = (token, uuid) => async (dispatch) => {
   dispatch({ type: SET_NP, payload: uuid });
 
   try {
-    const { song } = await axios(`${REACT_APP_API_URL}/api/songs/${uuid}`, {
+    const { song } = await axios(`${REACT_APP_API_URL}/api/v2/songs/${uuid}`, {
       method: 'GET',
       headers: {
-        accept: 'application/vnd.moosikapp.v1+json',
-        'content-type': 'application/json',
+        accept: 'application/json',
         authorization: `Bearer ${token}`,
       },
-    }).then(r => r.data);
+    }).then(response => response.data);
 
     dispatch({ type: SET_SONG, payload: song });
   } catch (e) {

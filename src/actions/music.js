@@ -12,18 +12,6 @@ import {
 
 const { REACT_APP_API_URL = '' } = process.env;
 
-const requestSongs = () => ({
-  type: REQUEST_SONGS,
-});
-
-const requestFavoriteSongs = () => ({
-  type: REQUEST_FAVORITE_SONGS,
-});
-
-const findSongs = () => ({
-  type: FIND_SONGS,
-});
-
 const retrieveSongsSuccessed = songs => ({
   type: RETREIVE_SONGS_SUCCESSED, payload: songs,
 });
@@ -33,16 +21,16 @@ const retrieveSongsError = error => ({
 });
 
 export const fetchSongs = (token, skip = 0, limit = 100) => async (dispatch) => {
-  dispatch(requestSongs());
+  dispatch({ type: REQUEST_SONGS });
+
   try {
-    const { songs } = await axios(`${REACT_APP_API_URL}/api/songs?skip=${skip}&limit=${limit}&scope=3`, {
+    const { songs } = await axios(`${REACT_APP_API_URL}/api/v2/songs?skip=${skip}&limit=${limit}&scope=3`, {
       method: 'GET',
       headers: {
-        accept: 'application/vnd.moosikapp.v1+json',
-        'content-type': 'application/json',
+        accept: 'application/json',
         authorization: `Bearer ${token}`,
       },
-    }).then(r => r.data);
+    }).then(response => response.data);
 
     dispatch(retrieveSongsSuccessed(songs));
   } catch (e) {
@@ -51,16 +39,16 @@ export const fetchSongs = (token, skip = 0, limit = 100) => async (dispatch) => 
 };
 
 export const fetchFavoriteSongs = (token, skip = 0, limit = 100) => async (dispatch) => {
-  dispatch(requestFavoriteSongs());
+  dispatch({ type: REQUEST_FAVORITE_SONGS });
+
   try {
-    const { songs } = await axios(`${REACT_APP_API_URL}/api/favorites?skip=${skip}&limit=${limit}&scope=2`, {
+    const { songs } = await axios(`${REACT_APP_API_URL}/api/v2/favorites?skip=${skip}&limit=${limit}&scope=2`, {
       method: 'GET',
       headers: {
-        accept: 'application/vnd.moosikapp.v1+json',
-        'content-type': 'application/json',
+        accept: 'application/json',
         authorization: `Bearer ${token}`,
       },
-    }).then(r => r.data);
+    }).then(response => response.data);
 
     dispatch(retrieveSongsSuccessed(songs));
   } catch (e) {
@@ -69,16 +57,16 @@ export const fetchFavoriteSongs = (token, skip = 0, limit = 100) => async (dispa
 };
 
 export const searchSongs = (token, query, skip = 0, limit = 100) => async (dispatch) => {
-  dispatch(findSongs());
+  dispatch({ type: FIND_SONGS });
+
   try {
-    const { songs } = await axios(`${REACT_APP_API_URL}/api/songs/find?query=${query}&skip=${skip}&limit=${limit}&scope=3`, {
+    const { songs } = await axios(`${REACT_APP_API_URL}/api/v2/songs/find?query=${query}&skip=${skip}&limit=${limit}&scope=3`, {
       method: 'GET',
       headers: {
-        accept: 'application/vnd.moosikapp.v1+json',
-        'content-type': 'application/json',
+        accept: 'application/json',
         authorization: `Bearer ${token}`,
       },
-    }).then(r => r.data);
+    }).then(response => response.data);
 
     dispatch(retrieveSongsSuccessed(songs));
   } catch (e) {
