@@ -1,2 +1,2 @@
-export const SHOW_MOBILE_NAV = 'SHOW_MOBILE_NAV';
-export const HIDE_MOBILE_NAV = 'HIDE_MOBILE_NAV';
+export const SHOW_MOBILE_NAV = 'MOBILE_NAV/SHOW';
+export const HIDE_MOBILE_NAV = 'MOBILE_NAV/HIDE';
