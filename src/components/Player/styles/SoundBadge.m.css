@@ -1,0 +1,39 @@
+.soundBadge {
+  display: flex;
+  flex-direction: row;
+  width: 256px;
+  margin-left: 10px;
+}
+
+.cover {
+  width: 32px;
+  height: 32px;
+  background: var(--gray-light) center no-repeat;
+  background-size: cover;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  width: 214px;
+  margin-left: 10px;
+}
+
+.truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-break: normal;
+  white-space: nowrap;
+}
+
+.title {
+  font-size: 14px;
+  line-height: 17px;
+  color: var(--dark);
+}
+
+.author {
+  font-size: 12px;
+  line-height: 15px;
+  color: var(--gray-dark);
+}

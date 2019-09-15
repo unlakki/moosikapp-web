@@ -1,14 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
-import styles from './layouts/SoundBadge.module.css';
+import classnames from 'classnames';
+import styles from './styles/SoundBadge.m.css';
 
 const SoundBadge = ({ author, title, cover }) => (
   <div className={styles.soundBadge}>
     <div className={styles.cover} style={{ backgroundImage: cover ? `url(${cover})` : '' }} />
-    <div className={styles.titleContextContainer}>
-      <span className={`${styles.title} ${styles.truncate}`}>{title}</span>
-      <span className={`${styles.author} ${styles.truncate}`}>{author}</span>
+    <div className={styles.container}>
+      <span className={classnames(styles.truncate, styles.title)}>{title}</span>
+      <span className={classnames(styles.truncate, styles.author)}>{author}</span>
     </div>
   </div>
 );
