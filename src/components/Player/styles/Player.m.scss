@@ -1,0 +1,51 @@
+.wrapper {
+  width: 100%;
+  position: fixed;
+  bottom: 0;
+  background: var(--light);
+  box-shadow: 0 0 2px var(--dark);
+  z-index: 10;
+}
+
+.container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  max-width: 1200px;
+  width: 90%;
+  margin: 0 auto;
+}
+
+.controls {
+  display: flex;
+}
+
+.control {
+  width: 24px;
+  height: 36px;
+  margin-left: 10px;
+  padding: 6px 0;
+  background: transparent;
+  border: 0;
+  outline: 0;
+  cursor: pointer;
+
+  &:first-child {
+    margin-left: 0;
+  }
+}
+
+.icon {
+  width: 24px;
+  height: 24px;
+  fill: var(--dark);
+  transition: all .2s ease;
+}
+
+.volume {
+  position: relative;
+
+  &:hover>div {
+    display: block;
+  }
+}
