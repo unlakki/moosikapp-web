@@ -1,0 +1,34 @@
+.wrapper {
+  display: flex;
+  align-items: center;
+  margin: 0 10px;
+  flex: 1;
+}
+
+.time {
+  font-size: 14px;
+  line-height: 16px;
+  color: var(--dark);
+}
+
+.progressWrapper {
+  display: flex;
+  align-items: center;
+  padding: 0 6px;
+  height: 14px;
+  flex: 1;
+  outline: 0;
+  cursor: pointer;
+}
+
+.progressBar {
+  width: 100%;
+  height: 2px;
+  background-color: var(--gray);
+}
+
+.progressActive {
+  height: 100%;
+  background-color: var(--red);
+  transition: all .2s ease;
+}

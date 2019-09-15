@@ -1,12 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
+import styles from './styles/Timeline.m.css';
 
-import styles from './layouts/Timeline.module.css';
-
-const Timeline = ({ currentTime, duration, onChange }) => (
-  <div className={styles.timeline}>
-    <div className={styles.timePassed}>{moment(currentTime * 1000).format('mm:ss')}</div>
+const Timeline = ({ currentTime, duration, onTimeUpdate }) => (
+  <div className={styles.wrapper}>
+    <span className={styles.time}>{moment(currentTime * 1000).format('mm:ss')}</span>
     <div
       className={styles.progressWrapper}
       role="slider"
@@ -15,32 +14,34 @@ const Timeline = ({ currentTime, duration, onChange }) => (
       aria-valuenow={currentTime}
       tabIndex={-1}
       onKeyDown={null}
-      onClick={(e) => {
-        if (typeof onChange === 'function') {
-          const r = e.currentTarget.getBoundingClientRect();
-          onChange(duration * (e.clientX - r.left) / r.width);
+      onClick={(event) => {
+        if (typeof onTimeUpdate === 'function') {
+          const timeline = event.currentTarget.getBoundingClientRect();
+          onTimeUpdate(duration * (event.clientX - timeline.left) / timeline.width);
         }
       }}
     >
-      <div className={styles.progressBackground}>
+      <div className={styles.progressBar}>
         <div
-          className={styles.progressBar}
-          style={{ width: `${currentTime > duration ? '100%' : `${currentTime / duration * 100}%`}` }}
+          className={styles.progressActive}
+          style={{
+            width: `${currentTime > duration ? '100%' : `${currentTime / duration * 100}%`}`,
+          }}
         />
       </div>
     </div>
-    <div className={styles.duration}>{moment(duration * 1000).format('mm:ss')}</div>
+    <span className={styles.time}>{moment(duration * 1000).format('mm:ss')}</span>
   </div>
 );
 
 Timeline.defaultProps = {
-  onChange: null,
+  onTimeUpdate: null,
 };
 
 Timeline.propTypes = {
   currentTime: PropTypes.number.isRequired,
   duration: PropTypes.number.isRequired,
-  onChange: PropTypes.func,
+  onTimeUpdate: PropTypes.func,
 };
 
 export default Timeline;
