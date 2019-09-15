@@ -1,17 +1,9 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import styles from './styles/VolumeSlider.m.css';
 
-import styles from './layouts/VolumeSlider.module.css';
-
-const VolumeSlider = ({ value, onChange }) => {
+const VolumeSlider = ({ value, onVolumeUpdate }) => {
   const [volume, setVolume] = useState(value);
-
-  const updateVolume = (v) => {
-    setVolume(v);
-    if (typeof onChange === 'function') {
-      onChange(v);
-    }
-  };
 
   return (
     <div className={styles.wrapper}>
@@ -23,25 +15,31 @@ const VolumeSlider = ({ value, onChange }) => {
         aria-valuenow={value}
         tabIndex={-1}
         onKeyDown={null}
-        onClick={(e) => {
-          const r = e.currentTarget.getBoundingClientRect();
-          updateVolume(1 - (e.clientY - r.top) / r.height);
+        onClick={(event) => {
+          const bar = event.currentTarget.getBoundingClientRect();
+          const val = 1 - (event.clientY - bar.top) / bar.height;
+
+          if (typeof onVolumeUpdate === 'function') {
+            onVolumeUpdate(val);
+          }
+
+          setVolume(val);
         }}
       >
-        <div className={styles.background} />
-        <div className={styles.bar} style={{ height: `${100 * volume}%` }} />
+        <div className={styles.bar} />
+        <div className={styles.activeBar} style={{ height: `${100 * volume}%` }} />
       </div>
     </div>
   );
 };
 
 VolumeSlider.defaultProps = {
-  onChange: null,
+  onVolumeUpdate: null,
 };
 
 VolumeSlider.propTypes = {
   value: PropTypes.number.isRequired,
-  onChange: PropTypes.func,
+  onVolumeUpdate: PropTypes.func,
 };
 
 export default VolumeSlider;
