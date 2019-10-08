@@ -1,4 +1,4 @@
 export const LOGIN = 'LOGGING_IN';
-export const LOGIN_SUCCESEDED = 'LOGIN_SUCCEEDED';
-export const LOGIN_ERROR = 'LOGIN_ERROR';
+export const SUCCEEDED = 'LOGIN/SUCCEEDED';
+export const ERROR = 'LOGIN/ERROR';
 export const LOGOUT = 'LOGOUT';

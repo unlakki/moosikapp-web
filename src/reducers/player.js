@@ -1,9 +1,5 @@
 import {
-  SET_SONG,
-  SET_NP,
-  PLAY,
-  PAUSE,
-  SET_ERROR,
+  SET_SONG, NOW_PLAYING, PLAY, PAUSE, ERROR,
 } from '../constants/player';
 
 const initialState = {
@@ -17,13 +13,13 @@ export default function (state = initialState, action) {
   switch (action.type) {
     case SET_SONG:
       return { ...state, song: action.payload };
-    case SET_NP:
+    case NOW_PLAYING:
       return { ...state, nowPlaying: action.payload };
     case PLAY:
       return { ...state, playing: true };
     case PAUSE:
       return { ...state, playing: false };
-    case SET_ERROR:
+    case ERROR:
       return {
         song: null, nowPlaying: '', playing: false, error: action.payload,
       };

@@ -1,19 +1,15 @@
 import axios from 'axios';
 import {
-  SET_SONG,
-  SET_NP,
-  PLAY,
-  PAUSE,
-  SET_ERROR,
+  SET_SONG, NOW_PLAYING, PLAY, PAUSE, ERROR,
 } from '../constants/player';
 
 const { REACT_APP_API_URL = '' } = process.env;
 
 export const setSong = (token, uuid) => async (dispatch) => {
-  dispatch({ type: SET_NP, payload: uuid });
+  dispatch({ type: NOW_PLAYING, payload: uuid });
 
   try {
-    const { song } = await axios(`${REACT_APP_API_URL}/api/v2/songs/${uuid}`, {
+    const { song } = await axios(`${REACT_APP_API_URL}/songs/${uuid}`, {
       method: 'GET',
       headers: {
         accept: 'application/json',
@@ -23,7 +19,7 @@ export const setSong = (token, uuid) => async (dispatch) => {
 
     dispatch({ type: SET_SONG, payload: song });
   } catch (e) {
-    dispatch({ type: SET_ERROR, payload: e });
+    dispatch({ type: ERROR, payload: e.message });
   }
 };
 

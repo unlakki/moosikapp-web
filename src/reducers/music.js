@@ -1,33 +1,26 @@
 import {
-  REQUEST_SONGS,
-  REQUEST_FAVORITE_SONGS,
-  FIND_SONGS,
-  RETREIVE_SONGS_SUCCESSED,
-  RETRIEVE_SONGS_ERROR,
-  CLEAR_SONGS,
-  SET_SKIP,
-  SET_LIMIT,
+  REQUEST_ALL, REQUEST_FAVORITES, SEARCH_SONGS, SUCCEEDED, ERROR, CLEAR_SONGS, SKIP, LIMIT,
 } from '../constants/music';
 
 const initialState = {
   loading: false,
-  songs: [],
-  error: false,
   skip: 0,
   limit: 100,
+  songs: [],
+  error: null,
 };
 
 export default function (state = initialState, action) {
   switch (action.type) {
-    case REQUEST_SONGS:
-    case REQUEST_FAVORITE_SONGS:
-    case FIND_SONGS:
+    case REQUEST_ALL:
+    case REQUEST_FAVORITES:
+    case SEARCH_SONGS:
       return { ...state, loading: true, error: false };
-    case RETREIVE_SONGS_SUCCESSED:
+    case SUCCEEDED:
       return {
         ...state, loading: false, songs: action.payload, error: false,
       };
-    case RETRIEVE_SONGS_ERROR:
+    case ERROR:
       return {
         ...state, loading: false, songs: [], error: action.payload,
       };
@@ -35,9 +28,9 @@ export default function (state = initialState, action) {
       return {
         ...state, loading: false, songs: [], error: false,
       };
-    case SET_SKIP:
+    case SKIP:
       return { ...state, skip: action.payload };
-    case SET_LIMIT:
+    case LIMIT:
       return { ...state, limit: action.payload };
     default:
       return state;

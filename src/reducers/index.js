@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import mobile from './mobile';
+import mobile from './sidebar';
 import login from './login';
 import music from './music';
 import player from './player';

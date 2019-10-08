@@ -1,6 +1,6 @@
 import axios from 'axios';
 import {
-  LOGIN, LOGIN_SUCCESEDED, LOGIN_ERROR, LOGOUT,
+  LOGIN, SUCCEEDED, ERROR, LOGOUT,
 } from '../constants/login';
 
 const { REACT_APP_API_URL = '' } = process.env;
@@ -9,7 +9,7 @@ export const login = (username, password) => async (dispatch) => {
   dispatch({ type: LOGIN });
 
   try {
-    const { token } = await axios(`${REACT_APP_API_URL}/api/v2/login`, {
+    const { token } = await axios(`${REACT_APP_API_URL}/login`, {
       method: 'POST',
       headers: {
         accept: 'application/json',
@@ -20,9 +20,9 @@ export const login = (username, password) => async (dispatch) => {
 
     window.localStorage.setItem('token', token);
 
-    dispatch({ type: LOGIN_SUCCESEDED, payload: token });
+    dispatch({ type: SUCCEEDED, payload: token });
   } catch (e) {
-    dispatch({ type: LOGIN_ERROR, payload: e.message });
+    dispatch({ type: ERROR, payload: e.message });
   }
 };
 

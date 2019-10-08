@@ -1,27 +1,20 @@
 import axios from 'axios';
 import {
-  REQUEST_SONGS,
-  REQUEST_FAVORITE_SONGS,
-  FIND_SONGS,
-  RETREIVE_SONGS_SUCCESSED,
-  RETRIEVE_SONGS_ERROR,
-  CLEAR_SONGS,
-  SET_SKIP,
-  SET_LIMIT,
+  REQUEST_ALL, REQUEST_FAVORITES, SEARCH_SONGS, CLEAR_SONGS, SUCCEEDED, ERROR, SKIP, LIMIT,
 } from '../constants/music';
 
 const { REACT_APP_API_URL = '' } = process.env;
 
-const retrieveSongsSuccessed = songs => ({
-  type: RETREIVE_SONGS_SUCCESSED, payload: songs,
+const retrieveSucceeded = songs => ({
+  type: SUCCEEDED, payload: songs,
 });
 
-const retrieveSongsError = error => ({
-  type: RETRIEVE_SONGS_ERROR, payload: error,
+const retrieveError = error => ({
+  type: ERROR, payload: error,
 });
 
 export const fetchSongs = (token, skip = 0, limit = 100) => async (dispatch) => {
-  dispatch({ type: REQUEST_SONGS });
+  dispatch({ type: REQUEST_ALL });
 
   try {
     const { songs } = await axios(`${REACT_APP_API_URL}/api/v2/songs?skip=${skip}&limit=${limit}&scope=3`, {
@@ -32,14 +25,14 @@ export const fetchSongs = (token, skip = 0, limit = 100) => async (dispatch) => 
       },
     }).then(response => response.data);
 
-    dispatch(retrieveSongsSuccessed(songs));
+    dispatch(retrieveSucceeded(songs));
   } catch (e) {
-    dispatch(retrieveSongsError(e.message));
+    dispatch(retrieveError(e.message));
   }
 };
 
 export const fetchFavoriteSongs = (token, skip = 0, limit = 100) => async (dispatch) => {
-  dispatch({ type: REQUEST_FAVORITE_SONGS });
+  dispatch({ type: REQUEST_FAVORITES });
 
   try {
     const { songs } = await axios(`${REACT_APP_API_URL}/api/v2/favorites?skip=${skip}&limit=${limit}&scope=2`, {
@@ -50,14 +43,14 @@ export const fetchFavoriteSongs = (token, skip = 0, limit = 100) => async (dispa
       },
     }).then(response => response.data);
 
-    dispatch(retrieveSongsSuccessed(songs));
+    dispatch(retrieveSucceeded(songs));
   } catch (e) {
-    dispatch(retrieveSongsError(e.message));
+    dispatch(retrieveError(e.message));
   }
 };
 
 export const searchSongs = (token, query, skip = 0, limit = 100) => async (dispatch) => {
-  dispatch({ type: FIND_SONGS });
+  dispatch({ type: SEARCH_SONGS });
 
   try {
     const { songs } = await axios(`${REACT_APP_API_URL}/api/v2/songs/find?query=${query}&skip=${skip}&limit=${limit}&scope=3`, {
@@ -68,9 +61,9 @@ export const searchSongs = (token, query, skip = 0, limit = 100) => async (dispa
       },
     }).then(response => response.data);
 
-    dispatch(retrieveSongsSuccessed(songs));
+    dispatch(retrieveSucceeded(songs));
   } catch (e) {
-    dispatch(retrieveSongsError(e.message));
+    dispatch(retrieveError(e.message));
   }
 };
 
@@ -79,9 +72,9 @@ export const clearSongs = () => (dispatch) => {
 };
 
 export const setSkip = skip => (dispatch) => {
-  dispatch({ type: SET_SKIP, payload: skip });
+  dispatch({ type: SKIP, payload: skip });
 };
 
 export const setLimit = limit => (dispatch) => {
-  dispatch({ type: SET_LIMIT, payload: limit });
+  dispatch({ type: LIMIT, payload: limit });
 };
