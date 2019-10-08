@@ -2,7 +2,7 @@ import axios from 'axios';
 
 const { REACT_APP_API_URL = '' } = process.env;
 
-export const getToken = async (username, password) => {
+export const authorize = async (username, password) => {
   const { token } = await axios(`${REACT_APP_API_URL}/login`, {
     method: 'POST',
     headers: {
