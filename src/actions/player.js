@@ -1,21 +1,13 @@
-import axios from 'axios';
 import {
   SET_SONG, NOW_PLAYING, PLAY, PAUSE, ERROR,
 } from '../constants/player';
-
-const { REACT_APP_API_URL = '' } = process.env;
+import { getSongById } from '../utils/requests';
 
 export const setSong = (token, uuid) => async (dispatch) => {
   dispatch({ type: NOW_PLAYING, payload: uuid });
 
   try {
-    const { song } = await axios(`${REACT_APP_API_URL}/songs/${uuid}`, {
-      method: 'GET',
-      headers: {
-        accept: 'application/json',
-        authorization: `Bearer ${token}`,
-      },
-    }).then(response => response.data);
+    const song = await getSongById(token, uuid);
 
     dispatch({ type: SET_SONG, payload: song });
   } catch (e) {

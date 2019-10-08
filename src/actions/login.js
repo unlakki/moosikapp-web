@@ -1,22 +1,13 @@
-import axios from 'axios';
 import {
   LOGIN, SUCCEEDED, ERROR, LOGOUT,
 } from '../constants/login';
-
-const { REACT_APP_API_URL = '' } = process.env;
+import { authorize } from '../utils/requests';
 
 export const login = (username, password) => async (dispatch) => {
   dispatch({ type: LOGIN });
 
   try {
-    const { token } = await axios(`${REACT_APP_API_URL}/login`, {
-      method: 'POST',
-      headers: {
-        accept: 'application/json',
-        'content-type': 'application/json',
-      },
-      data: JSON.stringify({ username, password }),
-    }).then(response => response.data);
+    const token = await authorize(username, password);
 
     window.localStorage.setItem('token', token);
 

@@ -1,9 +1,7 @@
-import axios from 'axios';
 import {
   REQUEST_ALL, REQUEST_FAVORITES, SEARCH_SONGS, CLEAR_SONGS, SUCCEEDED, ERROR, SKIP, LIMIT,
 } from '../constants/music';
-
-const { REACT_APP_API_URL = '' } = process.env;
+import { getSongs, getFavoriteSongs, findSongs } from '../utils/requests';
 
 const retrieveSucceeded = songs => ({
   type: SUCCEEDED, payload: songs,
@@ -13,17 +11,11 @@ const retrieveError = error => ({
   type: ERROR, payload: error,
 });
 
-export const fetchSongs = (token, skip = 0, limit = 100) => async (dispatch) => {
+export const fetchSongs = (token, skip, limit) => async (dispatch) => {
   dispatch({ type: REQUEST_ALL });
 
   try {
-    const { songs } = await axios(`${REACT_APP_API_URL}/api/v2/songs?skip=${skip}&limit=${limit}&scope=3`, {
-      method: 'GET',
-      headers: {
-        accept: 'application/json',
-        authorization: `Bearer ${token}`,
-      },
-    }).then(response => response.data);
+    const songs = await getSongs(token, skip, limit);
 
     dispatch(retrieveSucceeded(songs));
   } catch (e) {
@@ -35,13 +27,7 @@ export const fetchFavoriteSongs = (token, skip = 0, limit = 100) => async (dispa
   dispatch({ type: REQUEST_FAVORITES });
 
   try {
-    const { songs } = await axios(`${REACT_APP_API_URL}/api/v2/favorites?skip=${skip}&limit=${limit}&scope=2`, {
-      method: 'GET',
-      headers: {
-        accept: 'application/json',
-        authorization: `Bearer ${token}`,
-      },
-    }).then(response => response.data);
+    const songs = await getFavoriteSongs(token, skip, limit);
 
     dispatch(retrieveSucceeded(songs));
   } catch (e) {
@@ -53,13 +39,7 @@ export const searchSongs = (token, query, skip = 0, limit = 100) => async (dispa
   dispatch({ type: SEARCH_SONGS });
 
   try {
-    const { songs } = await axios(`${REACT_APP_API_URL}/api/v2/songs/find?query=${query}&skip=${skip}&limit=${limit}&scope=3`, {
-      method: 'GET',
-      headers: {
-        accept: 'application/json',
-        authorization: `Bearer ${token}`,
-      },
-    }).then(response => response.data);
+    const songs = await findSongs(token, skip, limit);
 
     dispatch(retrieveSucceeded(songs));
   } catch (e) {
