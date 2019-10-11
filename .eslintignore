@@ -1,0 +1,8 @@
+# config
+/config/**/*.js
+
+# scripts
+/scripts/**/*.js
+
+# production
+/build/**/*.js
