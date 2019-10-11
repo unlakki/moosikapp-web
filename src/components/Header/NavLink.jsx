@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
-const StyledLink = styled(Link)`
+const NavLink = styled(Link)`
   font-size: 18px;
   line-height: 1.5;
   font-weight: 400;
@@ -16,4 +16,4 @@ const StyledLink = styled(Link)`
   }
 `;
 
-export default StyledLink;
+export default NavLink;
