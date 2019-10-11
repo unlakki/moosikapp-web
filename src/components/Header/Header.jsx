@@ -2,12 +2,14 @@ import React from 'react';
 import { useMedia } from 'react-use';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { logout as logoutAction } from '../../actions/login';
-import css from './css/Header.module.css';
+import { Link } from 'react-router-dom';
 import Logo from './Logo';
 import Navigation from './Navigation';
-import Link from './NavLink';
+import NavLink from './NavLink';
 import NavButton from './NavButton';
+import { logout as logoutAction } from '../../actions/login';
+
+import css from './css/Header.module.css';
 
 const logoutFunc = func => (event) => {
   event.preventDefault();
@@ -29,9 +31,9 @@ const Header = ({ token, logout }) => {
       {!isMobile && (
         <div className={css.group}>
           {!token ? (
-            <Link to="/login">Login</Link>
+            <NavLink to="/login">Login</NavLink>
           ) : (
-            <Link to="?logout" onClick={logoutFunc(logout)}>Logout</Link>
+            <NavLink to="?logout" onClick={logoutFunc(logout)}>Logout</NavLink>
           )}
         </div>
       )}
