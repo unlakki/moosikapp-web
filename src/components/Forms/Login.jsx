@@ -1,16 +1,28 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import classnames from 'classnames';
 import uuidv4 from 'uuid/v4';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import Form from './Form';
+import { login as loginAction } from '../../actions/login';
 
 import css from './css/Form.module.css';
 
-export default () => {
+const LoginForm = ({ token, login, history }) => {
+  useEffect(() => {
+    if (token) {
+      history.push('/');
+    }
+  });
+
   const uuids = {
     username: uuidv4(),
     password: uuidv4(),
   };
+
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
 
   return (
     <Form
@@ -24,6 +36,7 @@ export default () => {
                 type="text"
                 placeholder="Username"
                 className={css.input}
+                onInput={event => setUsername(event.target.value)}
               />
             </label>
             <label htmlFor={uuids.password} className={css.label}>
@@ -32,6 +45,7 @@ export default () => {
                 type="password"
                 placeholder="Password"
                 className={css.input}
+                onInput={event => setPassword(event.target.value)}
               />
             </label>
           </div>
@@ -44,6 +58,33 @@ export default () => {
           </div>
         </>
       )}
+      onSubmit={async (event) => {
+        event.preventDefault();
+        try {
+          await login(username, password);
+          history.push('/');
+        } catch (e) {
+          console.error('Login error:', e);
+        }
+      }}
     />
   );
 };
+
+LoginForm.propTypes = {
+  token: PropTypes.string.isRequired,
+  login: PropTypes.func.isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func,
+  }).isRequired,
+};
+
+const mapStateToProps = store => ({
+  token: store.login.token,
+});
+
+const mapDispatchToProps = dispatch => ({
+  login: () => dispatch(loginAction()),
+});
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(LoginForm));
