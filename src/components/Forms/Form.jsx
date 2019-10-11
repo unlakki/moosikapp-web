@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 
 import css from './css/Form.module.css';
 
-const Form = ({ title, body }) => (
+const Form = ({ title, body, onSubmit }) => (
   <div className={css.wrapper}>
-    <form className={css.form}>
+    <form className={css.form} onSubmit={onSubmit}>
       <h1 className={css.title}>{title}</h1>
       {body}
     </form>
@@ -18,6 +18,7 @@ Form.propTypes = {
     PropTypes.element,
     PropTypes.arrayOf(PropTypes.element),
   ]).isRequired,
+  onSubmit: PropTypes.func.isRequired,
 };
 
 export default Form;
