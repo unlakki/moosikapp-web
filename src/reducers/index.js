@@ -1,11 +1,11 @@
 import { combineReducers } from 'redux';
-import mobile from './sidebar';
+import sidebar from './sidebar';
 import login from './login';
 import music from './music';
 import player from './player';
 
 const rootReducer = combineReducers({
-  mobile,
+  sidebar,
   login,
   music,
   player,
