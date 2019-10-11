@@ -4,6 +4,7 @@
   height: 104px;
   position: absolute;
   bottom: 36px;
+  right: 0;
   padding: 2px 0;
   background-color: var(--light);
   box-shadow: 0 0 2px var(--dark);
