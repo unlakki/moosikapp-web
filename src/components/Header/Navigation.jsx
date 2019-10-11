@@ -1,10 +1,11 @@
 import React from 'react';
-import Link from './Link';
-import { navigation, item } from './styles/Navigation.m.scss';
+import Link from './NavLink';
+
+import css from './css/Navigation.module.css';
 
 export default () => (
-  <div className={navigation}>
-    <Link className={item} to="/music">Music</Link>
-    <Link className={item} to="/upload">Upload</Link>
-  </div>
+  <nav className={css.navigation}>
+    <Link className={css.item} to="/music">Music</Link>
+    <Link className={css.item} to="/upload">Upload</Link>
+  </nav>
 );
