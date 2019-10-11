@@ -1,14 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import styles from './styles/SoundBadge.m.css';
+
+import css from './css/SoundBadge.module.css';
 
 const SoundBadge = ({ author, title, cover }) => (
-  <div className={styles.soundBadge}>
-    <div className={styles.cover} style={{ backgroundImage: cover ? `url(${cover})` : '' }} />
-    <div className={styles.container}>
-      <span className={classnames(styles.truncate, styles.title)}>{title}</span>
-      <span className={classnames(styles.truncate, styles.author)}>{author}</span>
+  <div className={css.soundBadge}>
+    <div className={css.cover} style={{ backgroundImage: cover ? `url(${cover})` : '' }} />
+    <div className={css.container}>
+      <span className={classnames(css.truncate, css.title)}>{title}</span>
+      <span className={classnames(css.truncate, css.author)}>{author}</span>
     </div>
   </div>
 );
@@ -16,7 +17,7 @@ const SoundBadge = ({ author, title, cover }) => (
 SoundBadge.defaultProps = {
   author: 'No Author',
   title: 'No Title',
-  cover: '',
+  cover: null,
 };
 
 SoundBadge.propTypes = {

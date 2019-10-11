@@ -1,36 +1,41 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import styles from './styles/Timeline.m.css';
+
+import css from './css/Timeline.module.css';
+
+const timelineFunc = (duration, update) => (event) => {
+  if (typeof onTimeUpdate === 'function') {
+    const timeline = event.currentTarget.getBoundingClientRect();
+    update(duration * (event.clientX - timeline.left) / timeline.width);
+  }
+};
 
 const Timeline = ({ currentTime, duration, onTimeUpdate }) => (
-  <div className={styles.wrapper}>
-    <span className={styles.time}>{moment(currentTime * 1000).format('mm:ss')}</span>
+  <div className={css.wrapper}>
+    <span className={css.time}>{moment(currentTime * 1000).format('mm:ss')}</span>
     <div
-      className={styles.progressWrapper}
+      className={css.progressWrapper}
       role="slider"
       aria-valuemax={duration}
       aria-valuemin={0}
       aria-valuenow={currentTime}
       tabIndex={-1}
       onKeyDown={null}
-      onClick={(event) => {
-        if (typeof onTimeUpdate === 'function') {
-          const timeline = event.currentTarget.getBoundingClientRect();
-          onTimeUpdate(duration * (event.clientX - timeline.left) / timeline.width);
-        }
-      }}
+      onClick={timelineFunc(duration, onTimeUpdate)}
     >
-      <div className={styles.progressBar}>
+      <div className={css.progressBar}>
         <div
-          className={styles.progressActive}
+          className={css.progressActive}
           style={{
-            width: `${currentTime > duration ? '100%' : `${currentTime / duration * 100}%`}`,
+            width: `${currentTime > duration
+              ? '100%'
+              : `${currentTime / duration * 100}%`}`,
           }}
         />
       </div>
     </div>
-    <span className={styles.time}>{moment(duration * 1000).format('mm:ss')}</span>
+    <span className={css.time}>{moment(duration * 1000).format('mm:ss')}</span>
   </div>
 );
 
