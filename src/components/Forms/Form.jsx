@@ -12,13 +12,17 @@ const Form = ({ title, body, onSubmit }) => (
   </div>
 );
 
+Form.defaultProps = {
+  onSubmit: null,
+};
+
 Form.propTypes = {
   title: PropTypes.string.isRequired,
   body: PropTypes.oneOfType([
     PropTypes.element,
     PropTypes.arrayOf(PropTypes.element),
   ]).isRequired,
-  onSubmit: PropTypes.func.isRequired,
+  onSubmit: PropTypes.func,
 };
 
 export default Form;
