@@ -46,6 +46,7 @@
   background: var(--light);
   color: var(--dark);
   border: 1px solid var(--gray);
+  border-radius: 0;
   outline: 0;
 }
 
