@@ -37,3 +37,9 @@
   line-height: 15px;
   color: var(--gray-dark);
 }
+
+@media (max-width: 860px) {
+  .soundBadge {
+    display: none;
+  }
+}

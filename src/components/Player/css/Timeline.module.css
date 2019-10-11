@@ -32,3 +32,9 @@
   background-color: var(--red);
   transition: all .2s ease;
 }
+
+@media (max-width: 540px) {
+  .wrapper {
+    padding: 10px 0;
+  }
+}
