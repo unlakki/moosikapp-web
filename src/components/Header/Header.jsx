@@ -26,7 +26,7 @@ const Header = ({ token, logout }) => {
         <Link to="/">
           <Logo />
         </Link>
-        {!isMobile && <Navigation />}
+        {(!isMobile && token) && <Navigation />}
       </div>
       {!isMobile && (
         <div className={css.group}>
