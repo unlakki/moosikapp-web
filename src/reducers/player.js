@@ -6,7 +6,7 @@ const initialState = {
   song: null,
   nowPlaying: '',
   playing: false,
-  error: false,
+  error: null,
 };
 
 export default function (state = initialState, action) {
