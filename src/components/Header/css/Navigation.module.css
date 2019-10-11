@@ -6,8 +6,8 @@
 
 .item {
   margin-left: 12px;
+}
 
-  &:first-child {
-    margin-left: 0;
-  }
+.item:first-child {
+  margin-left: 0;
 }

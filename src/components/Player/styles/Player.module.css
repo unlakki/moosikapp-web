@@ -29,10 +29,10 @@
   border: 0;
   outline: 0;
   cursor: pointer;
+}
 
-  &:first-child {
-    margin-left: 0;
-  }
+.controlfirst-child {
+  margin-left: 0;
 }
 
 .icon {
@@ -44,8 +44,8 @@
 
 .volume {
   position: relative;
+}
 
-  &:hover>div {
-    display: block;
-  }
+.volume:hover>div {
+  display: block;
 }
