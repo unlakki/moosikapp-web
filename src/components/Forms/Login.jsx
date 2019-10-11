@@ -58,14 +58,9 @@ const LoginForm = ({ token, login, history }) => {
           </div>
         </>
       )}
-      onSubmit={async (event) => {
+      onSubmit={(event) => {
         event.preventDefault();
-        try {
-          await login(username, password);
-          history.push('/');
-        } catch (e) {
-          console.error('Login error:', e);
-        }
+        login(username, password);
       }}
     />
   );
