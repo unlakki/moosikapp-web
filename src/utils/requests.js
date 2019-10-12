@@ -16,7 +16,7 @@ export const authorize = async (username, password) => {
 };
 
 export const getSongById = async (token, id) => {
-  const { song } = axios(`${REACT_APP_API_URL}/songs/${id}`, {
+  const { song } = await axios(`${REACT_APP_API_URL}/songs/${id}`, {
     method: 'GET',
     headers: {
       accept: 'application/json',
