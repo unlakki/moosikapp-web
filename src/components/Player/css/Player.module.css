@@ -28,18 +28,22 @@
   background: transparent;
   border: 0;
   outline: 0;
+  fill: var(--dark);
   cursor: pointer;
+  transition: all .2s ease;
 }
 
 .control:first-child {
   margin-left: 0;
 }
 
+.control.on {
+  fill: var(--red);
+}
+
 .icon {
   width: 24px;
   height: 24px;
-  fill: var(--dark);
-  transition: all .2s ease;
 }
 
 .volume {
