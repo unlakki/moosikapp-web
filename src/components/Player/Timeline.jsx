@@ -5,7 +5,7 @@ import moment from 'moment';
 import css from './css/Timeline.module.css';
 
 const timelineFunc = (duration, update) => (event) => {
-  if (typeof onTimeUpdate === 'function') {
+  if (typeof update === 'function') {
     const timeline = event.currentTarget.getBoundingClientRect();
     update(duration * (event.clientX - timeline.left) / timeline.width);
   }

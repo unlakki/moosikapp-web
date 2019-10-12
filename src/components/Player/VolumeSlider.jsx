@@ -7,7 +7,7 @@ const volumeFunc = (set, update) => (event) => {
   const el = event.currentTarget.getBoundingClientRect();
   const value = 1 - (event.clientY - el.top) / el.height;
 
-  if (typeof onVolumeUpdate === 'function') {
+  if (typeof update === 'function') {
     update(value);
   }
 
