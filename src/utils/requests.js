@@ -68,7 +68,7 @@ export const findSongs = async (token, query, skip = 0, limit = 100) => {
 };
 
 export const addToFavorites = async (token, uuid) => {
-  await axios(`${REACT_APP_API_URL}/api/favorites/${uuid}`, {
+  await axios(`${REACT_APP_API_URL}/favorites/${uuid}`, {
     method: 'POST',
     headers: {
       accept: 'application/json',
@@ -80,7 +80,7 @@ export const addToFavorites = async (token, uuid) => {
 };
 
 export const deleteFromFavorites = async (token, uuid) => {
-  await axios(`${REACT_APP_API_URL}/api/favorites/${uuid}`, {
+  await axios(`${REACT_APP_API_URL}/favorites/${uuid}`, {
     method: 'DELETE',
     headers: {
       accept: 'application/json',
