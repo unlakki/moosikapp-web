@@ -20,6 +20,7 @@ export const getSongById = async (token, id) => {
     method: 'GET',
     headers: {
       accept: 'application/json',
+      'content-type': 'application/json',
       authorization: `Bearer ${token}`,
     },
   }).then(res => res.data);
@@ -32,6 +33,7 @@ export const getSongs = async (token, skip = 0, limit = 100) => {
     method: 'GET',
     headers: {
       accept: 'application/json',
+      'content-type': 'application/json',
       authorization: `Bearer ${token}`,
     },
   }).then(res => res.data);
@@ -44,6 +46,7 @@ export const getFavoriteSongs = async (token, skip = 0, limit = 100) => {
     method: 'GET',
     headers: {
       accept: 'application/json',
+      'content-type': 'application/json',
       authorization: `Bearer ${token}`,
     },
   }).then(res => res.data);
@@ -52,13 +55,38 @@ export const getFavoriteSongs = async (token, skip = 0, limit = 100) => {
 };
 
 export const findSongs = async (token, query, skip = 0, limit = 100) => {
-  const { songs } = await axios(`${REACT_APP_API_URL}/api/v2/songs/find?query=${query}&skip=${skip}&limit=${limit}&scope=3`, {
+  const { songs } = await axios(`${REACT_APP_API_URL}/songs/find?query=${query}&skip=${skip}&limit=${limit}&scope=3`, {
     method: 'GET',
     headers: {
       accept: 'application/json',
+      'content-type': 'application/json',
       authorization: `Bearer ${token}`,
     },
   }).then(res => res.data);
 
   return songs;
+};
+
+export const addToFavorites = async (token, uuid) => {
+  await axios(`${REACT_APP_API_URL}/api/favorites/${uuid}`, {
+    method: 'POST',
+    headers: {
+      accept: 'application/json',
+      'content-type': 'application/json',
+      authorization: `Bearer ${token}`,
+    },
+  });
+  return true;
+};
+
+export const deleteFromFavorites = async (token, uuid) => {
+  await axios(`${REACT_APP_API_URL}/api/favorites/${uuid}`, {
+    method: 'DELETE',
+    headers: {
+      accept: 'application/json',
+      'content-type': 'application/json',
+      authorization: `Bearer ${token}`,
+    },
+  });
+  return true;
 };
