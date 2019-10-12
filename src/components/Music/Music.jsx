@@ -7,7 +7,7 @@ import css from './css/Music.module.css';
 const Music = ({ children }) => (
   <section className={css.section}>
     <Subnav />
-    <div className={css.container}>
+    <div className={css.wrapper}>
       {children}
     </div>
   </section>
