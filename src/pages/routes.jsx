@@ -2,6 +2,7 @@ import React from 'react';
 import Register from '../components/Forms/Register';
 import Login from '../components/Forms/Login';
 import Forgot from '../components/Forms/Forgot';
+import Music from '../components/Music';
 
 const routes = [
   {
@@ -23,7 +24,7 @@ const routes = [
   },
   {
     path: '/music',
-    component: () => <div>music</div>,
+    component: () => <Music />,
   },
   {
     path: '/upload',
