@@ -1,20 +1,12 @@
-import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
+import React from 'react';
 import classnames from 'classnames';
-import { Link, withRouter } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import uuidv4 from 'uuid/v4';
 import Form from './Form';
 
 import css from './css/Form.module.css';
 
-const RegisterForm = ({ token, history }) => {
-  useEffect(() => {
-    if (token) {
-      history.push('/');
-    }
-  });
-
+const RegisterForm = () => {
   const uuids = {
     username: uuidv4(),
     email: uuidv4(),
@@ -68,15 +60,4 @@ const RegisterForm = ({ token, history }) => {
   );
 };
 
-RegisterForm.propTypes = {
-  token: PropTypes.string.isRequired,
-  history: PropTypes.shape({
-    push: PropTypes.func,
-  }).isRequired,
-};
-
-const mapStateToProps = store => ({
-  token: store.login.token,
-});
-
-export default withRouter(connect(mapStateToProps)(RegisterForm));
+export default RegisterForm;

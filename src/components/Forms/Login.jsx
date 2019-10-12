@@ -1,21 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import classnames from 'classnames';
 import uuidv4 from 'uuid/v4';
-import { Link, withRouter } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Form from './Form';
 import { login as loginAction } from '../../actions/login';
 
 import css from './css/Form.module.css';
 
-const LoginForm = ({ token, login, history }) => {
-  useEffect(() => {
-    if (token) {
-      history.push('/');
-    }
-  });
-
+const LoginForm = ({ login }) => {
   const uuids = {
     username: uuidv4(),
     password: uuidv4(),
@@ -67,19 +61,11 @@ const LoginForm = ({ token, login, history }) => {
 };
 
 LoginForm.propTypes = {
-  token: PropTypes.string.isRequired,
   login: PropTypes.func.isRequired,
-  history: PropTypes.shape({
-    push: PropTypes.func,
-  }).isRequired,
 };
-
-const mapStateToProps = store => ({
-  token: store.login.token,
-});
 
 const mapDispatchToProps = dispatch => ({
   login: () => dispatch(loginAction()),
 });
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(LoginForm));
+export default connect(null, mapDispatchToProps)(LoginForm);

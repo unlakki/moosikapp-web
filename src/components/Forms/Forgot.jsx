@@ -1,20 +1,11 @@
-import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
+import React from 'react';
 import classnames from 'classnames';
-import { withRouter } from 'react-router-dom';
 import uuidv4 from 'uuid/v4';
 import Form from './Form';
 
 import css from './css/Form.module.css';
 
-const ForgotForm = ({ token, history }) => {
-  useEffect(() => {
-    if (token) {
-      history.push('/');
-    }
-  });
-
+const ForgotForm = () => {
   const uuids = {
     email: uuidv4(),
   };
@@ -42,15 +33,4 @@ const ForgotForm = ({ token, history }) => {
   );
 };
 
-ForgotForm.propTypes = {
-  token: PropTypes.string.isRequired,
-  history: PropTypes.shape({
-    push: PropTypes.func,
-  }).isRequired,
-};
-
-const mapStateToProps = store => ({
-  token: store.login.token,
-});
-
-export default withRouter(connect(mapStateToProps)(ForgotForm));
+export default ForgotForm;
