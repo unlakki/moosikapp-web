@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
+import classnames from 'classnames';
 import PropTypes from 'prop-types';
 import Subnav from './Subnav';
 
@@ -14,7 +15,7 @@ const Music = ({ children, token, history }) => {
   });
 
   return (
-    <section className={css.section}>
+    <section className={classnames(css.section, { [css.margin]: token })}>
       <Subnav />
       <div className={css.wrapper}>
         {children}
