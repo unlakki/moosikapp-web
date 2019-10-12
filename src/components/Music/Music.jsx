@@ -13,7 +13,6 @@ const Music = ({ children, token, history }) => {
     }
   });
 
-
   return (
     <section className={css.section}>
       <Subnav />
