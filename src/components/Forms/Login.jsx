@@ -65,7 +65,7 @@ LoginForm.propTypes = {
 };
 
 const mapDispatchToProps = dispatch => ({
-  login: () => dispatch(loginAction()),
+  login: (username, password) => dispatch(loginAction(username, password)),
 });
 
 export default connect(null, mapDispatchToProps)(LoginForm);
