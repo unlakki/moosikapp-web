@@ -2,6 +2,7 @@ import React from 'react';
 import { useMedia } from 'react-use';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import classnames from 'classnames';
 import Sidebar from '../Sidebar';
 import Modal from '../Modal';
 import BackgroundPicture from '../BackgroundPicture';
@@ -18,7 +19,7 @@ const Layout = ({ children, token }) => {
       {isMobile && <Sidebar />}
       <main className={css.app}>
         <BackgroundPicture />
-        <div className={css.content}>
+        <div className={classnames(css.content, { [css.padding]: true })}>
           <Header />
           {children}
         </div>
