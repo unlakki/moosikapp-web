@@ -15,10 +15,10 @@ export default function (state = initialState, action) {
     case REQUEST_ALL:
     case REQUEST_FAVORITES:
     case SEARCH_SONGS:
-      return { ...state, loading: true, error: false };
+      return { ...state, loading: true, error: null };
     case SUCCEEDED:
       return {
-        ...state, loading: false, songs: action.payload, error: false,
+        ...state, loading: false, songs: action.payload, error: null,
       };
     case ERROR:
       return {
@@ -26,7 +26,7 @@ export default function (state = initialState, action) {
       };
     case CLEAR_SONGS:
       return {
-        ...state, loading: false, songs: [], error: false,
+        ...state, loading: false, songs: [], error: null,
       };
     case SKIP:
       return { ...state, skip: action.payload };
