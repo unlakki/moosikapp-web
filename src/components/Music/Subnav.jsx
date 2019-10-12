@@ -23,6 +23,7 @@ export default () => (
   <div className={css.subnav}>
     {routes.map(route => (
       <Link
+        key={route.to}
         to={route.to}
         className={classnames(css.link, {
           [css.active]: window.location.pathname === route.to,
