@@ -23,7 +23,7 @@ const Header = ({ token, logout }) => {
   return (
     <header className={css.header}>
       <div className={css.group}>
-        <Link to="/">
+        <Link to="/" aria-label="Logo">
           <Logo />
         </Link>
         {(!isMobile && token) && <Navigation />}

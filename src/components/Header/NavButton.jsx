@@ -25,6 +25,7 @@ const Icon = styled.svg`
 const NavButton = ({ hidden, show, hide }) => (
   <Button
     type="button"
+    aria-label="Mobile Navigation Button"
     onClick={() => {
       if (hidden) {
         show();

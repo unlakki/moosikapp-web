@@ -66,6 +66,7 @@ const Player = ({
           <button
             className={css.control}
             type="button"
+            aria-label="Prev"
             onClick={async () => {
               if (songs && (index > 0)) {
                 await setSong(token, songs[index - 1].uuid);
@@ -80,6 +81,7 @@ const Player = ({
           <button
             className={css.control}
             type="button"
+            aria-label="Play / Pause"
             onClick={async () => {
               if (!song && (songs.length > 0)) {
                 await setSong(token, songs[0].uuid);
@@ -103,6 +105,7 @@ const Player = ({
           <button
             className={css.control}
             type="button"
+            aria-label="Next"
             onClick={async () => {
               if (songs && (index < songs.length - 1)) {
                 await setSong(token, songs[index + 1].uuid);
@@ -117,6 +120,7 @@ const Player = ({
           <button
             className={classnames(css.control, { [css.on]: repeat })}
             type="button"
+            aria-label="Repeat"
             onClick={() => {
               ref.current.loop = !repeat;
               setRepeat(ref.current.loop);
@@ -129,6 +133,7 @@ const Player = ({
           <button
             className={classnames(css.control, { [css.on]: shuffle })}
             type="button"
+            aria-label="Shuffle"
             onClick={() => setShuffle(!shuffle)}
           >
             <svg className={css.icon}>
@@ -149,6 +154,7 @@ const Player = ({
           <button
             className={css.control}
             type="button"
+            aria-label="Volume"
             onClick={() => {
               if (state.muted) {
                 controls.unmute();
