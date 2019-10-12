@@ -19,7 +19,7 @@ const Layout = ({ children, token }) => {
       {isMobile && <Sidebar />}
       <main className={css.app}>
         <BackgroundPicture />
-        <div className={classnames(css.content, { [css.padding]: true })}>
+        <div className={classnames(css.content, { [css.padding]: token })}>
           <Header />
           {children}
         </div>

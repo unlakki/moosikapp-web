@@ -1,13 +1,16 @@
 .app {
+  display: flex;
   min-height: 100%;
 }
 
 .content {
+  display: flex;
+  flex-direction: column;
   width: 90%;
   max-width: 1200px;
-  height: 100%;
   position: relative;
   margin: 0 auto;
+  flex: 1;
 }
 
 .padding {
