@@ -1,0 +1,118 @@
+.song {
+  display: flex;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.song:last-child {
+  margin-bottom: 0;
+}
+
+.cover {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  position: relative;
+  background: var(--gray-light) 50% no-repeat;
+  background-size: cover;
+}
+
+.defaultCover {
+  width: 32px;
+  height: 32px;
+  fill: var(--gray-dark);
+}
+
+.play {
+  width: 36px;
+  height: 36px;
+  position: absolute;
+  padding: 0;
+  background: none;
+  border: 0;
+  outline: 0;
+  fill: var(--light);
+  filter: drop-shadow(0 0 2px var(--dark));
+  z-index: 1;
+  cursor: pointer;
+}
+
+.titleAndAuthor {
+  display: flex;
+  flex-direction: column;
+  margin-left: 8px;
+  font-weight: 400;
+  line-height: 20px;
+  overflow: hidden;
+  white-space: nowrap;
+  flex: 1;
+}
+
+.title {
+  font-size: 16px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  color: var(--dark);
+}
+
+.author {
+  font-size: 14px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  color: var(--gray);
+}
+
+.actions {
+  display: flex;
+}
+
+.button {
+  width: 20px;
+  height: 20px;
+  margin-right: 8px;
+  padding: 0;
+  background: none;
+  border: 0;
+  outline: 0;
+  fill: var(--gray-light);
+  cursor: pointer;
+}
+
+.button.on {
+  fill: var(--red);
+}
+
+.icon {
+  width: 100%;
+  height: 100%;
+}
+
+@media (min-width: 1000px) {
+  .song {
+    transition: all .2s ease;
+  }
+
+  .song:hover {
+    box-shadow: 0 0 2px var(--dark);
+  }
+
+  .play {
+    opacity: 0;
+    transition: all .2s ease;
+  }
+
+  .song:hover .play {
+    opacity: 1;
+  }
+
+  .icon {
+    opacity: .7;
+    transition: all .2s ease;
+  }
+
+  .song:hover .icon {
+    opacity: 1;
+  }
+}
