@@ -39,7 +39,7 @@ export const searchSongs = (token, query, skip = 0, limit = 100) => async (dispa
   dispatch({ type: SEARCH_SONGS });
 
   try {
-    const songs = await findSongs(token, skip, limit);
+    const songs = await findSongs(token, query, skip, limit);
 
     dispatch(retrieveSucceeded(songs));
   } catch (e) {
