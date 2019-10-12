@@ -134,7 +134,7 @@ const mapStateToProps = store => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  setSong: (token, id) => dispatch(playerActions.setSong(token, id)),
+  setSong: (token, uuid) => dispatch(playerActions.setSong(token, uuid)),
   play: () => dispatch(playerActions.play()),
   pause: () => dispatch(playerActions.pause()),
 });
