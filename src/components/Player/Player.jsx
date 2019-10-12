@@ -1,20 +1,78 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useAudio } from 'react-use';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import Timeline from './Timeline';
 import VolumeSlider from './VolumeSlider';
 import SoundBadge from './SoundBadge';
+import * as playerActions from '../../actions/player';
 
 import css from './css/Player.module.css';
 
-export default () => {
-  const [audio, state, controls, ref] = useAudio({}); // eslint-disable-line
+const Player = ({
+  token, songs, song, nowPlaying, playing, setSong, play, pause,
+}) => {
+  const [audio, state, controls, ref] = useAudio({});
+
+  const [repeat, setRepeat] = useState(false);
+  const [shuffle, setShuffle] = useState(false);
+  const [index, setIndex] = useState(0);
+
+  useEffect(() => {
+    if (song && song.url) {
+      ref.current.src = song.url;
+      controls.play();
+
+      setIndex(songs.findIndex(s => s.uuid === nowPlaying));
+    }
+  }, [song]);
+
+  useEffect(() => {
+    if (playing) {
+      controls.play();
+      return;
+    }
+
+    controls.pause();
+  }, [playing]);
+
+  useEffect(() => {
+    if (songs.length && state.time === state.duration) {
+      const ended = async () => {
+        let i;
+        if (shuffle) {
+          i = Math.round(Math.random() * songs.length);
+        } else {
+          i = index + 1;
+
+          if (i > songs.length) {
+            i = 0;
+          }
+        }
+        setIndex(i);
+
+        await setSong(token, songs[i].uuid);
+      };
+
+      ended();
+    }
+  }, [state.time]);
 
   return (
     <div className={css.wrapper}>
       <section className={css.container}>
         <div className={css.controls}>
-          <button className={css.control} type="button">
+          <button
+            className={css.control}
+            type="button"
+            onClick={async () => {
+              if (songs && (index > 0)) {
+                await setSong(token, songs[index - 1].uuid);
+                play();
+              }
+            }}
+          >
             <svg className={css.icon}>
               <path d="M6,18V6H8V18H6M9.5,12L18,6V18L9.5,12Z" />
             </svg>
@@ -22,13 +80,17 @@ export default () => {
           <button
             className={css.control}
             type="button"
-            onClick={() => {
-              if (state.paused) {
-                controls.play();
+            onClick={async () => {
+              if (!song && (songs.length > 0)) {
+                await setSong(token, songs[0].uuid);
+              }
+
+              if (playing) {
+                pause();
                 return;
               }
 
-              controls.pause();
+              play();
             }}
           >
             <svg className={css.icon}>
@@ -38,17 +100,37 @@ export default () => {
               }
             </svg>
           </button>
-          <button className={css.control} type="button">
+          <button
+            className={css.control}
+            type="button"
+            onClick={async () => {
+              if (songs && (index < songs.length - 1)) {
+                await setSong(token, songs[index + 1].uuid);
+                play();
+              }
+            }}
+          >
             <svg className={css.icon}>
               <path d="M16,18H18V6H16M6,18L14.5,12L6,6V18Z" />
             </svg>
           </button>
-          <button className={css.control} type="button">
+          <button
+            className={classnames(css.control, { [css.on]: repeat })}
+            type="button"
+            onClick={() => {
+              ref.current.loop = !repeat;
+              setRepeat(ref.current.loop);
+            }}
+          >
             <svg className={css.icon}>
               <path d="M17,17H7V14L3,18L7,22V19H19V13H17M7,7H17V10L21,6L17,2V5H5V11H7V7Z" />
             </svg>
           </button>
-          <button className={css.control} type="button">
+          <button
+            className={classnames(css.control, { [css.on]: shuffle })}
+            type="button"
+            onClick={() => setShuffle(!shuffle)}
+          >
             <svg className={css.icon}>
               <path
                 d="M14.83,13.41L13.42,14.82L16.55,17.95L14.5,20H20V14.5L17.96,16.54L14.83,
@@ -58,7 +140,11 @@ export default () => {
             </svg>
           </button>
         </div>
-        <Timeline currentTime={state.time} duration={state.duration} onTimeUpdate={controls.seek} />
+        <Timeline
+          currentTime={state.time}
+          duration={state.duration}
+          onTimeUpdate={controls.seek}
+        />
         <div className={classnames(css.controls, css.volume)}>
           <button
             className={css.control}
@@ -94,9 +180,55 @@ export default () => {
           </button>
           <VolumeSlider value={state.volume} onVolumeUpdate={controls.volume} />
         </div>
-        <SoundBadge />
+        <SoundBadge
+          author={song && song.author}
+          title={song && song.title}
+        />
         {audio}
       </section>
     </div>
   );
 };
+
+Player.defaultProps = {
+  playing: false,
+  song: null,
+};
+
+Player.propTypes = {
+  token: PropTypes.string.isRequired,
+  songs: PropTypes.arrayOf(PropTypes.shape({
+    uuid: PropTypes.string,
+    author: PropTypes.string,
+    title: PropTypes.string,
+    cover: PropTypes.string,
+  })).isRequired,
+  song: PropTypes.shape({
+    uuid: PropTypes.string,
+    author: PropTypes.string,
+    title: PropTypes.string,
+    cover: PropTypes.string,
+    url: PropTypes.string,
+  }),
+  playing: PropTypes.bool,
+  nowPlaying: PropTypes.string.isRequired,
+  setSong: PropTypes.func.isRequired,
+  play: PropTypes.func.isRequired,
+  pause: PropTypes.func.isRequired,
+};
+
+const mapStateToProps = store => ({
+  token: store.login.token,
+  songs: store.music.songs,
+  song: store.player.song,
+  playing: store.player.playing,
+  nowPlaying: store.player.nowPlaying,
+});
+
+const mapDispatchToProps = dispatch => ({
+  setSong: (token, uuid) => dispatch(playerActions.setSong(token, uuid)),
+  play: () => dispatch(playerActions.play()),
+  pause: () => dispatch(playerActions.pause()),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Player);
