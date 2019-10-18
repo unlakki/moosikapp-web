@@ -46,7 +46,7 @@ const Player = ({
         } else {
           i = index + 1;
 
-          if (i > songs.length) {
+          if (i >= songs.length) {
             i = 0;
           }
         }
