@@ -1,0 +1,31 @@
+.fileUploader {
+  margin-bottom: 16px;
+}
+
+.fileUploader:last-child {
+  margin-bottom: 0;
+}
+
+.filename {
+  margin-bottom: 4px;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--gray-dark);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-break: normal;
+  white-space: nowrap;
+}
+
+.progressBar {
+  width: 100%;
+  height: 3px;
+  background: var(--gray-light);
+}
+
+.passed {
+  height: 100%;
+  background: var(--red);
+  transition: all .2s ease;
+}
