@@ -1,0 +1,135 @@
+.songInfoEditor {
+  display: flex;
+  margin-top: 8px;
+  padding: 0 8px;
+}
+
+.cover {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  width: 248px;
+  height: 248px;
+  position: relative;
+  background: transparent center no-repeat;
+  background-size: cover;
+  box-shadow:  0 0 4px var(--gray-light);
+}
+
+.hover {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: var(--dark);
+  opacity: 0;
+  transition: all .2s ease;
+}
+
+.coverButton {
+  position: relative;
+  margin-bottom: 16px;
+  padding: 4px 8px;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 20px;
+  color: var(--light);
+  background: rgba(0, 0, 0, .6);
+  border: 1px solid var(--gray-dark);
+  text-shadow: 0 0 2px var(--dark);
+  cursor: pointer;
+  user-select: none;
+  transition: all .2s ease;
+}
+
+.coverInput {
+  width: 0;
+  height: 0;
+  position: absolute;
+}
+
+.titleAndAuthor {
+  margin-left: 16px;
+  flex: 1;
+}
+
+.label {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+}
+
+.label:last-child {
+  margin-bottom: 0;
+}
+
+.input {
+  padding: 4px 5px;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 20px;
+  background: var(--light);
+  color: var(--dark);
+  border: 1px solid var(--gray);
+  border-radius: 0;
+  outline: 0;
+}
+
+.input:focus {
+  border-color: var(--red);
+  box-shadow: 0 0 2px var(--red)
+}
+
+.container {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.submit {
+  padding: 5px 10px;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 20px;
+  background: var(--red);
+  color: var(--light);
+  border: 0;
+  border-radius: 0;
+  outline: 0;
+  cursor: pointer;
+  transition: all .2s ease;
+}
+
+.submit:hover {
+  background: var(--red-dark);
+  box-shadow: 0 0 2px var(--red);
+}
+
+@media (max-width: 600px) {
+  .songInfoEditor {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .titleAndAuthor {
+    width: 100%;
+    margin-left: 0;
+    margin-top: 16px;
+  }
+}
+
+@media (min-width: 900px) {
+  .cover:hover .hover {
+    opacity: .2;
+  }
+
+  .coverButton {
+    opacity: .7;
+  }
+
+  .cover:hover .coverButton {
+    opacity: 1;
+  }
+
+  .coverButton:hover {
+    background: var(--dark);
+  }
+}
