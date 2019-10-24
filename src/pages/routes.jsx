@@ -3,12 +3,13 @@ import Register from '../components/Forms/Register';
 import Login from '../components/Forms/Login';
 import Forgot from '../components/Forms/Forgot';
 import Music from '../components/Music';
+import Upload from '../components/Upload';
 
 const routes = [
   {
     path: '/',
     exact: true,
-    component: () => <div>home</div>,
+    component: () => <div />,
   },
   {
     path: '/register',
@@ -28,7 +29,7 @@ const routes = [
   },
   {
     path: '/upload',
-    component: () => <div>upload</div>,
+    component: () => <Upload />,
   },
 ];
 
