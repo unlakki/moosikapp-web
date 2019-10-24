@@ -91,3 +91,32 @@ export const deleteFromFavorites = async (token, uuid) => {
   });
   return true;
 };
+
+export const uploadSong = async (token, song, onUploadProgress) => {
+  const response = await axios(`${API_URL}/songs`, {
+    method: 'POST',
+    headers: {
+      accept: 'application/json',
+      'content-type': 'audio/mpeg',
+      authorization: `Bearer ${token}`,
+    },
+    data: song,
+    onUploadProgress,
+  }).then(res => res.data);
+
+  return response;
+};
+
+export const updateSong = async (token, id, data) => {
+  const response = await axios(`${API_URL}/songs/${id}`, {
+    method: 'PATCH',
+    headers: {
+      accept: 'application/json',
+      'content-type': 'application/json',
+      authorization: `Bearer ${token}`,
+    },
+    data: JSON.stringify(data),
+  }).then(res => res.data);
+
+  return response;
+};
