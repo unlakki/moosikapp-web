@@ -3,13 +3,15 @@ import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import Home from './pages';
-import store from './store';
+import createStore from './store';
 import * as serviceWorker from './serviceWorker';
 
 import './layouts/default.css';
 
+const isProd = process.env.NODE_ENV === 'production';
+
 ReactDOM.render(
-  <Provider store={store}>
+  <Provider store={createStore()}>
     <BrowserRouter>
       <Home />
     </BrowserRouter>
@@ -17,4 +19,8 @@ ReactDOM.render(
   document.getElementById('root'),
 );
 
-serviceWorker.unregister();
+if (isProd) {
+  serviceWorker.register();
+} else {
+  serviceWorker.unregister();
+}
