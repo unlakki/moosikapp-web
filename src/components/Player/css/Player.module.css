@@ -50,10 +50,6 @@
   position: relative;
 }
 
-.volume:hover>div {
-  display: block;
-}
-
 @media (max-width: 540px) {
   .container {
     flex-direction: column;
