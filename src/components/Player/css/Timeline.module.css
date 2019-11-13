@@ -30,7 +30,7 @@
 .progressActive {
   height: 100%;
   background-color: var(--red);
-  transition: all .2s ease;
+  transition: all 200ms ease;
 }
 
 @media (max-width: 540px) {
