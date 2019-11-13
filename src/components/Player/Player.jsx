@@ -19,6 +19,8 @@ const Player = ({
   const [shuffle, setShuffle] = useState(false);
   const [index, setIndex] = useState(0);
 
+  const [isVolumeVisible, setIsVolumeVisible] = useState(false);
+
   useEffect(() => {
     if (song && song.url) {
       ref.current.src = song.url;
@@ -150,7 +152,11 @@ const Player = ({
           duration={state.duration}
           onTimeUpdate={controls.seek}
         />
-        <div className={classnames(css.controls, css.volume)}>
+        <div
+          className={classnames(css.controls, css.volume)}
+          onMouseEnter={() => setIsVolumeVisible(true)}
+          onMouseLeave={() => setIsVolumeVisible(false)}
+        >
           <button
             className={css.control}
             type="button"
@@ -184,7 +190,11 @@ const Player = ({
               }
             </svg>
           </button>
-          <VolumeSlider value={state.volume} onVolumeUpdate={controls.volume} />
+          <VolumeSlider
+            show={isVolumeVisible}
+            value={state.volume}
+            onVolumeUpdate={controls.volume}
+          />
         </div>
         <SoundBadge
           author={song && song.author}

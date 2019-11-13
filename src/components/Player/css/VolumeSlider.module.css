@@ -1,5 +1,26 @@
+.enter {
+  opacity: 0;
+  transform: translateY(50%);
+}
+
+.enterActive {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 200ms ease, transform 200ms ease;
+}
+
+.exit {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.exitActive {
+  opacity: 0;
+  transform: translateY(50%);
+  transition: opacity 200ms ease, transform 200ms ease;
+}
+
 .wrapper {
-  display: none;
   width: 24px;
   height: 104px;
   position: absolute;
@@ -35,5 +56,5 @@
   position: absolute;
   bottom: 0;
   background-color: var(--red-dark);
-  transition: all .25s;
+  transition: height 200ms;
 }
