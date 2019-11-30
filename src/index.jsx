@@ -8,8 +8,6 @@ import * as serviceWorker from './serviceWorker';
 
 import './layouts/default.css';
 
-const isProd = process.env.NODE_ENV === 'production';
-
 ReactDOM.render(
   <Provider store={createStore()}>
     <BrowserRouter>
@@ -19,8 +17,4 @@ ReactDOM.render(
   document.getElementById('root'),
 );
 
-if (isProd) {
-  serviceWorker.register();
-} else {
-  serviceWorker.unregister();
-}
+serviceWorker.register();
