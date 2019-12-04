@@ -11,26 +11,26 @@ const timelineFunc = (duration, update) => (event) => {
   }
 };
 
-const Timeline = ({ currentTime, duration, onTimeUpdate }) => (
+const Timeline = ({ time, duration, seek }) => (
   <div className={css.wrapper}>
-    <span className={css.time}>{moment(currentTime * 1000).format('mm:ss')}</span>
+    <span className={css.time}>{moment(time * 1000).format('mm:ss')}</span>
     <div
       className={css.progressWrapper}
       role="slider"
       aria-valuemax={duration}
       aria-valuemin={0}
-      aria-valuenow={currentTime}
+      aria-valuenow={time}
       tabIndex={-1}
       onKeyDown={null}
-      onClick={timelineFunc(duration, onTimeUpdate)}
+      onClick={timelineFunc(duration, seek)}
     >
       <div className={css.progressBar}>
         <div
           className={css.progressActive}
           style={{
-            width: `${currentTime > duration
+            width: `${time > duration
               ? '100%'
-              : `${currentTime / duration * 100}%`}`,
+              : `${time / duration * 100}%`}`,
           }}
         />
       </div>
@@ -40,13 +40,13 @@ const Timeline = ({ currentTime, duration, onTimeUpdate }) => (
 );
 
 Timeline.defaultProps = {
-  onTimeUpdate: null,
+  seek: null,
 };
 
 Timeline.propTypes = {
-  currentTime: PropTypes.number.isRequired,
+  time: PropTypes.number.isRequired,
   duration: PropTypes.number.isRequired,
-  onTimeUpdate: PropTypes.func,
+  seek: PropTypes.func,
 };
 
 export default Timeline;
