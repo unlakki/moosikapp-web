@@ -9,7 +9,7 @@ const initialState = {
   error: null,
 };
 
-export default function (state = initialState, action) {
+export default (state = initialState, action) => {
   switch (action.type) {
     case SET_SONG:
       return { ...state, song: action.payload };
@@ -26,4 +26,4 @@ export default function (state = initialState, action) {
     default:
       return state;
   }
-}
+};
