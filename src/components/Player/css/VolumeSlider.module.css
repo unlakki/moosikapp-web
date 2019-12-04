@@ -1,6 +1,6 @@
 .enter {
   opacity: 0;
-  transform: translateY(50%);
+  transform: translateY(25%);
 }
 
 .enterActive {
@@ -16,17 +16,17 @@
 
 .exitActive {
   opacity: 0;
-  transform: translateY(50%);
+  transform: translateY(25%);
   transition: opacity 200ms ease, transform 200ms ease;
 }
 
 .wrapper {
   width: 24px;
-  height: 104px;
+  height: 116px;
   position: absolute;
   bottom: 36px;
   right: 0;
-  padding: 2px 0;
+  padding: 8px 0;
   background-color: var(--light);
   box-shadow: 0 0 2px var(--dark);
   z-index: 1;
@@ -57,4 +57,12 @@
   bottom: 0;
   background-color: var(--red-dark);
   transition: height 200ms;
+}
+
+.sliderHandle {
+  width: 8px;
+  height: 8px;
+  position: absolute;
+  border-radius: 100%;
+  background-color: var(--red-dark);
 }
