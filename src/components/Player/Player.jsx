@@ -11,36 +11,96 @@ import * as playerActions from '../../actions/player';
 import css from './css/Player.module.css';
 
 const Player = ({
-  token, songs, song, nowPlaying, playing, setSong, play, pause,
+  token, songs, song, nowPlaying, isPlaying, setSong, play, pause,
 }) => {
-  const [audio, state, controls, ref] = useAudio({});
+  const [audio, audioState, audioControls, audioRef] = useAudio({});
 
   const [repeat, setRepeat] = useState(false);
   const [shuffle, setShuffle] = useState(false);
+
   const [index, setIndex] = useState(0);
 
-  const [isVolumeVisible, setIsVolumeVisible] = useState(false);
+  const [isVolumeSliderVisible, setVolumeSliderVisible] = useState(false);
+
+  const playPrevSong = async () => {
+    if (songs && (index > 0)) {
+      await setSong(token, songs[index - 1].uuid);
+      play();
+    }
+  };
+
+  const playSong = async () => {
+    if (!song && (songs.length > 0)) {
+      await setSong(token, songs[0].uuid);
+    }
+
+    if (isPlaying) {
+      pause();
+      return;
+    }
+
+    play();
+  };
+
+  const playNextSong = async () => {
+    if (songs && (index < songs.length - 1)) {
+      await setSong(token, songs[index + 1].uuid);
+      play();
+    }
+  };
+
+  const toggleRepeatSong = () => {
+    audioRef.current.loop = !repeat;
+    setRepeat(audioRef.current.loop);
+  };
+
+  const toggleShuffleSongs = () => {
+    setShuffle(!shuffle);
+  };
+
+  const toggleMute = () => {
+    if (audioState.muted) {
+      audioControls.unmute();
+      return;
+    }
+
+    audioControls.mute();
+  };
+
+  const showVolumeSlider = () => {
+    setVolumeSliderVisible(true);
+  };
+
+  const hideVolumeSlider = () => {
+    setVolumeSliderVisible(false);
+  };
 
   useEffect(() => {
     if (song && song.url) {
-      ref.current.src = song.url;
-      controls.play();
+      document.title = `${song.author} - ${song.title}`;
+
+      audioRef.current.src = song.url;
+      audioControls.play();
 
       setIndex(songs.findIndex(s => s.uuid === nowPlaying));
     }
   }, [song]);
 
   useEffect(() => {
-    if (playing) {
-      controls.play();
+    if (isPlaying) {
+      document.title = `${song.author} - ${song.title}`;
+
+      audioControls.play();
       return;
     }
 
-    controls.pause();
-  }, [playing]);
+    document.title = 'Moosik';
+
+    audioControls.pause();
+  }, [isPlaying]);
 
   useEffect(() => {
-    if (songs.length && state.time === state.duration) {
+    if (songs.length && audioState.time === audioState.duration) {
       const ended = async () => {
         let i;
         if (shuffle) {
@@ -59,62 +119,26 @@ const Player = ({
 
       ended();
     }
-  }, [state.time]);
+  }, [audioState.time]);
 
   return (
     <div className={css.wrapper}>
       <section className={css.container}>
-        <div className={css.controls}>
-          <button
-            className={css.control}
-            type="button"
-            aria-label="Prev"
-            onClick={async () => {
-              if (songs && (index > 0)) {
-                await setSong(token, songs[index - 1].uuid);
-                play();
-              }
-            }}
-          >
+        <div className={css.audioControls}>
+          <button className={css.control} type="button" title="Prev" onClick={playPrevSong}>
             <svg className={css.icon}>
               <path d="M6,18V6H8V18H6M9.5,12L18,6V18L9.5,12Z" />
             </svg>
           </button>
-          <button
-            className={css.control}
-            type="button"
-            aria-label="Play / Pause"
-            onClick={async () => {
-              if (!song && (songs.length > 0)) {
-                await setSong(token, songs[0].uuid);
-              }
-
-              if (playing) {
-                pause();
-                return;
-              }
-
-              play();
-            }}
-          >
+          <button className={css.control} type="button" title="Play / Pause" onClick={playSong}>
             <svg className={css.icon}>
-              {state.paused
+              {audioState.paused
                 ? <path d="M8,5.14V19.14L19,12.14L8,5.14Z" />
                 : <path d="M14,19H18V5H14M6,19H10V5H6V19Z" />
               }
             </svg>
           </button>
-          <button
-            className={css.control}
-            type="button"
-            aria-label="Next"
-            onClick={async () => {
-              if (songs && (index < songs.length - 1)) {
-                await setSong(token, songs[index + 1].uuid);
-                play();
-              }
-            }}
-          >
+          <button className={css.control} type="button" title="Next" onClick={playNextSong}>
             <svg className={css.icon}>
               <path d="M16,18H18V6H16M6,18L14.5,12L6,6V18Z" />
             </svg>
@@ -122,11 +146,8 @@ const Player = ({
           <button
             className={classnames(css.control, { [css.on]: repeat })}
             type="button"
-            aria-label="Repeat"
-            onClick={() => {
-              ref.current.loop = !repeat;
-              setRepeat(ref.current.loop);
-            }}
+            title="Repeat"
+            onClick={toggleRepeatSong}
           >
             <svg className={css.icon}>
               <path d="M17,17H7V14L3,18L7,22V19H19V13H17M7,7H17V10L21,6L17,2V5H5V11H7V7Z" />
@@ -135,8 +156,8 @@ const Player = ({
           <button
             className={classnames(css.control, { [css.on]: shuffle })}
             type="button"
-            aria-label="Shuffle"
-            onClick={() => setShuffle(!shuffle)}
+            title="Shuffle"
+            onClick={toggleShuffleSongs}
           >
             <svg className={css.icon}>
               <path
@@ -147,38 +168,23 @@ const Player = ({
             </svg>
           </button>
         </div>
-        <Timeline
-          currentTime={state.time}
-          duration={state.duration}
-          onTimeUpdate={controls.seek}
-        />
+        <Timeline time={audioState.time} duration={audioState.duration} seek={audioControls.seek} />
         <div
-          className={classnames(css.controls, css.volume)}
-          onMouseEnter={() => setIsVolumeVisible(true)}
-          onMouseLeave={() => setIsVolumeVisible(false)}
+          className={classnames(css.audioControls, css.volume)}
+          onMouseEnter={showVolumeSlider}
+          onMouseLeave={hideVolumeSlider}
         >
-          <button
-            className={css.control}
-            type="button"
-            aria-label="Volume"
-            onClick={() => {
-              if (state.muted) {
-                controls.unmute();
-                return;
-              }
-              controls.mute();
-            }}
-          >
+          <button className={css.control} type="button" aria-label="Volume" onClick={toggleMute}>
             <svg className={css.icon}>
-              {state.muted
+              {audioState.muted
                 ? (
                   <path
                     d="M12,4L9.91,6.09L12,8.18M4.27,3L3,4.27L7.73,9H3V15H7L12,20V13.27L16.25,
-                    17.53C15.58,18.04 14.83,18.46 14,18.7V20.77C15.38,20.45 16.63,19.82 17.68,
-                    18.96L19.73,21L21,19.73L12,10.73M19,12C19,12.94 18.8,13.82 18.46,
-                    14.64L19.97,16.15C20.62,14.91 21,13.5 21,12C21,7.72 18,4.14 14,
-                    3.23V5.29C16.89,6.15 19,8.83 19,12M16.5,12C16.5,10.23 15.5,8.71 14,
-                    7.97V10.18L16.45,12.63C16.5,12.43 16.5,12.21 16.5,12Z"
+                      17.53C15.58,18.04 14.83,18.46 14,18.7V20.77C15.38,20.45 16.63,19.82 17.68,
+                      18.96L19.73,21L21,19.73L12,10.73M19,12C19,12.94 18.8,13.82 18.46,
+                      14.64L19.97,16.15C20.62,14.91 21,13.5 21,12C21,7.72 18,4.14 14,
+                      3.23V5.29C16.89,6.15 19,8.83 19,12M16.5,12C16.5,10.23 15.5,8.71 14,
+                      7.97V10.18L16.45,12.63C16.5,12.43 16.5,12.21 16.5,12Z"
                   />
                 ) : (
                   <path
@@ -191,9 +197,9 @@ const Player = ({
             </svg>
           </button>
           <VolumeSlider
-            show={isVolumeVisible}
-            value={state.volume}
-            onVolumeUpdate={controls.volume}
+            show={isVolumeSliderVisible}
+            value={audioState.volume}
+            onUpdate={audioControls.volume}
           />
         </div>
         <SoundBadge
@@ -207,7 +213,7 @@ const Player = ({
 };
 
 Player.defaultProps = {
-  playing: false,
+  isPlaying: false,
   song: null,
 };
 
@@ -226,7 +232,7 @@ Player.propTypes = {
     cover: PropTypes.string,
     url: PropTypes.string,
   }),
-  playing: PropTypes.bool,
+  isPlaying: PropTypes.bool,
   nowPlaying: PropTypes.string.isRequired,
   setSong: PropTypes.func.isRequired,
   play: PropTypes.func.isRequired,
@@ -237,7 +243,7 @@ const mapStateToProps = store => ({
   token: store.login.token,
   songs: store.music.songs,
   song: store.player.song,
-  playing: store.player.playing,
+  isPlaying: store.player.playing,
   nowPlaying: store.player.nowPlaying,
 });
 
