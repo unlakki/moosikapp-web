@@ -15,7 +15,7 @@ const volumeFunc = (set, update) => (event) => {
   set(value);
 };
 
-const VolumeSlider = ({ show, value, onVolumeUpdate }) => {
+const VolumeSlider = ({ show, value, onUpdate }) => {
   const [volume, setVolume] = useState(value);
 
   return (
@@ -35,10 +35,11 @@ const VolumeSlider = ({ show, value, onVolumeUpdate }) => {
           aria-valuenow={value}
           tabIndex={-1}
           onKeyDown={null}
-          onClick={volumeFunc(setVolume, onVolumeUpdate)}
+          onClick={volumeFunc(setVolume, onUpdate)}
         >
           <div className={css.bar} />
           <div className={css.activeBar} style={{ height: `${100 * volume}%` }} />
+          <div className={css.sliderHandle} style={{ bottom: `${92 * volume}%` }} />
         </div>
       </div>
     </CSSTransition>
@@ -46,13 +47,13 @@ const VolumeSlider = ({ show, value, onVolumeUpdate }) => {
 };
 
 VolumeSlider.defaultProps = {
-  onVolumeUpdate: null,
+  onUpdate: null,
 };
 
 VolumeSlider.propTypes = {
   show: PropTypes.bool.isRequired,
   value: PropTypes.number.isRequired,
-  onVolumeUpdate: PropTypes.func,
+  onUpdate: PropTypes.func,
 };
 
 export default VolumeSlider;
