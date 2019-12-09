@@ -16,7 +16,7 @@
   margin: 0 auto;
 }
 
-.controls {
+.audioControls {
   display: flex;
 }
 
@@ -57,7 +57,7 @@
     padding: 10px 0;
   }
 
-  .controls {
+  .audioControls {
     justify-content: space-around;
   }
 

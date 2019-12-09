@@ -22,7 +22,7 @@ const Player = ({
 
   const [isVolumeSliderVisible, setVolumeSliderVisible] = useState(false);
 
-  const playPrevSong = async () => {
+  const playPrev = async () => {
     if (songs && (index > 0)) {
       await setSong(token, songs[index - 1].uuid);
       play();
@@ -42,19 +42,19 @@ const Player = ({
     play();
   };
 
-  const playNextSong = async () => {
+  const playNext = async () => {
     if (songs && (index < songs.length - 1)) {
       await setSong(token, songs[index + 1].uuid);
       play();
     }
   };
 
-  const toggleRepeatSong = () => {
+  const toggleRepeat = () => {
     audioRef.current.loop = !repeat;
     setRepeat(audioRef.current.loop);
   };
 
-  const toggleShuffleSongs = () => {
+  const toggleShuffle = () => {
     setShuffle(!shuffle);
   };
 
@@ -125,7 +125,7 @@ const Player = ({
     <div className={css.wrapper}>
       <section className={css.container}>
         <div className={css.audioControls}>
-          <button className={css.control} type="button" title="Prev" onClick={playPrevSong}>
+          <button className={css.control} type="button" title="Prev" onClick={playPrev}>
             <svg className={css.icon}>
               <path d="M6,18V6H8V18H6M9.5,12L18,6V18L9.5,12Z" />
             </svg>
@@ -138,7 +138,7 @@ const Player = ({
               }
             </svg>
           </button>
-          <button className={css.control} type="button" title="Next" onClick={playNextSong}>
+          <button className={css.control} type="button" title="Next" onClick={playNext}>
             <svg className={css.icon}>
               <path d="M16,18H18V6H16M6,18L14.5,12L6,6V18Z" />
             </svg>
@@ -147,7 +147,7 @@ const Player = ({
             className={classnames(css.control, { [css.on]: repeat })}
             type="button"
             title="Repeat"
-            onClick={toggleRepeatSong}
+            onClick={toggleRepeat}
           >
             <svg className={css.icon}>
               <path d="M17,17H7V14L3,18L7,22V19H19V13H17M7,7H17V10L21,6L17,2V5H5V11H7V7Z" />
@@ -157,7 +157,7 @@ const Player = ({
             className={classnames(css.control, { [css.on]: shuffle })}
             type="button"
             title="Shuffle"
-            onClick={toggleShuffleSongs}
+            onClick={toggleShuffle}
           >
             <svg className={css.icon}>
               <path
@@ -174,7 +174,7 @@ const Player = ({
           onMouseEnter={showVolumeSlider}
           onMouseLeave={hideVolumeSlider}
         >
-          <button className={css.control} type="button" aria-label="Volume" onClick={toggleMute}>
+          <button className={css.control} type="button" title="Volume" onClick={toggleMute}>
             <svg className={css.icon}>
               {audioState.muted
                 ? (
