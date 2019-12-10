@@ -55,7 +55,7 @@ p {
   font-weight: 400;
 }
 
-#root {
+#app-mount {
   height: 100%;
 }
 

@@ -14,7 +14,7 @@ ReactDOM.render(
       <Home />
     </BrowserRouter>
   </Provider>,
-  document.getElementById('root'),
+  document.getElementById('app-mount'),
 );
 
 serviceWorker.register();
