@@ -1,15 +1,15 @@
 import { SHOW, HIDE } from '../constants/sidebar';
 
 const initialState = {
-  hidden: true,
+  visible: false,
 };
 
 export default (state = initialState, action) => {
   switch (action.type) {
     case SHOW:
-      return { hidden: false };
+      return { visible: true };
     case HIDE:
-      return { hidden: true };
+      return { visible: false };
     default:
       return state;
   }
