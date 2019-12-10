@@ -22,39 +22,20 @@ const Icon = styled.svg`
   }
 `;
 
-const NavButton = ({ hidden, show, hide }) => (
-  <Button
-    type="button"
-    aria-label="Mobile Navigation Button"
-    onClick={() => {
-      if (hidden) {
-        show();
-        return;
-      }
-      hide();
-    }}
-  >
+const NavButton = ({ showSidebar }) => (
+  <Button type="button" title="Show Navigation" onClick={() => showSidebar()}>
     <Icon viewBox="0 0 24 24">
-      <path
-        d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"
-      />
+      <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z" />
     </Icon>
   </Button>
 );
 
 NavButton.propTypes = {
-  hidden: PropTypes.bool.isRequired,
-  show: PropTypes.func.isRequired,
-  hide: PropTypes.func.isRequired,
+  showSidebar: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = store => ({
-  hidden: store.sidebar.hidden,
-});
-
 const mapDispatchToProps = dispatch => ({
-  show: () => dispatch(sidebarActions.show()),
-  hide: () => dispatch(sidebarActions.hide()),
+  showSidebar: () => dispatch(sidebarActions.show()),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(NavButton);
+export default connect(null, mapDispatchToProps)(NavButton);
