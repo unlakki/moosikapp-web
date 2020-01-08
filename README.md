@@ -1,1 +1,1 @@
-# [MoosikApp](https://moosikapp.tk/ "MoosikApp Website")
+# [Фронтенд MoosikApp](https://moosikapp.tk)
