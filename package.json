@@ -2,11 +2,11 @@
   "name": "moosikapp-web",
   "version": "0.4.2",
   "description": "MoosikApp website",
-  "author": "Hibikaze",
+  "author": "unlakki",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/ferisef/moosikapp-web"
+    "url": "https://github.com/unlakki/moosikapp-web"
   },
   "homepage": "/",
   "keywords": [],
@@ -17,7 +17,7 @@
   },
   "private": true,
   "bugs": {
-    "url": "https://github.com/ferisef/moosikapp-web/issues"
+    "url": "https://github.com/unlakki/moosikapp-web/issues"
   },
   "dependencies": {
     "@babel/core": "7.4.3",
