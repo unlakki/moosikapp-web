@@ -1,1 +1,1 @@
-# [Фронтенд MoosikApp](https://moosikapp.tk)
+# [Фронтенд MoosikApp](https://moosikapp.ml)
